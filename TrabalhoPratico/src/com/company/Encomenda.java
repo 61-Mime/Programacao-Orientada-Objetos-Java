@@ -1,58 +1,63 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Encomenda {
-    private String user;
-    private String seller;
+    private String userCode;
+    private String sellerCode;
+    private String storeCode;
     private Double weight;
-    private String product;
-    private String medic;
+    private boolean isMedic;
+    private List<LinhaEncomenda> linha;
 
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Encomenda() {
-        this.user = new String();
-        this.seller = new String();
+        this.userCode = "";
+        this.sellerCode = "";
         this.weight = 0d;
-        this.product = new String();
-        this.medic = new String();
+        this.storeCode = "";
+        this.isMedic = false;
     }
 
-    public Encomenda(String user, String seller, Double weight, String product, String medic) {
-        this.user = user;
-        this.seller = seller;
+    public Encomenda(String userCode, String sellerCode, String storeCode, Double weight, boolean isMedic, List<LinhaEncomenda> linha) {
+        this.userCode = userCode;
+        this.sellerCode = sellerCode;
+        this.storeCode = storeCode;
         this.weight = weight;
-        this.product = product;
-        this.medic = medic;
+        this.isMedic = isMedic;
+        setLinha(linha);
     }
 
     public Encomenda(Encomenda enc) {
-        this.user = enc.user;
-        this.seller = enc.seller;
+        this.userCode = enc.userCode;
+        this.sellerCode = enc.sellerCode;
         this.weight = enc.weight;
-        this.product = enc.product;
-        this.medic = enc.medic;
+        this.storeCode = enc.storeCode;
+        this.isMedic = enc.isMedic;
+        setLinha(enc.getLinha());
     }
 
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
 
     public String getUser() {
-        return user;
+        return userCode;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String userCode) {
+        this.userCode = userCode;
     }
 
     public String getSeller() {
-        return seller;
+        return sellerCode;
     }
 
-    public void setSeller(String seller) {
-        this.seller = seller;
+    public void setSeller(String sellerCode) {
+        this.sellerCode = sellerCode;
     }
 
     public Double getWeight() {
@@ -64,49 +69,71 @@ public class Encomenda {
     }
 
     public String getProduct() {
-        return product;
+        return storeCode;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setProduct(String storeCode) {
+        this.storeCode = storeCode;
     }
 
-    public String getMedic() {
-        return medic;
+    public boolean isMedic() {
+        return isMedic;
     }
 
-    public void setMedic(String medic) {
-        this.medic = medic;
+    public void setMedic(boolean medic) {
+        isMedic = medic;
     }
 
-     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
+    public List<LinhaEncomenda> getLinha() {
+        List<LinhaEncomenda> line = new ArrayList<>();
 
+        for(LinhaEncomenda l: this.linha)
+            line.add(l.clone());
 
-    @Override
+        return line;
+    }
+
+    public void setLinha(List<LinhaEncomenda> line) {
+        this.linha = new ArrayList<>();
+
+        for (LinhaEncomenda l: line)
+            this.linha.add(l.clone());
+
+    }
+
+    //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
+
     public String toString() {
         final StringBuilder sb = new StringBuilder("Encomenda{");
-        sb.append("user='").append(user).append('\'');
-        sb.append(", seller='").append(seller).append('\'');
+        sb.append("userCode='").append(userCode).append('\'');
+        sb.append(", sellerCode='").append(sellerCode).append('\'');
+        sb.append(", storeCode='").append(storeCode).append('\'');
         sb.append(", weight=").append(weight);
-        sb.append(", product='").append(product).append('\'');
-        sb.append(", medic='").append(medic).append('\'');
+        sb.append(", isMedic=").append(isMedic);
+        sb.append(", linha=").append(linha);
         sb.append('}');
         return sb.toString();
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Encomenda encomenda = (Encomenda) o;
-        return Objects.equals(user, encomenda.user) &&
-                Objects.equals(seller, encomenda.seller) &&
+        return isMedic == encomenda.isMedic &&
+                Objects.equals(userCode, encomenda.userCode) &&
+                Objects.equals(sellerCode, encomenda.sellerCode) &&
+                Objects.equals(storeCode, encomenda.storeCode) &&
                 Objects.equals(weight, encomenda.weight) &&
-                Objects.equals(product, encomenda.product) &&
-                Objects.equals(medic, encomenda.medic);
+                Objects.equals(linha, encomenda.linha);
     }
 
     public Encomenda clone() {
         return new Encomenda(this);
+    }
+
+    //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
+
+    public void addLinhaEncomenda(LinhaEncomenda l) {
+        this.linha.add(l.clone());
     }
 }

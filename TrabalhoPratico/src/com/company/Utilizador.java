@@ -5,59 +5,59 @@ import java.util.List;
 import java.util.Objects;
 
 public class Utilizador {
-    private String username;
-    private String email;
-    private String password;
+    private String codigoUtilizador;
+    private String nome;
+    private Coordenadas gps;
     private List<Encomenda> entregas;
 
 
      //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Utilizador() {
-        this.username = new String();
-        this.email = new String();
-        this.password = new String();
+        this.codigoUtilizador = "";
+        this.nome = "";
+        this.gps = new Coordenadas();
         this.entregas = new ArrayList<>();
     }
 
-    public Utilizador(String username, String email, String password, List<Encomenda> entregas) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.entregas = entregas;
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, List<Encomenda> entregas) {
+        this.codigoUtilizador = codigoUtilizador;
+        this.nome = nome;
+        this.gps = gps.clone();
         setEntregas(entregas);
     }
 
     public Utilizador(Utilizador user) {
-        this.username = user.username;
-        this.email = user.email;
-        this.password = user.password;
+        this.codigoUtilizador = user.getCodigoUtilizador();
+        this.nome = user.getName();
+        this.gps = user.getGps();
         setEntregas(user.getEntregas());
     }
 
      //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
-    public String getUsername() {
-        return username;
+    public String getCodigoUtilizador() {
+        return codigoUtilizador;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCodigoUtilizador(String codigoUtilizador) {
+        this.codigoUtilizador = codigoUtilizador;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return nome;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String nome) {
+        this.nome = nome;
     }
 
-    public String getPassword() {
-        return password;
+    public Coordenadas getGps() {
+        return gps.clone();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGps(Coordenadas gps) {
+        this.gps.setLongitude(gps.getLongitude());
+        this.gps.setLatitude(gps.getLatitude());
     }
 
     public List<Encomenda> getEntregas() {
@@ -82,9 +82,9 @@ public class Utilizador {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Utilizador{");
-        sb.append("username='").append(username).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", password='").append(password).append('\'');
+        sb.append("codigoUtilizador='").append(codigoUtilizador).append('\'');
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", gps='").append(gps).append('\'');
         sb.append(", entregas=").append(entregas);
         sb.append('}');
         return sb.toString();
@@ -95,13 +95,19 @@ public class Utilizador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Utilizador that = (Utilizador) o;
-        return Objects.equals(username, that.username) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password) &&
+        return Objects.equals(codigoUtilizador, that.codigoUtilizador) &&
+                Objects.equals(nome, that.nome) &&
+                Objects.equals(gps, that.gps) &&
                 Objects.equals(entregas, that.entregas);
     }
 
     public Utilizador clone() {
         return new Utilizador(this);
+    }
+
+    //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
+
+    public void addEncomenda(Encomenda enc) {
+        this.entregas.add(enc.clone());
     }
 }
