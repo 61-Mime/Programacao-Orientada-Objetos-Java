@@ -12,10 +12,7 @@ public class Loja {
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Loja() {
-        this.storeCode = "";
-        this.storeName = "";
-        this.hasQueueInfo = false;
-        this.queueTime = -1d;
+        this("", "", false, -1);
     }
 
     public Loja(String storeCode, String storeName, boolean hasQueueInfo, double queueTime) {

@@ -12,10 +12,7 @@ public class LinhaEncomenda {
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public LinhaEncomenda() {
-        this.productCode = "";
-        this.description = "";
-        this.quantity = 0;
-        this.unitPrice = 0;
+        this("", "", 0, 0);
     }
 
     public LinhaEncomenda(String productCode, String description, double quantity, double unitPrice) {

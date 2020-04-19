@@ -10,8 +10,7 @@ public class Coordenadas {
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Coordenadas() {
-        this.latitude = 0;
-        this.longitude = 0;
+        this(0, 0);
     }
 
     public Coordenadas(double latitude, double longitude) {

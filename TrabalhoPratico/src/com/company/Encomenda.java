@@ -21,6 +21,7 @@ public class Encomenda {
         this.weight = 0d;
         this.storeCode = "";
         this.isMedic = false;
+        this.linha = new ArrayList<>();
     }
 
     public Encomenda(String userCode, String sellerCode, String storeCode, Double weight, boolean isMedic, List<LinhaEncomenda> linha) {
