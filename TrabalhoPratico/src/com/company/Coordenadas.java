@@ -62,5 +62,12 @@ public class Coordenadas {
     public Coordenadas clone() {
         return new Coordenadas(this);
     }
+
+    //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
+
+    public double distancia(Coordenadas c) {
+        return Math.sqrt((this.latitude - c.getLatitude()) * (this.latitude - c.getLatitude()) +
+                        (this.longitude - c.getLongitude()) * (this.longitude - c.getLongitude()));
+    }
 }
 

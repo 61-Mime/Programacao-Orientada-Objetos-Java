@@ -10,7 +10,7 @@ public class Voluntario {
     private String name;
     private Coordenadas gps;
     private double raio;
-    private boolean hasAccepted;
+    private boolean isFree;
     private List<Encomenda> registerV;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -20,16 +20,16 @@ public class Voluntario {
         this.name = "";
         this.gps = new Coordenadas();
         this.raio = 0d;
-        this.hasAccepted = false;
+        this.isFree = false;
         this.registerV = new ArrayList<>();
     }
 
-    public Voluntario(String voluntaryCode, String name, Coordenadas gps, double raio, boolean hasAccepted, List<Encomenda> registerV) {
+    public Voluntario(String voluntaryCode, String name, Coordenadas gps, double raio, boolean isFree, List<Encomenda> registerV) {
         this.voluntaryCode = voluntaryCode;
         this.name = name;
         this.gps = gps.clone();
         this.raio = raio;
-        this.hasAccepted = hasAccepted;
+        this.isFree = isFree;
         setRegisterV(registerV);
     }
 
@@ -38,7 +38,7 @@ public class Voluntario {
         this.name = v.getName();
         this.gps = v.getGps();
         this.raio = v.getRaio();
-        this.hasAccepted = v.isHasAccepted();
+        this.isFree = v.isIsFree();
         setRegisterV(v.getRegisterV());
     }
 
@@ -77,12 +77,12 @@ public class Voluntario {
         this.raio = raio;
     }
 
-    public boolean isHasAccepted() {
-        return hasAccepted;
+    public boolean isIsFree() {
+        return isFree;
     }
 
-    public void setHasAccepted(boolean hasAccepted) {
-        this.hasAccepted = hasAccepted;
+    public void setHasAccepted(boolean isFree) {
+        this.isFree = isFree;
     }
 
     public List<Encomenda> getRegisterV() {
@@ -109,7 +109,7 @@ public class Voluntario {
         sb.append(", name='").append(name).append('\'');
         sb.append(", gps=").append(gps);
         sb.append(", raio=").append(raio);
-        sb.append(", hasAccepted=").append(hasAccepted);
+        sb.append(", isFree=").append(isFree);
         sb.append(", registerV=").append(registerV);
         sb.append('}');
         return sb.toString();
@@ -120,7 +120,7 @@ public class Voluntario {
         if (o == null || getClass() != o.getClass()) return false;
         Voluntario that = (Voluntario) o;
         return Double.compare(that.raio, raio) == 0 &&
-                hasAccepted == that.hasAccepted &&
+                isFree == that.isFree &&
                 Objects.equals(voluntaryCode, that.voluntaryCode) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(gps, that.gps) &&

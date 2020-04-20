@@ -45,20 +45,28 @@ public class Encomenda {
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
 
-    public String getUser() {
+    public String getUserCode() {
         return userCode;
     }
 
-    public void setUser(String userCode) {
+    public void setUserCode(String userCode) {
         this.userCode = userCode;
     }
 
-    public String getSeller() {
+    public String getSellerCode() {
         return sellerCode;
     }
 
-    public void setSeller(String sellerCode) {
+    public void setSellerCode(String sellerCode) {
         this.sellerCode = sellerCode;
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
     }
 
     public double getWeight() {
