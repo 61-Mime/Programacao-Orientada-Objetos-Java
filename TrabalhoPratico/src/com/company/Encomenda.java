@@ -8,7 +8,7 @@ public class Encomenda {
     private String userCode;
     private String sellerCode;
     private String storeCode;
-    private Double weight;
+    private double weight;
     private boolean isMedic;
     private List<LinhaEncomenda> linha;
 
@@ -24,7 +24,7 @@ public class Encomenda {
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String userCode, String sellerCode, String storeCode, Double weight, boolean isMedic, List<LinhaEncomenda> linha) {
+    public Encomenda(String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, List<LinhaEncomenda> linha) {
         this.userCode = userCode;
         this.sellerCode = sellerCode;
         this.storeCode = storeCode;
@@ -61,11 +61,11 @@ public class Encomenda {
         this.sellerCode = sellerCode;
     }
 
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
