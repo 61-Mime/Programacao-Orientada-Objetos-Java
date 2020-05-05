@@ -93,6 +93,10 @@ public class Controlador {
         encomendas.put(encomenda.getEncCode(), encomenda);
     }
 
+    public void aceitarEncomenda(String encCode){
+        encomendas.get(encCode).setAceite(true);
+    }
+
 //    public Estafeta getEstafeta(String code) {
 //        return estafetas.get(code).clone();
 //    }

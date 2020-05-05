@@ -7,32 +7,35 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parce {
-    public void parce(Controlador c){
+public class Parse {
+    public void parse(Controlador c){
         List<String> linhas = lerFicheiro("logs.txt");
         String [] linhaPartida;
         for(String linha: linhas) {
             linhaPartida = linha.split(":",2);
             switch (linhaPartida[0]){
                 case "Utilizador":
-                    Utilizador u = parceUtilizador(linhaPartida[1]);
+                    Utilizador u = parseUtilizador(linhaPartida[1]);
                     c.addUser(u);
                     break;
                 case "Loja":
-                    Loja l = parceLoja(linhaPartida[1]);
+                    Loja l = parseLoja(linhaPartida[1]);
                     c.addLoja(l);
                     break;
                 case "Voluntario":
-                    Voluntario v = parceVoluntario(linhaPartida[1]);
+                    Voluntario v = parseVoluntario(linhaPartida[1]);
                     c.addVoluntario(v);
                     break;
                 case "Transportadora":
-                    Transportadora t = parceTransportadora(linhaPartida[1]);
+                    Transportadora t = parseTransportadora(linhaPartida[1]);
                     c.addVoluntario(t);
                     break;
                 case "Encomenda":
-                    Encomenda e = parceEncomenda(linhaPartida[1]);
+                    Encomenda e = parseEncomenda(linhaPartida[1]);
                     c.addEncomenda(e);
+                    break;
+                case "Aceite":
+                    c.aceitarEncomenda(linhaPartida[1]);
                     break;
             }
         }
@@ -48,7 +51,7 @@ public class Parce {
         return lines;
     }
 
-    public Utilizador parceUtilizador(String input){
+    public Utilizador parseUtilizador(String input){
         String [] campos = input.split(",");
         String nome = campos[1];
         String codUtilizador = campos[0];
@@ -59,7 +62,7 @@ public class Parce {
         return new Utilizador(codUtilizador,nome,gps,entregas);
     }
 
-    public Loja parceLoja(String input){
+    public Loja parseLoja(String input){
         String [] campos = input.split(",");
         String storeCode = campos[0];
         String storeName = campos[1];
@@ -68,7 +71,7 @@ public class Parce {
         return new Loja(storeCode,storeName,gps,false,0);
     }
 
-    public Voluntario parceVoluntario(String input){
+    public Voluntario parseVoluntario(String input){
         String [] campos = input.split(",");
         String voluntaryCode = campos[0];
         String name = campos[1];
@@ -79,7 +82,7 @@ public class Parce {
         return new Voluntario(voluntaryCode,name,gps,raio,0,true,false,0,registerV);
     }
 
-    public Transportadora parceTransportadora(String input){
+    public Transportadora parseTransportadora(String input){
         String [] campos = input.split(",");
         String companyCode = campos[0];
         String companyName = campos[1];
@@ -92,7 +95,7 @@ public class Parce {
         return new Transportadora(companyCode,companyName,gps,raio,0,true,false,0,registerV,nif,precoPorKm,0,0);
     }
 
-    public Encomenda parceEncomenda(String input){
+    public Encomenda parseEncomenda(String input){
         String [] campos = input.split(",");
         String encCode = campos[0];
         String userCode = campos[1];
@@ -101,11 +104,11 @@ public class Parce {
         List<LinhaEncomenda> linha = new ArrayList<>();
         int size = campos.length;
         for(int i = 4;i < size - 1;i+=4)
-            linha.add(parceLinhaEncomenda(campos[i],campos[i+1],campos[i+2],campos[i+3]));
+            linha.add(parseLinhaEncomenda(campos[i],campos[i+1],campos[i+2],campos[i+3]));
 
         return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha);
     }
-    public LinhaEncomenda parceLinhaEncomenda(String code,String description,String qt,String price){
+    public LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));
     }
 

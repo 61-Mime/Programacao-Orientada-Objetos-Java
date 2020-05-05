@@ -30,8 +30,8 @@ public class Main {
         System.out.println(user);
 
         Controlador controlador = new Controlador();
-        Parce parce = new Parce();
-        parce.parce(controlador);
+        Parse parse = new Parse();
+        parse.parse(controlador);
 
         System.out.println(controlador);
 
