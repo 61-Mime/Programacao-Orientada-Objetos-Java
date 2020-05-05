@@ -28,5 +28,12 @@ public class Main {
 
         user.addEncomenda(enc);
         System.out.println(user);
+
+        Controlador controlador = new Controlador();
+        Parce parce = new Parce();
+        parce.parce(controlador);
+
+        System.out.println(controlador);
+
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Parce {
     public void parce(Controlador c){
-        List<String> linhas = lerFicheiro("xxx");
+        List<String> linhas = lerFicheiro("logs.txt");
         String [] linhaPartida;
         for(String linha: linhas) {
             linhaPartida = linha.split(":",2);
@@ -50,9 +50,9 @@ public class Parce {
 
     public Utilizador parceUtilizador(String input){
         String [] campos = input.split(",");
-        String nome = campos[0];
-        String codUtilizador = campos[1];
-        double cr = Double.parseDouble(campos[0]);
+        String nome = campos[1];
+        String codUtilizador = campos[0];
+//        double cr = Double.parseDouble(campos[0]);
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         List<Encomenda> entregas = new ArrayList<>();
 
