@@ -194,4 +194,8 @@ public class Encomenda {
     public void addLinhaEncomenda(String productCode, String description, double quantity, double unitPrice) {
         this.linha.add(new LinhaEncomenda(productCode, description, quantity, unitPrice));
     }
+
+    public void addLinhaEncomenda(LinhaEncomenda l) {
+        this.linha.add(l.clone());
+    }
 }

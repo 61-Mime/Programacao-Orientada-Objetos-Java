@@ -2,6 +2,7 @@ package com.company;
 
 import jdk.jshell.execution.Util;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Main {
         encLine.add(l);
         encLine.add(l1);
 
-        Encomenda enc = new Encomenda("u38", "e8727", "l49", 41.09162, false, encLine);
+        Encomenda enc = new Encomenda("u38", "e8727", "l49","18", 41.09162, false, LocalDateTime.now(),true, encLine);
         enc.addLinhaEncomenda(l2);
         System.out.println(enc);
 
