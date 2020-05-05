@@ -8,6 +8,7 @@ public class Utilizador {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;
+    private double precoMax;
     private List<Encomenda> entregas;
 
 

@@ -6,50 +6,62 @@ import java.util.Objects;
 
 public class Voluntario {
 
-    private String voluntaryCode;
+    private String code;
     private String name;
     private Coordenadas gps;
     private double raio;
+    private double velocidade;
     private boolean isFree;
-    private List<Encomenda> registerV;
+    private boolean isMedic;
+    private double classificacao;
+    private List<Encomenda> registo;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Voluntario() {
-        this.voluntaryCode = "";
+        this.code = "";
         this.name = "";
         this.gps = new Coordenadas();
         this.raio = 0d;
+        this.velocidade = 0;
         this.isFree = false;
-        this.registerV = new ArrayList<>();
+        this.isMedic = false;
+        this.classificacao = 0;
+        this.registo = new ArrayList<>();
     }
 
-    public Voluntario(String voluntaryCode, String name, Coordenadas gps, double raio, boolean isFree, List<Encomenda> registerV) {
-        this.voluntaryCode = voluntaryCode;
+    public Voluntario(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade,boolean isFree, boolean isMedic,double classificacao,List<Encomenda> registerV) {
+        this.code = voluntaryCode;
         this.name = name;
         this.gps = gps.clone();
         this.raio = raio;
+        this.velocidade = velocidade;
+        this.classificacao = classificacao;
         this.isFree = isFree;
-        setRegisterV(registerV);
+        this.isMedic = isMedic;
+        setRegisto(registerV);
     }
 
     public Voluntario(Voluntario v) {
-        this.voluntaryCode = v.getVoluntaryCode();
+        this.code = v.getCode();
         this.name = v.getName();
         this.gps = v.getGps();
         this.raio = v.getRaio();
-        this.isFree = v.isIsFree();
-        setRegisterV(v.getRegisterV());
+        this.velocidade = v.getVelocidade();
+        this.isFree = v.isFree();
+        this.isMedic = v.isMedic();
+        this.classificacao = v.getClassificacao();
+        setRegisto(v.getRegisto());
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
-    public String getVoluntaryCode() {
-        return voluntaryCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setVoluntaryCode(String voluntaryCode) {
-        this.voluntaryCode = voluntaryCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -77,54 +89,89 @@ public class Voluntario {
         this.raio = raio;
     }
 
-    public boolean isIsFree() {
+    public double getVelocidade() {
+        return velocidade;
+    }
+
+    public void setVelocidade(double velocidade) {
+        this.velocidade = velocidade;
+    }
+
+    public boolean isFree() {
         return isFree;
     }
 
-    public void setHasAccepted(boolean isFree) {
-        this.isFree = isFree;
+    public void setFree(boolean free) {
+        isFree = free;
     }
 
-    public List<Encomenda> getRegisterV() {
+    public boolean isMedic() {
+        return isMedic;
+    }
+
+    public void setMedic(boolean medic) {
+        isMedic = medic;
+    }
+
+    public double getClassificacao() {
+        return classificacao;
+    }
+
+    public void setClassificacao(double classificacao) {
+        this.classificacao = classificacao;
+    }
+
+    public List<Encomenda> getRegisto() {
         List<Encomenda> res = new ArrayList<>();
 
-        for(Encomenda e: this.registerV)
+        for(Encomenda e: this.registo)
             res.add(e.clone());
 
         return res;
     }
 
-    public void setRegisterV(List<Encomenda> enc) {
-        this.registerV = new ArrayList<>();
+    public void setRegisto(List<Encomenda> enc) {
+        this.registo = new ArrayList<>();
 
         for (Encomenda e: enc)
-            this.registerV.add(e.clone());
+            this.registo.add(e.clone());
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Voluntario{");
-        sb.append("voluntaryCode='").append(voluntaryCode).append('\'');
+        sb.append("voluntaryCode='").append(code).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", gps=").append(gps);
         sb.append(", raio=").append(raio);
+        sb.append(", velocidade=").append(velocidade);
         sb.append(", isFree=").append(isFree);
-        sb.append(", registerV=").append(registerV);
+        sb.append(", isMedic=").append(isMedic);
+        sb.append(", classificacao=").append(classificacao);
+        sb.append(", registerV=").append(registo);
         sb.append('}');
         return sb.toString();
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Voluntario that = (Voluntario) o;
         return Double.compare(that.raio, raio) == 0 &&
+                Double.compare(that.velocidade, velocidade) == 0 &&
                 isFree == that.isFree &&
-                Objects.equals(voluntaryCode, that.voluntaryCode) &&
+                isMedic == that.isMedic &&
+                Double.compare(that.classificacao, classificacao) == 0 &&
+                Objects.equals(code, that.code) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(gps, that.gps) &&
-                Objects.equals(registerV, that.registerV);
+                Objects.equals(registo, that.registo);
     }
 
     public Voluntario clone() {

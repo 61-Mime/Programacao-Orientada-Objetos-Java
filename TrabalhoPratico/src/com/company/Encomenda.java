@@ -1,49 +1,71 @@
 package com.company;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Encomenda {
+    private String encCode;
     private String userCode;
-    private String sellerCode;
+    private String transpCode;
     private String storeCode;
     private double weight;
     private boolean isMedic;
+    private LocalDateTime data;
+    private boolean aceite;
     private List<LinhaEncomenda> linha;
 
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Encomenda() {
+        this.encCode = "";
         this.userCode = "";
-        this.sellerCode = "";
+        this.transpCode = "";
         this.weight = 0d;
         this.storeCode = "";
         this.isMedic = false;
+        this.data = LocalDateTime.now();
+        this.aceite = false;
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, List<LinhaEncomenda> linha) {
+    public Encomenda(String encCode, String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha) {
+        this.encCode = encCode;
         this.userCode = userCode;
-        this.sellerCode = sellerCode;
+        this.transpCode = sellerCode;
         this.storeCode = storeCode;
         this.weight = weight;
         this.isMedic = isMedic;
+        this.aceite = aceite;
+        this.data = data;
         setLinha(linha);
     }
 
     public Encomenda(Encomenda enc) {
+        this.encCode = enc.getEncCode();
         this.userCode = enc.userCode;
-        this.sellerCode = enc.sellerCode;
+        this.transpCode = enc.transpCode;
         this.weight = enc.weight;
         this.storeCode = enc.storeCode;
         this.isMedic = enc.isMedic;
+        this.data = enc.getData();
+        this.aceite = isAceite();
         setLinha(enc.getLinha());
     }
 
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
+
+
+    public String getEncCode() {
+        return encCode;
+    }
+
+    public void setEncCode(String encCode) {
+        this.encCode = encCode;
+    }
 
     public String getUserCode() {
         return userCode;
@@ -53,12 +75,12 @@ public class Encomenda {
         this.userCode = userCode;
     }
 
-    public String getSellerCode() {
-        return sellerCode;
+    public String getTranspCode() {
+        return transpCode;
     }
 
-    public void setSellerCode(String sellerCode) {
-        this.sellerCode = sellerCode;
+    public void setTranspCode(String transpCode) {
+        this.transpCode = transpCode;
     }
 
     public String getStoreCode() {
@@ -93,6 +115,22 @@ public class Encomenda {
         isMedic = medic;
     }
 
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public boolean isAceite() {
+        return aceite;
+    }
+
+    public void setAceite(boolean aceite) {
+        this.aceite = aceite;
+    }
+
     public List<LinhaEncomenda> getLinha() {
         List<LinhaEncomenda> line = new ArrayList<>();
 
@@ -112,27 +150,38 @@ public class Encomenda {
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Encomenda{");
-        sb.append("userCode='").append(userCode).append('\'');
-        sb.append(", sellerCode='").append(sellerCode).append('\'');
+        sb.append("encCode='").append(encCode).append('\'');
+        sb.append(", userCode='").append(userCode).append('\'');
+        sb.append(", transpCode='").append(transpCode).append('\'');
         sb.append(", storeCode='").append(storeCode).append('\'');
         sb.append(", weight=").append(weight);
         sb.append(", isMedic=").append(isMedic);
+        sb.append(", data=").append(data);
+        sb.append(", aceite=").append(aceite);
         sb.append(", linha=").append(linha);
         sb.append('}');
         return sb.toString();
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Encomenda encomenda = (Encomenda) o;
-        return isMedic == encomenda.isMedic &&
+        return Double.compare(encomenda.weight, weight) == 0 &&
+                isMedic == encomenda.isMedic &&
+                aceite == encomenda.aceite &&
+                Objects.equals(encCode, encomenda.encCode) &&
                 Objects.equals(userCode, encomenda.userCode) &&
-                Objects.equals(sellerCode, encomenda.sellerCode) &&
+                Objects.equals(transpCode, encomenda.transpCode) &&
                 Objects.equals(storeCode, encomenda.storeCode) &&
-                Objects.equals(weight, encomenda.weight) &&
+                Objects.equals(data, encomenda.data) &&
                 Objects.equals(linha, encomenda.linha);
     }
 
@@ -142,7 +191,7 @@ public class Encomenda {
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
-    public void addLinhaEncomenda(LinhaEncomenda l) {
-        this.linha.add(l.clone());
+    public void addLinhaEncomenda(String productCode, String description, double quantity, double unitPrice) {
+        this.linha.add(new LinhaEncomenda(productCode, description, quantity, unitPrice));
     }
 }
