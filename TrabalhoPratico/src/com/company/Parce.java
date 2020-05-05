@@ -63,8 +63,9 @@ public class Parce {
         String [] campos = input.split(",");
         String storeCode = campos[0];
         String storeName = campos[1];
+        Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Loja(storeCode,storeName,new Coordenadas(0,0),false,0);
+        return new Loja(storeCode,storeName,gps,false,0);
     }
 
     public Voluntario parceVoluntario(String input){
