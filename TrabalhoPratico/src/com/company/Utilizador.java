@@ -18,12 +18,14 @@ public class Utilizador {
         this.codigoUtilizador = "";
         this.nome = "";
         this.gps = new Coordenadas();
+        this.precoMax = 0;
         this.entregas = new ArrayList<>();
     }
 
     public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, List<Encomenda> entregas) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
+        this.precoMax = 100;
         this.gps = gps.clone();
         setEntregas(entregas);
     }
@@ -61,6 +63,10 @@ public class Utilizador {
         this.gps.setLatitude(gps.getLatitude());
     }
 
+    public double getPrecoMax() {
+        return precoMax;
+    }
+
     public List<Encomenda> getEntregas() {
         List<Encomenda> ent = new ArrayList<>();
 
@@ -77,6 +83,10 @@ public class Utilizador {
             this.entregas.add(enc.clone());
     }
 
+    public void setEntrega(Encomenda ent) {
+        this.entregas.add(ent.clone());
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
@@ -87,7 +97,7 @@ public class Utilizador {
         sb.append(", nome='").append(nome).append('\'');
         sb.append(", gps='").append(gps).append('\'');
         sb.append(", entregas=").append(entregas);
-        sb.append('}');
+        sb.append('}').append("\n");
         return sb.toString();
     }
 

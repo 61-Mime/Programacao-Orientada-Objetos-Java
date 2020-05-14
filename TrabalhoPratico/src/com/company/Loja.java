@@ -86,7 +86,7 @@ public class Loja {
         sb.append(", gps=").append(gps);
         sb.append(", hasQueueInfo=").append(hasQueueInfo);
         sb.append(", queueTime=").append(queueTime);
-        sb.append('}');
+        sb.append('}').append("\n");
         return sb.toString();
     }
 

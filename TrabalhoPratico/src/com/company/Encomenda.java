@@ -16,7 +16,6 @@ public class Encomenda {
     private boolean aceite;
     private List<LinhaEncomenda> linha;
 
-
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Encomenda() {
@@ -54,7 +53,6 @@ public class Encomenda {
         this.aceite = isAceite();
         setLinha(enc.getLinha());
     }
-
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
 
@@ -163,7 +161,7 @@ public class Encomenda {
         sb.append(", data=").append(data);
         sb.append(", aceite=").append(aceite);
         sb.append(", linha=").append(linha);
-        sb.append('}');
+        sb.append('}').append("\n");
         return sb.toString();
     }
 

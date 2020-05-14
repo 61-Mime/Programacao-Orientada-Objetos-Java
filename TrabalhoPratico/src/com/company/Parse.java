@@ -23,12 +23,12 @@ public class Parse {
                     c.addLoja(l);
                     break;
                 case "Voluntario":
-                    Voluntario v = parseVoluntario(linhaPartida[1]);
-                    c.addVoluntario(v);
+                    Estafeta v = parseVoluntario(linhaPartida[1]);
+                    c.addEstafeta(v);
                     break;
                 case "Transportadora":
-                    Transportadora t = parseTransportadora(linhaPartida[1]);
-                    c.addVoluntario(t);
+                    Estafeta t = parseTransportadora(linhaPartida[1]);
+                    c.addEstafeta(t);
                     break;
                 case "Encomenda":
                     Encomenda e = parseEncomenda(linhaPartida[1]);
@@ -71,7 +71,7 @@ public class Parse {
         return new Loja(storeCode,storeName,gps,false,0);
     }
 
-    public Voluntario parseVoluntario(String input){
+    public Estafeta parseVoluntario(String input){
         String [] campos = input.split(",");
         String voluntaryCode = campos[0];
         String name = campos[1];
@@ -79,10 +79,10 @@ public class Parse {
         double raio = Double.parseDouble(campos[4]);
         List<Encomenda> registerV = new ArrayList<>();
 
-        return new Voluntario(voluntaryCode,name,gps,raio,0,true,false,0,registerV);
+        return new Estafeta(voluntaryCode,name,gps,raio,50,false,"Voluntário");
     }
 
-    public Transportadora parseTransportadora(String input){
+    public Estafeta parseTransportadora(String input){
         String [] campos = input.split(",");
         String companyCode = campos[0];
         String companyName = campos[1];
@@ -92,7 +92,7 @@ public class Parse {
         double precoPorKm = Double.parseDouble(campos[6]);
         List<Encomenda> registerV = new ArrayList<>();
 
-        return new Transportadora(companyCode,companyName,gps,raio,0,true,false,0,registerV,nif,precoPorKm,0,0);
+        return new Transportadora(companyCode,companyName,gps,raio,60,false,nif,precoPorKm,0.05);
     }
 
     public Encomenda parseEncomenda(String input){

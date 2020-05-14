@@ -2,53 +2,74 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Estafeta {
 
-    private String transpCode;
+    private String code;
     private String name;
     private Coordenadas gps;
     private double raio;
     private double velocidade;
-    private double classificacao;
-    private boolean isMedic;
     private boolean isFree;
-    private List<Encomenda> encomendasEntregues;
+    private boolean isMedic;
+    private double classificacao;
+    private List<Encomenda> registo;
+    private String type;
+
+    //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Estafeta() {
-        this("", "", new Coordenadas(), 0, 0, 0, false, false, new ArrayList<>());
+        this.code = "";
+        this.name = "";
+        this.type = "";
+        this.gps = new Coordenadas();
+        this.raio = 0d;
+        this.velocidade = 0;
+        this.isFree = false;
+        this.isMedic = false;
+        this.classificacao = 0;
+        this.registo = new ArrayList<>();
     }
 
-    public Estafeta(String transpCode, String name, Coordenadas gps, double raio, double velocidade, double classificacao, boolean isMedic, boolean isFree, List<Encomenda> encomendasEntregues) {
-        this.transpCode = transpCode;
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isMedic,String type) {
+        this.code = voluntaryCode;
         this.name = name;
-        this.gps = gps;
+        this.type = type;
+        this.gps = gps.clone();
         this.raio = raio;
         this.velocidade = velocidade;
-        this.classificacao = classificacao;
+        this.classificacao = 0;
+        this.isFree = true;
         this.isMedic = isMedic;
-        this.isFree = isFree;
-        setEncomendasEntregues(encomendasEntregues);
+        this.registo = new ArrayList<>();
     }
 
-    public Estafeta(Estafeta estafeta) {
-        this.transpCode = estafeta.getTranspCode();
-        this.name = estafeta.getName();
-        this.gps = estafeta.getGps();
-        this.raio = estafeta.getRaio();
-        this.velocidade = estafeta.getVelocidade();
-        this.classificacao = estafeta.getClassificacao();
-        this.isMedic = estafeta.isMedic();
-        this.isFree = estafeta.isFree();
-        setEncomendasEntregues(estafeta.getEncomendasEntregues());
+    public Estafeta(Estafeta v) {
+        this.code = v.getCode();
+        this.name = v.getName();
+        this.type = v.getType();
+        this.gps = v.getGps();
+        this.raio = v.getRaio();
+        this.velocidade = v.getVelocidade();
+        this.isFree = v.isFree();
+        this.isMedic = v.isMedic();
+        this.classificacao = v.getClassificacao();
+        setRegisto(v.getRegisto());
     }
 
-    public String getTranspCode() {
-        return transpCode;
+    //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
+
+    public String getCode() {
+        return code;
     }
 
-    public void setTranspCode(String transpCode) {
-        this.transpCode = transpCode;
+    public String getType() {
+        return type;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -64,8 +85,8 @@ public class Estafeta {
     }
 
     public void setGps(Coordenadas gps) {
-        this.gps.setLongitude(gps.getLongitude());
         this.gps.setLatitude(gps.getLatitude());
+        this.gps.setLongitude(gps.getLongitude());
     }
 
     public double getRaio() {
@@ -84,12 +105,12 @@ public class Estafeta {
         this.velocidade = velocidade;
     }
 
-    public double getClassificacao() {
-        return classificacao;
+    public boolean isFree() {
+        return isFree;
     }
 
-    public void setClassificacao(double classificacao) {
-        this.classificacao = classificacao;
+    public void setFree(boolean free) {
+        isFree = free;
     }
 
     public boolean isMedic() {
@@ -100,28 +121,71 @@ public class Estafeta {
         isMedic = medic;
     }
 
-    public boolean isFree() {
-        return isFree;
+    public double getClassificacao() {
+        return classificacao;
     }
 
-    public void setFree(boolean free) {
-        isFree = free;
+    public void setClassificacao(double classificacao) {
+        this.classificacao = classificacao;
     }
 
-    public List<Encomenda> getEncomendasEntregues() {
-        List<Encomenda> encomendas = new ArrayList<>();
+    public List<Encomenda> getRegisto() {
+        List<Encomenda> res = new ArrayList<>();
 
-        for (Encomenda enc: this.encomendasEntregues)
-            encomendas.add(enc.clone());
+        for(Encomenda e: this.registo)
+            res.add(e.clone());
 
-        return encomendas;
+        return res;
     }
 
-    public void setEncomendasEntregues(List<Encomenda> list) {
-        this.encomendasEntregues = new ArrayList<>();
+    public void setRegisto(List<Encomenda> enc) {
+        this.registo = new ArrayList<>();
 
-        for (Encomenda enc: list)
-            this.encomendasEntregues.add(enc.clone());
+        for (Encomenda e: enc)
+            this.registo.add(e.clone());
+    }
+
+    public void setEnc(Encomenda enc) {
+        this.registo.add(enc.clone());
+        if(this.getType() == "Transportadora")
+            ((Transportadora)this).setNumEncomendas();
+    }
+
+    //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder(type);
+        sb.append("{estafetaCode='").append(code).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", gps=").append(gps);
+        sb.append(", raio=").append(raio);
+        sb.append(", velocidade=").append(velocidade);
+        sb.append(", isFree=").append(isFree);
+        sb.append(", isMedic=").append(isMedic);
+        sb.append(", classificacao=").append(classificacao);
+        sb.append(", \nregisterV=").append(registo);
+        sb.append('}').append("\n");
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Estafeta that = (Estafeta) o;
+        return Double.compare(that.raio, raio) == 0 &&
+                Double.compare(that.velocidade, velocidade) == 0 &&
+                isFree == that.isFree &&
+                isMedic == that.isMedic &&
+                Double.compare(that.classificacao, classificacao) == 0 &&
+                Objects.equals(code, that.code) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(gps, that.gps) &&
+                Objects.equals(registo, that.registo);
     }
 
     public Estafeta clone() {
