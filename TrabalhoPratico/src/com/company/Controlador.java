@@ -67,7 +67,25 @@ public class Controlador {
         encomendas.put(encomenda.getEncCode(), encomenda);
     }
 
-    public void aceitarEncomenda(String encCode){
+    public Login getLogin(String code) {
+        return loginMap.get(code).clone();
+    }
+
+    public void setLogin(Login login) {
+        loginMap.replace(login.getCode(), login);
+    }
+
+    public void addLogin(Login login) { loginMap.put(login.getCode(), login);}
+
+    public boolean containsUser(String code) {
+        return loginMap.containsKey(code);
+    }
+
+    public boolean containsPassword(String code, String password) {
+        return loginMap.get(code).getPassword().equals(password);
+    }
+
+    public void aceitarEncomenda(String encCode) {
         Encomenda enc = encomendas.get(encCode);
         enc.setAceite(true);
         String estafetaCode = escolheEstafeta(enc);

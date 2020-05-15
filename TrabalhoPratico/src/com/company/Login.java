@@ -1,16 +1,23 @@
 package com.company;
 
 public class Login {
-    private String email;
+    private String code;
     private String password;
     private String tipoConta;
     private String nome;
 
-    public Login(String email,String password,String tipoConta,String nome) {
-        this.email = email;
+    public Login(String code,String password,String tipoConta,String nome) {
+        this.code = code;
         this.password = password;
         this.tipoConta = tipoConta;
         this.nome = nome;
+    }
+
+    public Login(Login l) {
+        this.code = l.getCode();
+        this.password = l.getPassword();
+        this.tipoConta = l.getTipoConta();
+        this.nome = l.getNome();
     }
 
     public String getTipoConta() {
@@ -21,8 +28,8 @@ public class Login {
         return password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCode() {
+        return code;
     }
 
     public String getNome() {
@@ -33,8 +40,8 @@ public class Login {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setTipoConta(String tipoConta) {
@@ -43,5 +50,9 @@ public class Login {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Login clone() {
+        return new Login(this);
     }
 }

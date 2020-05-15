@@ -12,15 +12,43 @@ public class Interpretador {
         System.out.println();
     }
 
-    public void login() {
+    public boolean login(Controlador c) {
+        Scanner s = new Scanner(System.in);
+        String user, pass;
 
+        System.out.println("Introduza o usercode");
+        user = s.nextLine();
+
+        if(c.containsUser(user)) {
+            System.out.println("Introduza a password");
+            pass = s.nextLine();
+
+            return c.containsPassword(user, pass);
+        }
+
+        return false;
     }
 
-    public void registar() {
+    public boolean registar(Controlador c) {
+        Scanner s = new Scanner(System.in);
+        String line;
 
+        System.out.println("Introduza o email");
+        line = s.nextLine();
+
+        if(Não existe email) {
+            System.out.println("Introduza a password");
+            line = s.nextLine();
+
+            //Adicionar a lista
+
+            return true;
+        }
+
+        return false;
     }
 
-    public void interpretador() {
+    public void interpretador(Controlador c) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String line;
@@ -30,11 +58,23 @@ public class Interpretador {
             line = s.nextLine();
 
             if(line.equals("Login") || line.equals("login")) {
-                login();
+                if(login(c)) {
+                    r=false;
+                    System.out.println("Login efetuado com sucesso");
+                }
+
+                else
+                    System.out.println("Dados inválidos");
             }
 
             else if(line.equals("Registar") || line.equals("registar")) {
-                registar();
+                if(registar(c)) {
+                    System.out.println("Registo efetuado com sucesso");
+                    System.out.println("Efetue Login para continuar");
+                }
+
+                else
+                    System.out.println("Dados inválidos");
             }
 
             else {
