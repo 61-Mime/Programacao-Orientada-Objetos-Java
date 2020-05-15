@@ -7,6 +7,9 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+        Interpretador i = new Interpretador();
+
+        i.interpretador();
 
         List<Encomenda> encList = new ArrayList<>();
         Coordenadas c = new Coordenadas(-81.554855,84.01756);
