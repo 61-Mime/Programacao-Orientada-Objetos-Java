@@ -31,16 +31,31 @@ public class Interpretador {
 
     public boolean registar(Controlador c) {
         Scanner s = new Scanner(System.in);
-        String line;
+        Login l = new Login();
+        String code, nome, pass, tipo;
 
-        System.out.println("Introduza o email");
-        line = s.nextLine();
+        System.out.println("Introduza o nome completo");
+        nome = s.nextLine();
 
-        if(Não existe email) {
+        System.out.println("Introduza o tipo de conta");
+        tipo = s.nextLine();
+
+        if(!c.containsNameAndType(nome, tipo)) {
+            l.setNome(nome);
+            l.setTipoConta(tipo);
+
             System.out.println("Introduza a password");
-            line = s.nextLine();
+            pass = s.nextLine();
 
-            //Adicionar a lista
+            l.setPassword(pass);
+
+            do { code = l.generateCode(tipo); } while(c.containsUser(code));
+
+            l.setCode(code);
+
+            System.out.println("Código de acesso: " + l);
+
+            c.addLogin(l);
 
             return true;
         }

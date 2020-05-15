@@ -85,6 +85,10 @@ public class Controlador {
         return loginMap.get(code).getPassword().equals(password);
     }
 
+    public boolean containsNameAndType(String name, String type) {
+        return loginMap.values().stream().filter(c -> c.getNome().equals(name)).filter(c -> c.getTipoConta().equals(type)).collect(Collectors.toList()).size() != 0;
+    }
+
     public void aceitarEncomenda(String encCode) {
         Encomenda enc = encomendas.get(encCode);
         enc.setAceite(true);
