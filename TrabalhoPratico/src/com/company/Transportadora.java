@@ -1,16 +1,12 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-public class Transportadora extends Voluntario{
+public class Transportadora extends Estafeta{
 
     private int nif;
     private double taxaKm;
     private double taxaPeso;
     private int numEncomendas;
+    //faturação total
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -23,13 +19,13 @@ public class Transportadora extends Voluntario{
         this.numEncomendas = 0;
     }
 
-    public Transportadora(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isFree, boolean isMedic,
-                          double classificacao, List<Encomenda> registerV, int nif, double taxaKm, double taxaPeso, int numEncomendas) {
-        super(voluntaryCode, name, gps, raio, velocidade, isFree, isMedic, classificacao, registerV);
+    public Transportadora(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isMedic,
+                          int nif, double taxaKm, double taxaPeso) {
+        super(voluntaryCode, name, gps, raio, velocidade, isMedic,"Transportadora");
         this.nif = nif;
         this.taxaKm = taxaKm;
         this.taxaPeso = taxaPeso;
-        this.numEncomendas = numEncomendas;
+        this.numEncomendas = 0;
     }
 
     public Transportadora(Transportadora t) {
@@ -70,8 +66,8 @@ public class Transportadora extends Voluntario{
         return numEncomendas;
     }
 
-    public void setNumEncomendas(int numEncomendas) {
-        this.numEncomendas = numEncomendas;
+    public void setNumEncomendas() {
+        this.numEncomendas ++;
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
@@ -83,7 +79,7 @@ public class Transportadora extends Voluntario{
         sb.append(", taxaKm=").append(taxaKm);
         sb.append(", taxaPeso=").append(taxaPeso);
         sb.append(", numEncomendas=").append(numEncomendas);
-        sb.append('}');
+        sb.append('}').append("\n");
         return sb.toString();
     }
 

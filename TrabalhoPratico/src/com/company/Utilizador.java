@@ -18,12 +18,14 @@ public class Utilizador {
         this.codigoUtilizador = "";
         this.nome = "";
         this.gps = new Coordenadas();
+        this.precoMax = 0;
         this.entregas = new ArrayList<>();
     }
 
     public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, List<Encomenda> entregas) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
+        this.precoMax = 100;
         this.gps = gps.clone();
         setEntregas(entregas);
     }
@@ -31,6 +33,7 @@ public class Utilizador {
     public Utilizador(Utilizador user) {
         this.codigoUtilizador = user.getCodigoUtilizador();
         this.nome = user.getName();
+        this.precoMax = user.getPrecoMax();
         this.gps = user.getGps();
         setEntregas(user.getEntregas());
     }
@@ -61,6 +64,10 @@ public class Utilizador {
         this.gps.setLatitude(gps.getLatitude());
     }
 
+    public double getPrecoMax() {
+        return precoMax;
+    }
+
     public List<Encomenda> getEntregas() {
         List<Encomenda> ent = new ArrayList<>();
 
@@ -77,17 +84,21 @@ public class Utilizador {
             this.entregas.add(enc.clone());
     }
 
+    public void setEntrega(Encomenda ent) {
+        this.entregas.add(ent.clone());
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Utilizador{");
+        StringBuilder sb = new StringBuilder("Utilizador{");
         sb.append("codigoUtilizador='").append(codigoUtilizador).append('\'');
         sb.append(", nome='").append(nome).append('\'');
         sb.append(", gps='").append(gps).append('\'');
         sb.append(", entregas=").append(entregas);
-        sb.append('}');
+        sb.append('}').append("\n");
         return sb.toString();
     }
 
