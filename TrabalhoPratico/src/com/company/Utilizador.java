@@ -33,6 +33,7 @@ public class Utilizador {
     public Utilizador(Utilizador user) {
         this.codigoUtilizador = user.getCodigoUtilizador();
         this.nome = user.getName();
+        this.precoMax = user.getPrecoMax();
         this.gps = user.getGps();
         setEntregas(user.getEntregas());
     }
@@ -92,7 +93,7 @@ public class Utilizador {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Utilizador{");
+        StringBuilder sb = new StringBuilder("Utilizador{");
         sb.append("codigoUtilizador='").append(codigoUtilizador).append('\'');
         sb.append(", nome='").append(nome).append('\'');
         sb.append(", gps='").append(gps).append('\'');

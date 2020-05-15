@@ -77,7 +77,6 @@ public class Parse {
         String name = campos[1];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         double raio = Double.parseDouble(campos[4]);
-        List<Encomenda> registerV = new ArrayList<>();
 
         return new Estafeta(voluntaryCode,name,gps,raio,50,false,"Voluntário");
     }
@@ -90,7 +89,6 @@ public class Parse {
         int nif = Integer.parseInt(campos[4]);
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
-        List<Encomenda> registerV = new ArrayList<>();
 
         return new Transportadora(companyCode,companyName,gps,raio,60,false,nif,precoPorKm,0.05);
     }
