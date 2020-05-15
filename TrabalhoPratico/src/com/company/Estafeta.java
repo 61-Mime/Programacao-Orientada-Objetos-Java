@@ -32,15 +32,15 @@ public class Estafeta {
         this.registo = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isMedic,String type) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isFree, boolean isMedic, double classificacao, String type) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
         this.gps = gps.clone();
         this.raio = raio;
         this.velocidade = velocidade;
-        this.classificacao = 0;
-        this.isFree = true;
+        this.classificacao = classificacao;
+        this.isFree = isFree;
         this.isMedic = isMedic;
         this.registo = new ArrayList<>();
     }
@@ -190,5 +190,9 @@ public class Estafeta {
 
     public Estafeta clone() {
         return new Estafeta(this);
+    }
+
+    public void atualizaClassificacao(double classificacao) {
+        this.setClassificacao((this.getClassificacao() * this.registo.size() + classificacao) / (this.registo.size() + 1));
     }
 }

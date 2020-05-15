@@ -78,7 +78,7 @@ public class Parse {
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         double raio = Double.parseDouble(campos[4]);
 
-        return new Estafeta(voluntaryCode,name,gps,raio,50,false,"Voluntário");
+        return new Estafeta(voluntaryCode, name, gps, raio, 50, true, false, 0, "Voluntario");
     }
 
     public Estafeta parseTransportadora(String input){
@@ -90,7 +90,7 @@ public class Parse {
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
 
-        return new Transportadora(companyCode,companyName,gps,raio,60,false,nif,precoPorKm,0.05);
+        return new Transportadora(companyCode,companyName,gps,raio,60,true,false,0,nif,precoPorKm,0.05, 0);
     }
 
     public Encomenda parseEncomenda(String input){

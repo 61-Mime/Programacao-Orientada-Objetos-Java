@@ -1,10 +1,8 @@
 package com.company;
 
-import javax.sound.midi.Soundbank;
-import java.awt.*;
+import java.nio.charset.CoderResult;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Interpretador {
@@ -43,6 +41,75 @@ public class Interpretador {
         return new Utilizador(code, nome, new Coordenadas(lat, lon), price, new ArrayList<>());
     }
 
+    public Estafeta registarEstafeta(String code, String nome, String type) {
+        Scanner s = new Scanner((System.in));
+        double lat, lon, raio, velocidade;
+        String medic;
+        boolean isMedic;
+
+        System.out.print("Introduza a sua Latitude: ");
+        lat = s.nextDouble();
+
+        System.out.print("Introduza a sua Latitude: ");
+        lon = s.nextDouble();
+
+        System.out.print("Introduza o seu raio da ação: ");
+        raio = s.nextDouble();
+
+        System.out.print("Introduza a sua velocidade média: ");
+        velocidade = s.nextDouble();
+
+        System.out.println("Pode transportar encomendas médicas? (S/N): ");
+        medic = s.nextLine();
+
+        isMedic = medic.equals("S");
+
+        return new Estafeta(code, nome, new Coordenadas(lat, lon), raio, velocidade, true, isMedic, 0, type);
+    }
+
+    public Transportadora registarTransportadora(Estafeta e) {
+        Scanner s = new Scanner(System.in);
+        int nif;
+        double taxaKm, taxaPeso;
+
+        System.out.print("Introduza o seu NIF: ");
+        nif = s.nextInt();
+
+        System.out.print("Introduza a sua taxa por Km: ");
+        taxaKm = s.nextDouble();
+
+        System.out.print("Introduza a sua taxa por Kg: ");
+        taxaPeso = s.nextDouble();
+
+        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
+    }
+
+    public Loja registarLoja(String code, String nome) {
+        Scanner s = new Scanner(System.in);
+        double lat, lon;
+        String queue;
+        boolean hasQueue;
+
+        System.out.print("Introduza a sua Latitude: ");
+        lat = s.nextDouble();
+
+        System.out.print("Introduza a sua Longitude: ");
+        lon = s.nextDouble();
+
+        System.out.print("A loja tem informação sobre a fila de espera? (S/N): ");
+        queue = s.nextLine();
+
+        hasQueue = queue.equals("S");
+
+        if (hasQueue) {
+            System.out.print("Qual é o tempo médio de espera em fila?: ");
+            double queueTime = s.nextDouble();
+            return new Loja(code, nome, new Coordenadas(lat, lon), hasQueue, queueTime);
+        }
+
+        return new Loja(code, nome, new Coordenadas(lat, lon), hasQueue, -1);
+    }
+
     public boolean registar(Controlador c) {
         Scanner s = new Scanner(System.in);
         Login l = new Login();
@@ -71,13 +138,17 @@ public class Interpretador {
 
             switch(tipo) {
                 case "Voluntario":
+                    c.addEstafeta(registarEstafeta(code, nome, "Voluntario"));
                     break;
                 case "Transportadora":
+                    Estafeta e = registarEstafeta(code, nome, "Transportadora");
+                    c.addEstafeta(registarTransportadora(e));
                     break;
                 case "Utilizador":
                     c.addUser(registarUtilizador(code, nome));
                     break;
                 case "Loja":
+                    c.addLoja(registarLoja(code, nome));
                     break;
             }
 
