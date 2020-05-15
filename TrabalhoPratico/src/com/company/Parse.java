@@ -59,7 +59,7 @@ public class Parse {
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         List<Encomenda> entregas = new ArrayList<>();
 
-        return new Utilizador(codUtilizador,nome,gps,entregas);
+        return new Utilizador(codUtilizador,nome,gps,100,entregas);
     }
 
     public Loja parseLoja(String input){

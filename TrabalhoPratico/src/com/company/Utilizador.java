@@ -11,7 +11,6 @@ public class Utilizador {
     private double precoMax;
     private List<Encomenda> entregas;
 
-
      //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Utilizador() {
@@ -22,10 +21,10 @@ public class Utilizador {
         this.entregas = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, List<Encomenda> entregas) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<Encomenda> entregas) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
-        this.precoMax = 100;
+        this.precoMax = precoMax;
         this.gps = gps.clone();
         setEntregas(entregas);
     }

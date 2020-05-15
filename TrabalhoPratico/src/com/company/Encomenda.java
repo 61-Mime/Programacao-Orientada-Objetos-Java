@@ -129,6 +129,14 @@ public class Encomenda {
         this.aceite = aceite;
     }
 
+    public boolean isVoluntario() {
+        return transpCode.charAt(0) == 'v';
+    }
+
+    public boolean isTransportadora() {
+        return transpCode.charAt(0) == 't';
+    }
+
     public List<LinhaEncomenda> getLinha() {
         List<LinhaEncomenda> line = new ArrayList<>();
 

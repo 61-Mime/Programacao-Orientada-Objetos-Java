@@ -10,7 +10,7 @@ public class Main {
 
         List<Encomenda> encList = new ArrayList<>();
         Coordenadas c = new Coordenadas(-81.554855,84.01756);
-        Utilizador user = new Utilizador( "u38" ,"Ricardo Manuel Almeida Vieira de Castro", c, encList);
+        Utilizador user = new Utilizador( "u38" ,"Ricardo Manuel Almeida Vieira de Castro", c, 100, encList);
 
         LinhaEncomenda l = new LinhaEncomenda("p70","Queijo Mussarela",6.373054,38.18086);
         LinhaEncomenda l1 = new LinhaEncomenda("p53","Batata",1.4474236,10.431012);
@@ -29,10 +29,9 @@ public class Main {
         Parse parse = new Parse();
         parse.parse(controlador);
 
-        System.out.println(controlador);
+        //System.out.println(controlador);
 
         Interpretador i = new Interpretador();
-
         i.interpretador(controlador);
     }
 }
