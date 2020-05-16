@@ -1,6 +1,7 @@
 package com.company;
 
 import java.nio.charset.CoderResult;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -11,11 +12,11 @@ public class Interpretador {
         Scanner s = new Scanner(System.in);
         String user, pass;
 
-        System.out.println("Introduza o usercode");
+        System.out.print("\nIntroduza o usercode: ");
         user = s.nextLine();
 
         if(c.containsUser(user)) {
-            System.out.println("Introduza a password");
+            System.out.print("Introduza a password: ");
             pass = s.nextLine();
 
             if(c.containsPassword(user, pass))
@@ -115,7 +116,7 @@ public class Interpretador {
         Login l = new Login();
         String code, nome, pass, tipo;
 
-        System.out.print("Introduza o nome completo: ");
+        System.out.print("\nIntroduza o nome completo: ");
         nome = s.nextLine();
 
         do {
@@ -169,31 +170,35 @@ public class Interpretador {
         Scanner s = new Scanner(System.in);
 
         while(r){
-            System.out.println("Voluntario / Transportadora / Ambos / Q");
+            System.out.println("\n1 | Voluntario");
+            System.out.println("2 | Transportadora");
+            System.out.println("3 | Ambos");
+            System.out.println("B | Voltar atrás");
+            System.out.print("Escolha a sua opção: ");
             tipo = s.nextLine();
             switch(tipo) {
-                case "Voluntario":
+                case "1":
                     res = 1;
                     r = false;
                     break;
 
-                case "Transportadora":
+                case "2":
                     res = 2;
                     r = false;
                     break;
 
-                case "Ambos":
+                case "3":
                     res = 3;
                     r = false;
                     break;
 
-                case "Q":
+                case "B":
                     res = 0;
                     r = false;
                     break;
 
                 default:
-                    System.out.println("Comando inválido");
+                    System.out.println("\nComando inválido");
             }
         }
 
@@ -206,9 +211,10 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("1 | Fazer uma encomenda");
+            System.out.println("\n1 | Fazer uma encomenda");
             System.out.println("2 | Aceder às encomendas anteriores");
             System.out.println("Q | Sair");
+            System.out.print("Escolha a sua opção: ");
             line = s.nextLine();
 
             switch(line) {
@@ -239,7 +245,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("Comando inválido");
+                    System.out.println("\nComando inválido");
             }
         }
     }
@@ -250,8 +256,9 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("1 | ");
+            System.out.println("\n1 | ");
             System.out.println("Q | Sair");
+            System.out.print("Escolha a sua opção: ");
             line = s.nextLine();
 
             switch(line) {
@@ -263,7 +270,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("Comando inválido");
+                    System.out.println("\nComando inválido");
             }
         }
     }
@@ -274,8 +281,9 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("1 | ");
+            System.out.println("\n1 | ");
             System.out.println("Q | Sair");
+            System.out.print("Escolha a sua opção: ");
             line = s.nextLine();
 
             switch(line) {
@@ -287,7 +295,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("Comando inválido");
+                    System.out.println("\nComando inválido");
             }
         }
     }
@@ -298,8 +306,9 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("1 | ");
+            System.out.println("\n1 | ");
             System.out.println("Q | Sair");
+            System.out.print("Escolha a sua opção: ");
             line = s.nextLine();
 
             switch(line) {
@@ -311,7 +320,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("Comando inválido");
+                    System.out.println("\nComando inválido");
             }
         }
     }
@@ -340,33 +349,41 @@ public class Interpretador {
         Login l = null;
 
         while(r) {
-            System.out.println("Login ou Registar");
+            System.out.println("\n1 | Login");
+            System.out.println("2 | Registar");
+            System.out.println("Q | Sair");
+            System.out.print("Escolha a sua opção: ");
             line = s.nextLine();
 
-            if(line.equals("Login") || line.equals("login")) {
-                l = login(c);
+            switch(line){
+                case "1":
+                    l = login(c);
 
-                if(l != null) {
-                    r=false;
-                    System.out.println("Login efetuado com sucesso");
-                }
+                    if(l != null) {
+                        r = false;
+                        System.out.println("\nLogin efetuado com sucesso");
+                    }
 
-                else
-                    System.out.println("Dados inválidos");
-            }
+                    else
+                        System.out.println("\nDados inválidos");
+                    break;
 
-            else if(line.equals("Registar") || line.equals("registar")) {
-                if(registar(c)) {
-                    System.out.println("Registo efetuado com sucesso");
-                    System.out.println("Efetue Login para continuar");
-                }
+                case "2":
+                    if(registar(c)) {
+                        System.out.println("\nRegisto efetuado com sucesso");
+                        System.out.println("Efetue Login para continuar");
+                    }
 
-                else
-                    System.out.println("Dados inválidos");
-            }
+                    else
+                        System.out.println("\nDados inválidos");
+                    break;
 
-            else {
-                System.out.println("Comando Inválido");
+                case "Q":
+                    return;
+
+                default:
+                    System.out.println("\nComando Inválido");
+                    break;
             }
         }
 
