@@ -137,7 +137,7 @@ public class Controlador {
 
         while (it.hasNext() && !escolhido) {
             curr = it.next();
-            if(curr.getType().equals("Voluntário") || precoEncomenda(enc.getEncCode(),curr.getCode()) <= maxprice) {
+            if(curr.getType().equals("Voluntario") || precoEncomenda(enc.getEncCode(),curr.getCode()) <= maxprice) {
                 escolhido = true;
                 code = curr.getCode();
             }

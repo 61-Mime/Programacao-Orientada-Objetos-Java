@@ -32,7 +32,7 @@ public class Interpretador {
         System.out.print("Introduza a sua Latitude: ");
         lat = s.nextDouble();
 
-        System.out.print("Introduza a sua Latitude: ");
+        System.out.print("Introduza a sua Longitude: ");
         lon = s.nextDouble();
 
         System.out.print("Introduza o Preco Máximo: ");
@@ -50,7 +50,7 @@ public class Interpretador {
         System.out.print("Introduza a sua Latitude: ");
         lat = s.nextDouble();
 
-        System.out.print("Introduza a sua Latitude: ");
+        System.out.print("Introduza a sua Longitude: ");
         lon = s.nextDouble();
 
         System.out.print("Introduza o seu raio da ação: ");
