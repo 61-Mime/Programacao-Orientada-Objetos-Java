@@ -11,24 +11,34 @@ public class Parse {
     public void parse(Controlador c){
         List<String> linhas = lerFicheiro("logs.txt");
         String [] linhaPartida;
+        Login log;
+
         for(String linha: linhas) {
             linhaPartida = linha.split(":",2);
             switch (linhaPartida[0]){
                 case "Utilizador":
                     Utilizador u = parseUtilizador(linhaPartida[1]);
                     c.addUser(u);
+                    log = new Login(u.getCodigoUtilizador(),u.getCodigoUtilizador(),"Utilizador",u.getName());
+                    c.addLogin(log);
                     break;
                 case "Loja":
                     Loja l = parseLoja(linhaPartida[1]);
                     c.addLoja(l);
+                    log = new Login(l.getStoreCode(),l.getStoreCode(),"Loja",l.getStoreName());
+                    c.addLogin(log);
                     break;
                 case "Voluntario":
                     Estafeta v = parseVoluntario(linhaPartida[1]);
                     c.addEstafeta(v);
+                    log = new Login(v.getCode(),v.getCode(),"Voluntario",v.getName());
+                    c.addLogin(log);
                     break;
                 case "Transportadora":
                     Estafeta t = parseTransportadora(linhaPartida[1]);
                     c.addEstafeta(t);
+                    log = new Login(t.getCode(),t.getCode(),"Transportadora",t.getName());
+                    c.addLogin(log);
                     break;
                 case "Encomenda":
                     Encomenda e = parseEncomenda(linhaPartida[1]);
