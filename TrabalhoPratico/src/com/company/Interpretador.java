@@ -342,11 +342,22 @@ public class Interpretador {
         }
     }
 
+    public void welcome() {
+        System.out.println(" _____                 _               _");
+        System.out.println("|_   _| __ __ _ ____  / \\   __ _ _   _(_)");
+        System.out.println("  | || '__/ _` |_  / / _ \\ / _` | | | | |");
+        System.out.println("  | || | | (_| |/ / / ___ \\ (_| | |_| | |");
+        System.out.println("  |_||_|  \\__,_/___/_/   \\_\\__, |\\__,_|_|");
+        System.out.println("                              |_|");
+    }
+
     public void interpretador(Controlador c) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String line;
         Login l = null;
+
+        welcome();
 
         while(r) {
             System.out.println("\n1 | Login");
