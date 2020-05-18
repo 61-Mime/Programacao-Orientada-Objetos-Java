@@ -7,16 +7,17 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Interpretador {
+    Apresentacao a = new Apresentacao();
 
     public Login login(Controlador c) {
         Scanner s = new Scanner(System.in);
         String user, pass;
 
-        System.out.print("\nIntroduza o usercode: ");
+        a.printMessage("Introduza o usercode: ");
         user = s.nextLine();
 
         if(c.containsUser(user)) {
-            System.out.print("Introduza a password: ");
+            a.printMessage("Introduza a password: ");
             pass = s.nextLine();
 
             if(c.containsPassword(user, pass))
@@ -30,13 +31,13 @@ public class Interpretador {
         Scanner s = new Scanner(System.in);
         double lat, lon, price;
 
-        System.out.print("Introduza a sua Latitude: ");
+        a.printMessage("Introduza a sua Latitude: ");
         lat = s.nextDouble();
 
-        System.out.print("Introduza a sua Longitude: ");
+        a.printMessage("Introduza a sua Longitude: ");
         lon = s.nextDouble();
 
-        System.out.print("Introduza o Preco Máximo: ");
+        a.printMessage("Introduza o Preco Máximo: ");
         price = s.nextDouble();
 
         return new Utilizador(code, nome, new Coordenadas(lat, lon), price, new ArrayList<>());
@@ -48,19 +49,19 @@ public class Interpretador {
         String medic;
         boolean isMedic;
 
-        System.out.print("Introduza a sua Latitude: ");
+        a.printMessage("Introduza a sua Latitude: ");
         lat = s.nextDouble();
 
-        System.out.print("Introduza a sua Longitude: ");
+        a.printMessage("Introduza a sua Longitude: ");
         lon = s.nextDouble();
 
-        System.out.print("Introduza o seu raio da ação: ");
+        a.printMessage("Introduza o seu raio da ação: ");
         raio = s.nextDouble();
 
-        System.out.print("Introduza a sua velocidade média: ");
+        a.printMessage("Introduza a sua velocidade média: ");
         velocidade = s.nextDouble();
 
-        System.out.println("Pode transportar encomendas médicas? (S/N): ");
+        a.printMessage("Pode transportar encomendas médicas? (S/N): ");
         medic = s.nextLine();
 
         isMedic = medic.equals("S");
@@ -73,13 +74,13 @@ public class Interpretador {
         int nif;
         double taxaKm, taxaPeso;
 
-        System.out.print("Introduza o seu NIF: ");
+        a.printMessage("Introduza o seu NIF: ");
         nif = s.nextInt();
 
-        System.out.print("Introduza a sua taxa por Km: ");
+        a.printMessage("Introduza a sua taxa por Km: ");
         taxaKm = s.nextDouble();
 
-        System.out.print("Introduza a sua taxa por Kg: ");
+        a.printMessage("Introduza a sua taxa por Kg: ");
         taxaPeso = s.nextDouble();
 
         return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
@@ -91,19 +92,19 @@ public class Interpretador {
         String queue;
         boolean hasQueue;
 
-        System.out.print("Introduza a sua Latitude: ");
+        a.printMessage("Introduza a sua Latitude: ");
         lat = s.nextDouble();
 
-        System.out.print("Introduza a sua Longitude: ");
+        a.printMessage("Introduza a sua Longitude: ");
         lon = s.nextDouble();
 
-        System.out.print("A loja tem informação sobre a fila de espera? (S/N): ");
+        a.printMessage("A loja tem informação sobre a fila de espera? (S/N): ");
         queue = s.nextLine();
 
         hasQueue = queue.equals("S");
 
         if (hasQueue) {
-            System.out.print("Qual é o tempo médio de espera em fila?: ");
+            a.printMessage("Qual é o tempo médio de espera em fila?: ");
             double queueTime = s.nextDouble();
             return new Loja(code, nome, new Coordenadas(lat, lon), hasQueue, queueTime);
         }
@@ -116,11 +117,11 @@ public class Interpretador {
         Login l = new Login();
         String code, nome, pass, tipo;
 
-        System.out.print("\nIntroduza o nome completo: ");
+        a.printMessage("Introduza o nome completo: ");
         nome = s.nextLine();
 
         do {
-            System.out.print("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+            a.printMessage("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
             tipo = s.nextLine();
         } while(!(tipo.equals("Voluntario") || tipo.equals("Transportadora") || tipo.equals("Utilizador") || tipo.equals("Loja")));
 
@@ -128,7 +129,7 @@ public class Interpretador {
             l.setNome(nome);
             l.setTipoConta(tipo);
 
-            System.out.print("Introduza a password: ");
+            a.printMessage("Introduza a password: ");
             pass = s.nextLine();
 
             l.setPassword(pass);
@@ -153,7 +154,7 @@ public class Interpretador {
                     break;
             }
 
-            System.out.println("Código de acesso: " + l);
+            a.printMessageLn("Código de acesso: " + l);
 
             c.addLogin(l);
 
@@ -170,11 +171,7 @@ public class Interpretador {
         Scanner s = new Scanner(System.in);
 
         while(r){
-            System.out.println("\n1 | Voluntario");
-            System.out.println("2 | Transportadora");
-            System.out.println("3 | Ambos");
-            System.out.println("B | Voltar atrás");
-            System.out.print("Escolha a sua opção: ");
+            a.printEscolheVolintariTransportadora();
             tipo = s.nextLine();
             switch(tipo) {
                 case "1":
@@ -198,7 +195,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("\nComando inválido");
+                    a.printMessageLn("Comando inválido");
             }
         }
 
@@ -211,10 +208,7 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("\n1 | Fazer uma encomenda");
-            System.out.println("2 | Aceder às encomendas anteriores");
-            System.out.println("Q | Sair");
-            System.out.print("Escolha a sua opção: ");
+            a.printMenuUtilizador();
             line = s.nextLine();
 
             switch(line) {
@@ -245,7 +239,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("\nComando inválido");
+                    a.printMessageLn("Comando inválido");
             }
         }
     }
@@ -256,9 +250,7 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("\n1 | ");
-            System.out.println("Q | Sair");
-            System.out.print("Escolha a sua opção: ");
+            a.printMenuVoluntario();
             line = s.nextLine();
 
             switch(line) {
@@ -270,7 +262,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("\nComando inválido");
+                    a.printMessageLn("Comando inválido");
             }
         }
     }
@@ -281,9 +273,7 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("\n1 | ");
-            System.out.println("Q | Sair");
-            System.out.print("Escolha a sua opção: ");
+            a.printMenuTransportadora();
             line = s.nextLine();
 
             switch(line) {
@@ -295,7 +285,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("\nComando inválido");
+                    a.printMessageLn("Comando inválido");
             }
         }
     }
@@ -306,9 +296,7 @@ public class Interpretador {
         String line;
 
         while(r) {
-            System.out.println("\n1 | ");
-            System.out.println("Q | Sair");
-            System.out.print("Escolha a sua opção: ");
+            a.printMenuLoja();
             line = s.nextLine();
 
             switch(line) {
@@ -320,7 +308,7 @@ public class Interpretador {
                     break;
 
                 default:
-                    System.out.println("\nComando inválido");
+                    a.printMessageLn("Comando inválido");
             }
         }
     }
@@ -342,28 +330,17 @@ public class Interpretador {
         }
     }
 
-    public void welcome() {
-        System.out.println(" _____                 _               _");
-        System.out.println("|_   _| __ __ _ ____  / \\   __ _ _   _(_)");
-        System.out.println("  | || '__/ _` |_  / / _ \\ / _` | | | | |");
-        System.out.println("  | || | | (_| |/ / / ___ \\ (_| | |_| | |");
-        System.out.println("  |_||_|  \\__,_/___/_/   \\_\\__, |\\__,_|_|");
-        System.out.println("                              |_|");
-    }
-
     public void interpretador(Controlador c) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String line;
         Login l = null;
 
-        welcome();
+        a.welcome();
+        s.nextLine();
 
         while(r) {
-            System.out.println("\n1 | Login");
-            System.out.println("2 | Registar");
-            System.out.println("Q | Sair");
-            System.out.print("Escolha a sua opção: ");
+            a.printMenu();
             line = s.nextLine();
 
             switch(line){
@@ -372,28 +349,28 @@ public class Interpretador {
 
                     if(l != null) {
                         r = false;
-                        System.out.println("\nLogin efetuado com sucesso");
+                        a.printMessageLn("Login efetuado com sucesso");
                     }
 
                     else
-                        System.out.println("\nDados inválidos");
+                        a.printMessageLn("Dados inválidos");
                     break;
 
                 case "2":
                     if(registar(c)) {
-                        System.out.println("\nRegisto efetuado com sucesso");
-                        System.out.println("Efetue Login para continuar");
+                        a.printMessageLn("Registo efetuado com sucesso");
+                        a.printMessageLn("Efetue Login para continuar");
                     }
 
                     else
-                        System.out.println("\nDados inválidos");
+                        a.printMessageLn("Dados inválidos");
                     break;
 
                 case "Q":
                     return;
 
                 default:
-                    System.out.println("\nComando Inválido");
+                    a.printMessageLn("Comando Inválido");
                     break;
             }
         }
