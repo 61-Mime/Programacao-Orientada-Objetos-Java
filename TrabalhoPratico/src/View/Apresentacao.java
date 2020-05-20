@@ -25,56 +25,47 @@ public class Apresentacao implements IApresentacao {
         System.out.println("");
     }
 
+    public void printMenus(String []menu,int size2,int type){
+        printLine(size2);
+        int size;
+        if(menu == null)
+            size = 0;
+        else
+            size = menu.length;
+        for(int i = 0;i < size;i++)
+            System.out.println(i+1+" | "+menu[i]);
+        if(type == 0)
+            System.out.println("Q | Sair");
+        else
+            System.out.println("B | Voltar atrás");
+        printLine(size2);
+        System.out.println("Escolha a sua opção:");
+    }
+
     public void printMenu() {
-        printLine(22);
-        System.out.println("1 | Login");
-        System.out.println("2 | Registar");
-        System.out.println("Q | Sair");
-        printLine(22);
-        System.out.print("Escolha a sua opção: ");
+        printMenus((new String[]{"Login", "Registar"}),22,0);
+
     }
 
     public void printEscolheVolintariTransportadora() {
-        printLine(22);
-        System.out.println("1 | Voluntario");
-        System.out.println("2 | Transportadora");
-        System.out.println("3 | Ambos");
-        System.out.println("B | Voltar atrás");
-        printLine(22);
-        System.out.print("Escolha a sua opção: ");
+        printMenus((new String[]{"Voluntário", "Transportadora","Ambos"}),22,1);
     }
 
     public void printMenuUtilizador() {
-        printLine(35);
-        System.out.println("1 | Fazer uma encomenda");
-        System.out.println("2 | Aceder às encomendas anteriores");
-        System.out.println("Q | Sair");
-        printLine(35);
-        System.out.print("Escolha a sua opção: ");
+        printMenus((new String[]{"Fazer uma encomenda", "Aceder às encomendas anteriores"}),35,1);
+
     }
 
     public void printMenuVoluntario() {
-        printLine(22);
-        System.out.println("1 | ");
-        System.out.println("Q | Sair");
-        printLine(22);
-        System.out.print("Escolha a sua opção: ");
+        printMenus(null,22,1);
     }
 
     public void printMenuTransportadora() {
-        printLine(22);
-        System.out.println("1 | ");
-        System.out.println("Q | Sair");
-        printLine(22);
-        System.out.print("Escolha a sua opção: ");
+        printMenus(null,22,1);
     }
 
     public void printMenuLoja() {
-        printLine(22);
-        System.out.println("1 | ");
-        System.out.println("Q | Sair");
-        printLine(22);
-        System.out.print("Escolha a sua opção: ");
+        printMenus(null,22,1);
     }
 
     public void printMessage(String message) {
