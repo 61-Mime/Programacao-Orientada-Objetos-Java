@@ -55,11 +55,11 @@ public class Apresentacao implements IApresentacao {
     }
 
     public void printMenuVoluntario() {
-        printMenus(null,22,1);
+        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},22,1);
     }
 
     public void printMenuTransportadora() {
-        printMenus(null,22,1);
+        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},22,1);
     }
 
     public void printMenuLoja() {

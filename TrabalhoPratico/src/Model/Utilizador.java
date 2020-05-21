@@ -3,13 +3,14 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Utilizador {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;
     private double precoMax;
-    private List<Encomenda> entregas;
+    private List<String> entregas;
 
      //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -21,7 +22,7 @@ public class Utilizador {
         this.entregas = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<Encomenda> entregas) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
         this.precoMax = precoMax;
@@ -67,6 +68,16 @@ public class Utilizador {
         return precoMax;
     }
 
+    public void setEntregas(List<String> enc) {
+        this.entregas = new ArrayList<>();
+        this.entregas.addAll(enc);
+    }
+
+    public List<String> getEntregas(){
+        return new ArrayList<>(entregas);
+    }
+
+    /*
     public List<Encomenda> getEntregas() {
         List<Encomenda> ent = new ArrayList<>();
 
@@ -82,10 +93,7 @@ public class Utilizador {
         for(Encomenda enc: ent)
             this.entregas.add(enc.clone());
     }
-
-    public void setEntrega(Encomenda ent) {
-        this.entregas.add(ent.clone());
-    }
+*/
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
@@ -118,7 +126,7 @@ public class Utilizador {
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
-    public void addEncomenda(Encomenda enc) {
-        this.entregas.add(enc.clone());
+    public void addEncomenda(String enc) {
+        this.entregas.add(enc);
     }
 }

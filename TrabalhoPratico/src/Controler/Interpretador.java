@@ -6,6 +6,7 @@ import View.Apresentacao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -145,7 +146,7 @@ public class Interpretador {
     public void menuUtilizador(GestTrazAqui c, Login l) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
-        String line;
+        String line,code,encCode;
 
         while(r) {
             a.printMenuUtilizador();
@@ -153,6 +154,17 @@ public class Interpretador {
 
             switch(line) {
                 case "1":
+                    List<String> list = c.getEncReady(l.getCode());
+                    System.out.println(list);
+                    System.out.println("Escolha uma encomenda:");
+                    encCode = s.nextLine();
+                    if(list.contains(encCode)) {
+                        code = c.escolheEstafeta(encCode);
+                        c.entregarEncomenda(encCode,code);
+                        System.out.println("A sua encomenda foi entregue pelo "+ c.getEstafetaType(code) +" " + c.getEstafetaName(code));
+                    }
+                    else
+                        System.out.println("Encomenda não está disponivel!");
                     break;
 
                 case "2":
@@ -162,7 +174,7 @@ public class Interpretador {
                     System.out.println(c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 
-                case "Q":
+                case "B":
                     r=false;
                     break;
 
@@ -183,6 +195,8 @@ public class Interpretador {
 
             switch(line) {
                 case "1":
+                    c.setEstafetaFree(l.getCode());
+                    a.printMessage("Está disponivel para entregar encomendas");
                     break;
 
                 case "Q":
@@ -206,6 +220,8 @@ public class Interpretador {
 
             switch(line) {
                 case "1":
+                    c.setEstafetaFree(l.getCode());
+                    a.printMessage("Está disponivel para entregar encomendas");
                     break;
 
                 case "Q":

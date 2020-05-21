@@ -67,7 +67,7 @@ public class Parse {
         String codUtilizador = campos[0];
 //        double cr = Double.parseDouble(campos[0]);
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
-        List<Encomenda> entregas = new ArrayList<>();
+        List<String> entregas = new ArrayList<>();
 
         return new Utilizador(codUtilizador,nome,gps,100,entregas);
     }
@@ -114,7 +114,7 @@ public class Parse {
         for(int i = 4;i < size - 1;i+=4)
             linha.add(parseLinhaEncomenda(campos[i],campos[i+1],campos[i+2],campos[i+3]));
 
-        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha);
+        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false);
     }
     public LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));

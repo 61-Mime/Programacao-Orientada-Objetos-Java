@@ -14,7 +14,7 @@ public class Estafeta {
     private boolean isFree;
     private boolean isMedic;
     private double classificacao;
-    private List<Encomenda> registo;
+    private List<String> registo;
     private String type;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -129,24 +129,17 @@ public class Estafeta {
         this.classificacao = classificacao;
     }
 
-    public List<Encomenda> getRegisto() {
-        List<Encomenda> res = new ArrayList<>();
-
-        for(Encomenda e: this.registo)
-            res.add(e.clone());
-
-        return res;
+    public List<String> getRegisto() {
+        return new ArrayList<>(registo);
     }
 
-    public void setRegisto(List<Encomenda> enc) {
+    public void setRegisto(List<String> enc) {
         this.registo = new ArrayList<>();
-
-        for (Encomenda e: enc)
-            this.registo.add(e.clone());
+        this.registo.addAll(enc);
     }
 
-    public void setEnc(Encomenda enc) {
-        this.registo.add(enc.clone());
+    public void setEnc(String enc) {
+        this.registo.add(enc);
         if(this.getType() == "Transportadora")
             ((Transportadora)this).setNumEncomendas();
     }

@@ -14,6 +14,7 @@ public class Encomenda {
     private boolean isMedic;
     private LocalDateTime data;
     private boolean aceite;
+    private boolean entregue;
     private List<LinhaEncomenda> linha;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -27,10 +28,11 @@ public class Encomenda {
         this.isMedic = false;
         this.data = LocalDateTime.now();
         this.aceite = false;
+        this.entregue = false;
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String encCode, String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha) {
+    public Encomenda(String encCode, String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha,boolean entregue) {
         this.encCode = encCode;
         this.userCode = userCode;
         this.transpCode = sellerCode;
@@ -38,6 +40,7 @@ public class Encomenda {
         this.weight = weight;
         this.isMedic = isMedic;
         this.aceite = aceite;
+        this.entregue = entregue;
         this.data = data;
         setLinha(linha);
     }
@@ -51,6 +54,7 @@ public class Encomenda {
         this.isMedic = enc.isMedic;
         this.data = enc.getData();
         this.aceite = isAceite();
+        this.entregue = enc.isEntregue();
         setLinha(enc.getLinha());
     }
 
@@ -129,6 +133,15 @@ public class Encomenda {
         this.aceite = aceite;
     }
 
+    public boolean isEntregue() {
+        return entregue;
+    }
+
+    public void setEntregue(boolean entregue) {
+        this.entregue = entregue;
+    }
+
+
     public boolean isVoluntario() {
         return transpCode.charAt(0) == 'v';
     }
@@ -206,6 +219,6 @@ public class Encomenda {
     }
 
     public boolean encData(LocalDateTime min, LocalDateTime max) {
-        return data.isBefore(min) && data.isAfter(max);
+        return data.isBefore(max) && data.isAfter(min);
     }
 }
