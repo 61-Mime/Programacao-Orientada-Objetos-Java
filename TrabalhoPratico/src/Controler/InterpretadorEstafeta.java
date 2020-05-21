@@ -12,20 +12,19 @@ public class InterpretadorEstafeta {
 
     public void interpretador(GestTrazAqui c, Login l) {
         boolean r = true;
-        Scanner s = new Scanner(System.in);
-        String line;
+        int command;
 
         while (r) {
-            a.printMenuTransportadora();
-            line = s.nextLine();
+            a.printMenuEstafeta();
+            command = (int) in.lerDouble("Escolha a sua opção:", 0, 1);
 
-            switch (line) {
-                case "1":
+            switch (command) {
+                case 1:
                     c.setEstafetaFree(l.getCode());
                     a.printMessage("Está disponivel para entregar encomendas");
                     break;
 
-                case "Q":
+                case 0:
                     r = false;
                     break;
 

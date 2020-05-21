@@ -67,15 +67,16 @@ public class InterpretadorUtilizador {
     public void interpretador(GestTrazAqui c, Login l) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
-        String line,code,encCode;
+        String code,encCode;
         double pontuacao = 0;
+        int command;
 
         while(r) {
             a.printMenuUtilizador();
-            line = s.nextLine();
+            command = (int) in.lerDouble("Escolha a sua opção:", 0, 3);
 
-            switch(line) {
-                case "1":
+            switch(command) {
+                case 1:
                     List<String> list = c.getEncReady(l.getCode());
                     System.out.println(list);
                     System.out.println("Escolha uma encomenda:");
@@ -93,14 +94,14 @@ public class InterpretadorUtilizador {
                         System.out.println("Encomenda não está disponivel!");
                     break;
 
-                case "2":
+                case 2:
                     int res = (int) in.lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);//escolheVoluntarioTransportadora();
                     LocalDateTime min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     LocalDateTime max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
                     System.out.println(c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 
-                case "3":
+                case 3:
                     a.printArray("Lojas disponíveis:", c.getLojas());
                     String loja = in.lerString("Introduza o código da loja para fazer a encomenda:", c);
 
@@ -114,12 +115,13 @@ public class InterpretadorUtilizador {
                     a.printMessageLn("A sua encomenda foi aceite pela loja e precisa de ser solicitada.");
                     break;
 
-                case "B":
+                case 0:
                     r=false;
                     break;
 
                 default:
                     a.printMessageLn("Comando inválido");
+                    break;
             }
         }
     }

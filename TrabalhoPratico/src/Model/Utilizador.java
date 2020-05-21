@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Utilizador {
+public class Utilizador implements Comparable<Utilizador> {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;
@@ -104,6 +104,10 @@ public class Utilizador {
 
     public Utilizador clone() {
         return new Utilizador(this);
+    }
+
+    public int compareTo(Utilizador u) {
+        return u.getEntregas().size() - this.entregas.size();
     }
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\

@@ -53,7 +53,7 @@ public class InterpretadorLogin {
 
         isMedic = medic.equals("S");
 
-        return new Estafeta(code, nome, cr, raio, velocidade, true, isMedic, 0, type);
+        return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, type);
     }
 
     private Transportadora registarTransportadora(Estafeta e) {
@@ -65,7 +65,7 @@ public class InterpretadorLogin {
         taxaKm = in.lerDouble("Introduza a sua taxa por Km: ",0,1000000);
         taxaPeso = in.lerDouble("Introduza a sua taxa por Kg: ",0,1000000);
 
-        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
+        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
     }
 
     private Loja registarLoja(String code, String nome) {
@@ -142,16 +142,15 @@ public class InterpretadorLogin {
 
     public Login interpretador(GestTrazAqui c) {
         boolean r=true;
-        Scanner s = new Scanner(System.in);
-        String line;
+        int command;
         Login l = null;
 
         while(r) {
-            a.printMenu();
-            line = s.nextLine();
+            a.printMenuLogin();
+            command = (int) in.lerDouble("Escolha a sua opção:", 0, 2);
 
-            switch(line){
-                case "1":
+            switch(command){
+                case 1:
                     if((l = login(c))!= null) {
                         a.printMessageLn("Login efetuado com sucesso");
                         r = false;
@@ -160,14 +159,14 @@ public class InterpretadorLogin {
                         a.printMessageLn("Dados inválidos");
                     break;
 
-                case "2":
+                case 2:
                     if(registar(c))
                         a.printMessageLn("Registo efetuado com sucesso\nEfetue Login para continuar");
                     else
                         a.printMessageLn("Dados inválidos");
                     break;
 
-                case "Q":
+                case 0:
                     l = null;
                     r = false;
                     break;

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Estafeta {
+public class Estafeta implements Comparable<Estafeta> {
 
     private String code;
     private String name;
     private Coordenadas gps;
     private double raio;
     private double velocidade;
+    private double numKm;
     private boolean isFree;
     private boolean isMedic;
     private double classificacao;
@@ -25,20 +26,22 @@ public class Estafeta {
         this.type = "";
         this.gps = new Coordenadas();
         this.raio = 0d;
-        this.velocidade = 0;
+        this.velocidade = 0d;
+        this.numKm = 0d;
         this.isFree = false;
         this.isMedic = false;
-        this.classificacao = 0;
+        this.classificacao = 0d;
         this.registo = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, boolean isFree, boolean isMedic, double classificacao, String type) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, String type) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
         this.gps = gps.clone();
         this.raio = raio;
         this.velocidade = velocidade;
+        this.numKm = numKm;
         this.classificacao = classificacao;
         this.isFree = isFree;
         this.isMedic = isMedic;
@@ -52,6 +55,7 @@ public class Estafeta {
         this.gps = v.getGps();
         this.raio = v.getRaio();
         this.velocidade = v.getVelocidade();
+        this.numKm = v.getNumKm();
         this.isFree = v.isFree();
         this.isMedic = v.isMedic();
         this.classificacao = v.getClassificacao();
@@ -103,6 +107,18 @@ public class Estafeta {
 
     public void setVelocidade(double velocidade) {
         this.velocidade = velocidade;
+    }
+
+    public double getNumKm() {
+        return numKm;
+    }
+
+    public void setNumKm(double numKm) {
+        this.numKm = numKm;
+    }
+
+    public void addNumKm(double numKm) {
+        this.numKm = numKm;
     }
 
     public boolean isFree() {
@@ -184,6 +200,17 @@ public class Estafeta {
     public Estafeta clone() {
         return new Estafeta(this);
     }
+
+    public int compareTo(Estafeta e) {
+        if(this.numKm > e.getNumKm())
+            return -1;
+        else if(this.numKm < e.getNumKm())
+            return 1;
+        else
+            return 0;
+    }
+
+    //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
     public void atualizaClassificacao(double classificacao) {
         this.setClassificacao((this.getClassificacao() * this.registo.size() + classificacao) / (this.registo.size() + 1));

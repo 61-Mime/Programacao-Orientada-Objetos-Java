@@ -57,6 +57,9 @@ public class GestTrazAqui implements IGestTrazAqui{
         return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceite() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
     }
 
+    public List<String> getTopUsers() {
+        return users.values().stream().sorted().limit(10).map(c -> c.getCodigoUtilizador() + ": " + c.getName()).collect(Collectors.toList());
+    }
 
     //---------------------------------------------------------------Métodos Estafeta--------------------------------------------------------------------------\\
 
@@ -122,6 +125,9 @@ public class GestTrazAqui implements IGestTrazAqui{
         estafetas.get(code).setFree(true);
     }
 
+    public List<String> getTopTrans() {
+        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> c.getCode() + ": " + c.getName()).collect(Collectors.toList());
+    }
 
     //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
 
@@ -194,9 +200,12 @@ public class GestTrazAqui implements IGestTrazAqui{
 
     //guardar tempo de entrega
     public void entregarEncomenda(String encCode,String estafetaCode) {
+        Coordenadas cr = lojas.get(encomendas.get(encCode).getStoreCode()).getGps();
+
         encomendas.get(encCode).setTranspCode(estafetaCode);
         encomendas.get(encCode).setEntregue(true);
         estafetas.get(estafetaCode).setEnc(encCode);
+        estafetas.get(estafetaCode).addNumKm(estafetas.get(estafetaCode).getGps().distancia(cr));
     }
 
     public Set<String> encomendasAceites() {

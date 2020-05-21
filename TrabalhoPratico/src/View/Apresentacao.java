@@ -27,44 +27,46 @@ public class Apresentacao implements IApresentacao {
         System.out.println("");
     }
 
-    public void printMenus(String []menu,int size2,int type){
-        printLine(size2);
-        int size;
-        if(menu == null)
-            size = 0;
-        else
-            size = menu.length;
+    private void printMenus(String []menu, String message, int type){
+
+        int size, length=message.length();
+
+        for(String linha: menu)
+            if(linha.length() + 4 > length)
+                length = linha.length() + 4;
+
+        printLine(length);
+        System.out.println(message);
+        printLine(length);
+
+        size = menu.length;
         for(int i = 0;i < size;i++)
             System.out.println(i+1+" | "+menu[i]);
         if(type == 0)
-            System.out.println("Q | Sair");
+            System.out.println("0 | Sair");
         else
-            System.out.println("B | Voltar atrás");
-        printLine(size2);
+            System.out.println("0 | Voltar atrás");
+        printLine(length);
     }
 
-    public void printMenu() {
-        printMenus((new String[]{"Login", "Registar"}),22,0);
+    public void printMenuLogin() {
+        printMenus((new String[]{"Login", "Registar"}),"MENU LOGIN",0);
     }
 
-    public void printEscolheVolintariTransportadora() {
-        printMenus((new String[]{"Voluntário", "Transportadora","Ambos"}),22,1);
+    public void printMainMenu(String type) {
+        printMenus((new String[]{"Menu " + type, "Consultas", "Gravar para um Ficheiro"}),"MENU PRINCIPAL",0);
+    }
+
+    public void printMenuConsultas() {
+        printMenus((new String[]{"Top Utilizadores do Sistema", "Top Transportadoras do Sistema"}),"MENU CONSULTAS",1);
     }
 
     public void printMenuUtilizador() {
-        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),36,1);
+        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),"MENU UTILIZADOR",1);
     }
 
-    public void printMenuVoluntario() {
-        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},22,1);
-    }
-
-    public void printMenuTransportadora() {
-        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},22,1);
-    }
-
-    public void printMenuLoja() {
-        printMenus(null,22,1);
+    public void printMenuEstafeta() {
+        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},"MENU ESTAFETA",1);
     }
 
     public void printMessage(String message) {
@@ -81,6 +83,15 @@ public class Apresentacao implements IApresentacao {
 
         for(String line : arr)
             System.out.println(line);
+
+        System.out.print("\n");
+    }
+
+    public void printTable(String message, List<String> arr) {
+        System.out.println("\n" + message);
+
+        for(int i=0; i<arr.size(); i++)
+            System.out.println((i+1) + ") " + arr.get(i));
 
         System.out.print("\n");
     }
