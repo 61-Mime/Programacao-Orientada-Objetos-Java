@@ -3,6 +3,8 @@ package Controler;
 import Model.*;
 import View.Apresentacao;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -30,44 +32,30 @@ public class Interpretador {
 
     public Utilizador registarUtilizador(String code, String nome){
         Scanner s = new Scanner(System.in);
-        double lat, lon, price;
+        double price;
 
-        a.printMessage("Introduza a sua Latitude: ");
-        lat = s.nextDouble();
+        Coordenadas cr = lerCoordenada();
+        price = lerDouble("Introduza o Preco Máximo: ",0,1000000);
 
-        a.printMessage("Introduza a sua Longitude: ");
-        lon = s.nextDouble();
-
-        a.printMessage("Introduza o Preco Máximo: ");
-        price = s.nextDouble();
-
-        return new Utilizador(code, nome, new Coordenadas(lat, lon), price, new ArrayList<>());
+        return new Utilizador(code, nome, cr, price, new ArrayList<>());
     }
 
     public Estafeta registarEstafeta(String code, String nome, String type) {
         Scanner s = new Scanner((System.in));
-        double lat, lon, raio, velocidade;
+        double raio, velocidade;
         String medic;
         boolean isMedic;
 
-        a.printMessage("Introduza a sua Latitude: ");
-        lat = s.nextDouble();
-
-        a.printMessage("Introduza a sua Longitude: ");
-        lon = s.nextDouble();
-
-        a.printMessage("Introduza o seu raio da ação: ");
-        raio = s.nextDouble();
-
-        a.printMessage("Introduza a sua velocidade média: ");
-        velocidade = s.nextDouble();
+        Coordenadas cr = lerCoordenada();
+        raio = lerDouble("Introduza o seu raio da ação: ",0,100000);
+        velocidade = lerDouble("Introduza a sua velocidade média: ",0,100000);
 
         a.printMessage("Pode transportar encomendas médicas? (S/N): ");
         medic = s.nextLine();
 
         isMedic = medic.equals("S");
 
-        return new Estafeta(code, nome, new Coordenadas(lat, lon), raio, velocidade, true, isMedic, 0, type);
+        return new Estafeta(code, nome, cr, raio, velocidade, true, isMedic, 0, type);
     }
 
     public Transportadora registarTransportadora(Estafeta e) {
@@ -75,29 +63,19 @@ public class Interpretador {
         int nif;
         double taxaKm, taxaPeso;
 
-        a.printMessage("Introduza o seu NIF: ");
-        nif = s.nextInt();
-
-        a.printMessage("Introduza a sua taxa por Km: ");
-        taxaKm = s.nextDouble();
-
-        a.printMessage("Introduza a sua taxa por Kg: ");
-        taxaPeso = s.nextDouble();
+        nif = (int)lerDouble("Introduza o seu NIF: ",0,1000000);
+        taxaKm = lerDouble("Introduza a sua taxa por Km: ",0,1000000);
+        taxaPeso = lerDouble("Introduza a sua taxa por Kg: ",0,1000000);
 
         return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
     }
 
     public Loja registarLoja(String code, String nome) {
         Scanner s = new Scanner(System.in);
-        double lat, lon;
         String queue;
         boolean hasQueue;
 
-        a.printMessage("Introduza a sua Latitude: ");
-        lat = s.nextDouble();
-
-        a.printMessage("Introduza a sua Longitude: ");
-        lon = s.nextDouble();
+        Coordenadas cr = lerCoordenada();
 
         a.printMessage("A loja tem informação sobre a fila de espera? (S/N): ");
         queue = s.nextLine();
@@ -105,12 +83,11 @@ public class Interpretador {
         hasQueue = queue.equals("S");
 
         if (hasQueue) {
-            a.printMessage("Qual é o tempo médio de espera em fila?: ");
-            double queueTime = s.nextDouble();
-            return new Loja(code, nome, new Coordenadas(lat, lon), hasQueue, queueTime);
+            double queueTime = lerDouble("Qual é o tempo médio de espera em fila?: ",0,1000);
+            return new Loja(code, nome, cr, hasQueue, queueTime);
         }
 
-        return new Loja(code, nome, new Coordenadas(lat, lon), hasQueue, -1);
+        return new Loja(code, nome, cr, hasQueue, -1);
     }
 
     public boolean registar(GestTrazAqui c) {
@@ -165,44 +142,6 @@ public class Interpretador {
         return false;
     }
 
-    public int escolheVoluntarioTransportadora() {
-        boolean r=true;
-        int res = 1;
-        String tipo;
-        Scanner s = new Scanner(System.in);
-
-        while(r){
-            a.printEscolheVolintariTransportadora();
-            tipo = s.nextLine();
-            switch(tipo) {
-                case "1":
-                    res = 1;
-                    r = false;
-                    break;
-
-                case "2":
-                    res = 2;
-                    r = false;
-                    break;
-
-                case "3":
-                    res = 3;
-                    r = false;
-                    break;
-
-                case "B":
-                    res = 0;
-                    r = false;
-                    break;
-
-                default:
-                    a.printMessageLn("Comando inválido");
-            }
-        }
-
-        return res;
-    }
-
     public void menuUtilizador(GestTrazAqui c, Login l) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
@@ -217,22 +156,10 @@ public class Interpretador {
                     break;
 
                 case "2":
-                    int res = escolheVoluntarioTransportadora();
-
-                    switch(res) {
-                        case 1:
-                            System.out.println(c.getUser(l.getCode()).getEntregas().stream().filter(Encomenda::isVoluntario).collect(Collectors.toList()));
-                            break;
-                        case 2:
-                            System.out.println(c.getUser(l.getCode()).getEntregas().stream().filter(Encomenda::isTransportadora).collect(Collectors.toList()));
-                            break;
-                        case 3:
-                            System.out.println(c.getUser(l.getCode()).getEntregas());
-                            break;
-                        default:
-                            break;
-                    }
-
+                    int res = (int)lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);//escolheVoluntarioTransportadora();
+                    LocalDateTime min = lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
+                    LocalDateTime max = lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
+                    System.out.println(c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 
                 case "Q":
@@ -335,7 +262,7 @@ public class Interpretador {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String line;
-        Login l = null;
+        Login l;
 
         a.welcome();
         s.nextLine();
@@ -346,11 +273,9 @@ public class Interpretador {
 
             switch(line){
                 case "1":
-                    l = login(c);
-
-                    if(l != null) {
-                        r = false;
+                    if((l = login(c))!= null) {
                         a.printMessageLn("Login efetuado com sucesso");
+                        menu(c, l);
                     }
 
                     else
@@ -368,7 +293,8 @@ public class Interpretador {
                     break;
 
                 case "Q":
-                    return;
+                    r = false;
+                    break;
 
                 default:
                     a.printMessageLn("Comando Inválido");
@@ -376,8 +302,63 @@ public class Interpretador {
             }
         }
 
-        menu(c, l);
-
         s.close();
+    }
+
+    public double lerDouble(String message,int min,int max){
+        Scanner s = new Scanner(System.in);
+        double n = -1;
+
+        do{
+            a.printMessage(message);
+            try {
+                String line = s.nextLine();
+                n = Double.parseDouble(line);
+            } catch (NumberFormatException nfe) {
+                a.printMessage(nfe.getMessage());
+                n = -1;
+            }
+        } while (n < min || n > max);
+
+        return n;
+    }
+
+    public LocalDateTime lerData(String message){
+        Scanner s = new Scanner(System.in);
+        boolean val = true;
+        LocalDateTime data = null;
+
+        do{
+            a.printMessage(message);
+            try {
+                data = data.parse(s.nextLine());
+                val = false;
+            } catch (DateTimeParseException dtpe) {
+                a.printMessage("Data inválida");
+            }
+        } while (val);
+
+        return data;
+    }
+
+    public Coordenadas lerCoordenada(){
+        Scanner s = new Scanner(System.in);
+        String line[];
+        double lat,lon = 0;
+
+        do{
+            a.printMessage("Introduza a latitude ([-90,90]) e a longitude ([-180,180]), por exemplo: 30 20");
+            line = s.nextLine().split(" ",2);
+            try{
+                lat = Double.parseDouble(line[0]);
+                if(line.length == 2)
+                    lon = Double.parseDouble(line[1]);
+            } catch (NumberFormatException nfe) {
+                a.printMessage(nfe.getMessage());
+                lat = 100;
+            }
+        } while (line.length != 2 || lat < -90 || lat > 90 || lon < -180 || lon > 180);
+
+        return new Coordenadas(lat,lon);
     }
 }

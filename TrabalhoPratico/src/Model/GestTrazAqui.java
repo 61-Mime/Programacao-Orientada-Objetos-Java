@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,7 +95,7 @@ public class GestTrazAqui implements IGestTrazAqui{
         enc.setAceite(true);
         String estafetaCode = escolheEstafeta(enc);
         estafetas.get(estafetaCode).setEnc(enc);
-        users.get(enc.getUserCode()).setEntrega(enc);
+        //users.get(enc.getUserCode()).setEntrega(enc);
         enc.setTranspCode(estafetaCode);
     }
 
@@ -113,7 +114,7 @@ public class GestTrazAqui implements IGestTrazAqui{
         Encomenda enc = getEncomenda(encCode);
         double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())
                     + lojas.get(enc.getStoreCode()).getGps().distancia(users.get(enc.getUserCode()).getGps());
-        return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaKm();
+        return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaPeso();
     }
 
     public List<Estafeta> possiveisEstafetas(Encomenda enc) {
@@ -144,6 +145,18 @@ public class GestTrazAqui implements IGestTrazAqui{
         }
 
         return code;
+    }
+
+    public List<Encomenda> getUserEncbyData(String code,int type, LocalDateTime min,LocalDateTime max) {
+        List<Encomenda> list = users.get(code).getEntregas();
+        if(type == 1)
+            list = list.stream().filter(e -> e.isVoluntario() && e.encData(min,max)).collect(Collectors.toList());
+        else if(type == 2)
+            list = list.stream().filter(e -> e.isTransportadora() && e.encData(min,max)).collect(Collectors.toList());
+        else
+            list = list.stream().filter(e -> e.encData(min,max)).collect(Collectors.toList());
+
+        return list;
     }
 
     @Override

@@ -204,4 +204,8 @@ public class Encomenda {
     public void addLinhaEncomenda(LinhaEncomenda l) {
         this.linha.add(l.clone());
     }
+
+    public boolean encData(LocalDateTime min, LocalDateTime max) {
+        return data.isBefore(min) && data.isAfter(max);
+    }
 }

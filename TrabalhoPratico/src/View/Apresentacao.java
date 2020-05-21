@@ -39,7 +39,6 @@ public class Apresentacao implements IApresentacao {
         else
             System.out.println("B | Voltar atrás");
         printLine(size2);
-        System.out.println("Escolha a sua opção:");
     }
 
     public void printMenu() {
@@ -52,8 +51,7 @@ public class Apresentacao implements IApresentacao {
     }
 
     public void printMenuUtilizador() {
-        printMenus((new String[]{"Fazer uma encomenda", "Aceder às encomendas anteriores"}),35,1);
-
+        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas"}),36,1);
     }
 
     public void printMenuVoluntario() {
@@ -69,7 +67,7 @@ public class Apresentacao implements IApresentacao {
     }
 
     public void printMessage(String message) {
-        System.out.print(message);
+        System.out.println(message);
     }
 
     public void printMessageLn(String message) {
