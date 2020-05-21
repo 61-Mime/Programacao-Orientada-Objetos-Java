@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 public class Parse {
     public void parse(GestTrazAqui c){
@@ -49,9 +51,11 @@ public class Parse {
                     break;
             }
         }
+
+        parseProdutosTxt(c);
     }
 
-    public List<String> lerFicheiro(String filename){
+    private List<String> lerFicheiro(String filename){
         List<String> lines = new ArrayList<>();
         try {
             lines = Files.readAllLines(Paths.get(filename));
@@ -61,7 +65,7 @@ public class Parse {
         return lines;
     }
 
-    public Utilizador parseUtilizador(String input){
+    private Utilizador parseUtilizador(String input){
         String [] campos = input.split(",");
         String nome = campos[1];
         String codUtilizador = campos[0];
@@ -72,16 +76,16 @@ public class Parse {
         return new Utilizador(codUtilizador,nome,gps,100,entregas);
     }
 
-    public Loja parseLoja(String input){
+    private Loja parseLoja(String input){
         String [] campos = input.split(",");
         String storeCode = campos[0];
         String storeName = campos[1];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Loja(storeCode,storeName,gps,false,0);
+        return new Loja(storeCode,storeName,gps,false,0, new ArrayList<>());
     }
 
-    public Estafeta parseVoluntario(String input){
+    private Estafeta parseVoluntario(String input){
         String [] campos = input.split(",");
         String voluntaryCode = campos[0];
         String name = campos[1];
@@ -91,7 +95,7 @@ public class Parse {
         return new Estafeta(voluntaryCode, name, gps, raio, 50, true, false, 0, "Voluntario");
     }
 
-    public Estafeta parseTransportadora(String input){
+    private Estafeta parseTransportadora(String input){
         String [] campos = input.split(",");
         String companyCode = campos[0];
         String companyName = campos[1];
@@ -103,7 +107,7 @@ public class Parse {
         return new Transportadora(companyCode,companyName,gps,raio,60,true,false,0,nif,precoPorKm,0.05, 0);
     }
 
-    public Encomenda parseEncomenda(String input){
+    private Encomenda parseEncomenda(String input){
         String [] campos = input.split(",");
         String encCode = campos[0];
         String userCode = campos[1];
@@ -116,15 +120,42 @@ public class Parse {
 
         return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false);
     }
-    public LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
+    private LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));
     }
 
-    public void parseProdutos(GestTrazAqui c) {
+    private void parseProdutosTxt(GestTrazAqui c) {
         List<String> linhas = lerFicheiro("produtos.txt");
+        String[] linhaPartida;
 
         for(String linha: linhas) {
+            linhaPartida = linha.split(":", 2);
+            switch (linhaPartida[0]) {
+                case "produto":
+                    Produto p = parseProduto(linhaPartida[1]);
+                    c.addProduto(p);
+                    break;
+                case "loja":
+                    linhaPartida = linhaPartida[1].split(":");
+                    List<String> produtos = parseProdutosLoja(linhaPartida[1]);
+                    c.addProdLoja(linhaPartida[0], produtos);
+                    break;
+            }
 
         }
+    }
+
+    private Produto parseProduto (String str) {
+        String[] campos = str.split(",");
+        String code = campos[0];
+        String name = campos[1];
+        double weight = Double.parseDouble(campos[2]);
+
+        return new Produto(code, name, weight);
+    }
+
+    private List<String> parseProdutosLoja(String str) {
+        String[] campos = str.split(",");
+        return new ArrayList<>(Arrays.asList(campos));
     }
 }

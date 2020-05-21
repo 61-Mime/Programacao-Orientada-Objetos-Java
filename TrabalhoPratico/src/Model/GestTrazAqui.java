@@ -46,6 +46,19 @@ public class GestTrazAqui implements IGestTrazAqui{
         estafetas.put(estafeta.getCode(), estafeta);
     }
 
+    public void addEncomendaEstafeta(String code, String encCode) {
+        estafetas.get(code).addEncomenda(encCode);
+    }
+
+    public List<String> getLojas() {
+        List<String> lojas = new ArrayList<>();
+
+        for (Loja l: this.lojas.values())
+            lojas.add(l.getStoreCode() + ": " + l.getStoreName() +"\n");
+
+        return lojas;
+    }
+
     public Loja getLoja(String storeCode) {
         return lojas.get(storeCode).clone();
     }
@@ -56,6 +69,19 @@ public class GestTrazAqui implements IGestTrazAqui{
 
     public void addLoja(Loja loja) {
         lojas.put(loja.getStoreCode(), loja);
+    }
+
+    public void addProdLoja(String storeCode, List<String> produtos) {
+        lojas.get(storeCode).addProdList(produtos);
+    }
+
+    public List<String> getProdutosLoja(String storeCode) {
+        List<String> produtos = new ArrayList<>();
+
+        for (String prodCode: getLoja(storeCode).getProds())
+            produtos.add(prodCode + ": " + getProdName(prodCode) + "\n");
+
+        return produtos;
     }
 
     public Encomenda getEncomenda(String encCode) {
@@ -71,6 +97,10 @@ public class GestTrazAqui implements IGestTrazAqui{
         encomendas.put(encomenda.getEncCode(), encomenda);
     }
 
+    public boolean containsEncomenda(String encCode) {
+        return encomendas.containsKey(encCode);
+    }
+
     public Produto getProduto(String prodCode) {
         return produtos.get(prodCode).clone();
     }
@@ -81,6 +111,14 @@ public class GestTrazAqui implements IGestTrazAqui{
 
     public void addProduto(Produto prod) {
         produtos.put(prod.getProdCode(), prod);
+    }
+
+    public String getProdName(String prodCode) {
+        return produtos.get(prodCode).getName();
+    }
+
+    public double getProdWeight(String prodCode) {
+        return produtos.get(prodCode).getWeight();
     }
 
     public Login getLogin(String code) {
@@ -111,6 +149,14 @@ public class GestTrazAqui implements IGestTrazAqui{
 
     public boolean containsNameAndType(String name, String type) {
         return loginMap.values().stream().filter(c -> c.getNome().equals(name)).filter(c -> c.getTipoConta().equals(type)).collect(Collectors.toList()).size() != 0;
+    }
+
+    public boolean containsLoja(String storeCode) {
+        return lojas.containsKey(storeCode);
+    }
+
+    public boolean containsProdutoLoja(String storeCode, String prodCode) {
+        return lojas.get(storeCode).containsProd(prodCode);
     }
 
     public void aceitarEncomenda(String encCode) {
@@ -219,6 +265,42 @@ public class GestTrazAqui implements IGestTrazAqui{
         double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())
                 + lojas.get(enc.getStoreCode()).getGps().distancia(users.get(enc.getUserCode()).getGps());
         return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaPeso();
+    }
+
+    public String generateCode(String tipoConta) {
+        StringBuilder sb = new StringBuilder();
+        Random rand = new Random();
+        char c = ' ';
+
+        switch (tipoConta) {
+            case "Utilizador":
+                c = 'u';
+                break;
+            case "Voluntario":
+                c = 'v';
+                break;
+            case "Transportadora":
+                c = 't';
+                break;
+            case "Loja":
+                c = 'l';
+                break;
+            case "Encomenda":
+                c = 'e';
+                break;
+        }
+
+        int randInt;
+
+        if (c != 'e')
+            randInt = rand.nextInt(100);
+
+        else
+            randInt = rand.nextInt(10000);
+
+        sb.append(c).append(randInt);
+
+        return sb.toString();
     }
 
     @Override

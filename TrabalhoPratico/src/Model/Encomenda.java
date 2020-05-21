@@ -32,10 +32,10 @@ public class Encomenda {
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String encCode, String userCode, String sellerCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha,boolean entregue) {
+    public Encomenda(String encCode, String userCode, String transpCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha,boolean entregue) {
         this.encCode = encCode;
         this.userCode = userCode;
-        this.transpCode = sellerCode;
+        this.transpCode = transpCode;
         this.storeCode = storeCode;
         this.weight = weight;
         this.isMedic = isMedic;

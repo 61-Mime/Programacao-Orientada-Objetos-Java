@@ -188,4 +188,8 @@ public class Estafeta {
     public void atualizaClassificacao(double classificacao) {
         this.setClassificacao((this.getClassificacao() * this.registo.size() + classificacao) / (this.registo.size() + 1));
     }
+
+    public void addEncomenda(String encCode) {
+        registo.add(encCode);
+    }
 }

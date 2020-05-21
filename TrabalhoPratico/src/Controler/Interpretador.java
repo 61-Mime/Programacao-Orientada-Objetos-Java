@@ -6,9 +6,11 @@ import View.Apresentacao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class Interpretador {
     Apresentacao a = new Apresentacao();
@@ -85,10 +87,10 @@ public class Interpretador {
 
         if (hasQueue) {
             double queueTime = lerDouble("Qual é o tempo médio de espera em fila?: ",0,1000);
-            return new Loja(code, nome, cr, hasQueue, queueTime);
+            return new Loja(code, nome, cr, hasQueue, queueTime, new ArrayList<>());
         }
 
-        return new Loja(code, nome, cr, hasQueue, -1);
+        return new Loja(code, nome, cr, hasQueue, -1, new ArrayList<>());
     }
 
     public boolean registar(GestTrazAqui c) {
@@ -113,7 +115,7 @@ public class Interpretador {
 
             l.setPassword(pass);
 
-            do { code = l.generateCode(tipo); } while(c.containsUser(code));
+            do { code = c.generateCode(tipo); } while(c.containsUser(code));
 
             l.setCode(code);
 
@@ -177,6 +179,19 @@ public class Interpretador {
                     LocalDateTime min = lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     LocalDateTime max = lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
                     System.out.println(c.getUserEncbyData(l.getCode(),res,min,max));
+                    break;
+
+                case "3":
+                    a.printMessageLn("Lojas disponíveis:");
+                    a.printMessage(c.getLojas().toString());
+                    String loja = lerString("Introduza o código da loja para fazer a encomenda:", c);
+                    a.printMessageLn("Produtos disponíveis:");
+                    a.printMessage(c.getProdutosLoja(loja).toString());
+                    String[] linha = lerLinhaEncomenda("Escolhas os produtos, seguidos da quantidade separados por espaço e os produtos por \" | \"\n Por exemplo: p9 2.1 | p10 3 | p11 3.2", c, loja);
+                    Encomenda enc = registaEncomenda(linha, c, l.getCode(), loja);
+                    c.addEncomenda(enc);
+                    c.aceitarEncomenda(enc.getEncCode());
+                    a.printMessageLn("A sua encomenda foi registada e precisa de ser solicitada.");
                     break;
 
                 case "B":
@@ -364,7 +379,7 @@ public class Interpretador {
 
     public Coordenadas lerCoordenada(){
         Scanner s = new Scanner(System.in);
-        String line[];
+        String[] line;
         double lat,lon = 0;
 
         do{
@@ -383,5 +398,64 @@ public class Interpretador {
         return new Coordenadas(lat,lon);
     }
 
+    public String lerString(String message, GestTrazAqui c){
+        Scanner s = new Scanner(System.in);
+        String line;
 
+
+        do{
+            a.printMessage(message);
+            line = s.nextLine();
+        } while (!c.containsLoja(line));
+
+        return line;
+    }
+
+    public String[] lerLinhaEncomenda(String message, GestTrazAqui c, String storeCode){
+        Scanner s = new Scanner(System.in);
+        String line;
+        String[] linhaPartida;
+
+        do{
+            a.printMessage(message);
+            line = s.nextLine();
+            linhaPartida = line.split(" \\| ");
+        } while (!linhaEncomendaValida(linhaPartida, storeCode, c));
+
+        return linhaPartida;
+    }
+
+    public boolean linhaEncomendaValida(String[] line, String storeCode, GestTrazAqui c) {
+        String[] tmp;
+
+        for (String s: line) {
+            tmp = s.split(" ");
+
+            if (!c.containsProdutoLoja(storeCode, tmp[0]))
+                return false;
+        }
+        return true;
+    }
+
+    public Encomenda registaEncomenda(String[] linhaPartida, GestTrazAqui c, String userCode, String storeCode) {
+        double peso = 0;
+        String[] tmp;
+        List<LinhaEncomenda> linhaEncomendas = new ArrayList<>();
+
+        for (String s: linhaPartida) {
+            tmp = s.split(" ");
+            double quantidade = Double.parseDouble(tmp[1]);
+            peso += quantidade * c.getProdWeight(tmp[0]);
+            linhaEncomendas.add(registaLinhaEncomenda(tmp[0], quantidade, c));
+        }
+
+        String encCode;
+        do { encCode = c.generateCode("Encomenda"); } while(c.containsEncomenda(encCode));
+
+        return new Encomenda(encCode, userCode, "", storeCode, peso, false, LocalDateTime.now(), false, linhaEncomendas, false);
+    }
+
+    public LinhaEncomenda registaLinhaEncomenda(String prodCode, double quantidade, GestTrazAqui c) { // Atualizar preço
+        return new LinhaEncomenda(prodCode, c.getProdName(prodCode), quantidade, 0);// bump
+    }
 }

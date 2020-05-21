@@ -61,33 +61,6 @@ public class Login {
         this.nome = nome;
     }
 
-    public String generateCode(String tipoConta) {
-        StringBuilder sb = new StringBuilder();
-        Random rand = new Random();
-        char c = ' ';
-
-        switch (tipoConta) {
-            case "Utilizador":
-                c = 'u';
-                break;
-            case "Voluntario":
-                c = 'v';
-                break;
-            case "Transportadora":
-                c = 't';
-                break;
-            case "Loja":
-                c = 'l';
-                break;
-        }
-
-        int randInt = rand.nextInt(100);
-
-        sb.append(c).append(randInt);
-
-        return sb.toString();
-    }
-
     public Login clone() {
         return new Login(this);
     }

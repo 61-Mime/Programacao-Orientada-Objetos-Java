@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,15 +16,16 @@ public class Loja {
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Loja() {
-        this("", "", new Coordenadas(), false, -1);
+        this("", "", new Coordenadas(), false, -1, new ArrayList<>());
     }
 
-    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime) {
+    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime, List<String> prods) {
         this.storeCode = storeCode;
         this.storeName = storeName;
         this.gps = gps.clone();
         this.hasQueueInfo = hasQueueInfo;
         this.queueTime = queueTime;
+        this.prods = new ArrayList<>(prods);
     }
 
     public Loja(Loja l) {
@@ -32,6 +34,7 @@ public class Loja {
         this.gps = l.getGps();
         this.hasQueueInfo = l.isHasQueueInfo();
         this.queueTime = l.getQueueTime();
+        this.prods = l.getProds();
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -77,6 +80,14 @@ public class Loja {
         this.queueTime = queueTime;
     }
 
+    public List<String> getProds() {
+        return new ArrayList<>(prods);
+    }
+
+    public void setProds(List<String> prods) {
+        this.prods = new ArrayList<>(prods);
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
@@ -108,5 +119,20 @@ public class Loja {
 
     public Loja clone() {
         return new Loja(this);
+    }
+
+    //---------------------------------------------------------------------------------outros metodos----------------------------------------------------------------------------\\
+
+    public void addProd(String prodCode) {
+        this.prods.add(prodCode);
+    }
+
+    public void addProdList(List<String> produtos) {
+        for (String s: produtos)
+            addProd(s);
+    }
+
+    public boolean containsProd(String prodCode) {
+        return prods.contains(prodCode);
     }
 }
