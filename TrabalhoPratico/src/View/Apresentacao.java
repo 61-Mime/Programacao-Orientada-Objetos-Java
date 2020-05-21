@@ -1,8 +1,9 @@
 package View;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Apresentacao implements IApresentacao {
+public class Apresentacao implements IApresentacao, Serializable {
 
     public void welcome() {
         System.out.println(" _____                 _               _");
@@ -12,7 +13,7 @@ public class Apresentacao implements IApresentacao {
         System.out.println("  |_||_|  \\__,_/___/_/   \\_\\__, |\\__,_|_|");
         System.out.println("                              |_|");
         System.out.println("Bem vindo à aplicação traz aqui.");
-        System.out.println("Precione qualquer tecla para continuar.");
+        System.out.println("Pressione qualquer tecla para continuar.");
     }
 
     public void clear() {
@@ -54,7 +55,7 @@ public class Apresentacao implements IApresentacao {
     }
 
     public void printMainMenu(String type) {
-        printMenus((new String[]{"Menu " + type, "Consultas", "Gravar para um Ficheiro"}),"MENU PRINCIPAL",0);
+        printMenus((new String[]{"Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
     }
 
     public void printMenuConsultas() {

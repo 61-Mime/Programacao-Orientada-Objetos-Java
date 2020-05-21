@@ -1,10 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Estafeta implements Comparable<Estafeta> {
+public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     private String code;
     private String name;

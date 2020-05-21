@@ -1,10 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GestTrazAqui implements IGestTrazAqui{
+public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     private Map<String, Utilizador> users;
     private Map<String, Loja> lojas;

@@ -4,9 +4,10 @@ import Model.GestTrazAqui;
 import Model.Login;
 import View.Apresentacao;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class InterpretadorEstafeta {
+public class InterpretadorEstafeta implements Serializable {
     Apresentacao a = new Apresentacao();
     Input in = new Input();
 

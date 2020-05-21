@@ -1,6 +1,8 @@
 package Model;
 
-public class Coordenadas {
+import java.io.Serializable;
+
+public class Coordenadas implements Serializable {
 
     private double latitude;
     private double longitude;
