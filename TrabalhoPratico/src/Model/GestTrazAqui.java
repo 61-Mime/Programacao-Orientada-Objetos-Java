@@ -196,6 +196,10 @@ public class GestTrazAqui implements IGestTrazAqui{
         return tempo;
     }
 
+    public void classificarEstafeta(double pontuacao,String code){
+        estafetas.get(code).atualizaClassificacao(pontuacao);
+    }
+
     public double precoEncomenda(String encCode,String transpCode) {
         Encomenda enc = getEncomenda(encCode);
         double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())

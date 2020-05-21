@@ -147,6 +147,7 @@ public class Interpretador {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String line,code,encCode;
+        double pontuacao = 0;
 
         while(r) {
             a.printMenuUtilizador();
@@ -162,6 +163,10 @@ public class Interpretador {
                         code = c.escolheEstafeta(encCode);
                         c.entregarEncomenda(encCode,code);
                         System.out.println("A sua encomenda foi entregue pelo "+ c.getEstafetaType(code) +" " + c.getEstafetaName(code));
+                        System.out.println("Pretende classificar a entrega?(S/N)");
+                        if(s.nextLine().toUpperCase().equals("S"))
+                            pontuacao = lerDouble("Introduza a classificação (0/10)",0,10);
+                            c.classificarEstafeta(pontuacao,code);
                     }
                     else
                         System.out.println("Encomenda não está disponivel!");
@@ -377,4 +382,6 @@ public class Interpretador {
 
         return new Coordenadas(lat,lon);
     }
+
+
 }

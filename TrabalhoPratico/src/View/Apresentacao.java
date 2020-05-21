@@ -51,7 +51,7 @@ public class Apresentacao implements IApresentacao {
     }
 
     public void printMenuUtilizador() {
-        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas"}),36,1);
+        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),36,1);
     }
 
     public void printMenuVoluntario() {
