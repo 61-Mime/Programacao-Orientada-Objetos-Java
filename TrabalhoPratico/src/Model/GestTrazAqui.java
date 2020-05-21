@@ -22,6 +22,9 @@ public class GestTrazAqui implements IGestTrazAqui{
         this.loginMap = new HashMap<>();
     }
 
+
+    //--------------------------------------------------------------Métodos Utilizador--------------------------------------------------------------------------\\
+
     public Utilizador getUser(String userCode) {
         return users.get(userCode).clone();
     }
@@ -33,6 +36,29 @@ public class GestTrazAqui implements IGestTrazAqui{
     public void addUser(Utilizador user) {
         users.put(user.getCodigoUtilizador(), user);
     }
+
+    public List<Encomenda> getUserEncbyData(String code,int type, LocalDateTime min,LocalDateTime max) {
+        List<Encomenda> list = new ArrayList<>();
+
+        for (String c : users.get(code).getEntregas()) {
+            list.add(encomendas.get(c).clone());
+        }
+        if(type == 1)
+            list = list.stream().filter(e -> e.isEntregue() && e.isVoluntario() && e.encData(min,max)).collect(Collectors.toList());
+        else if(type == 2)
+            list = list.stream().filter(e -> e.isEntregue() && e.isTransportadora() && e.encData(min,max)).collect(Collectors.toList());
+        else
+            list = list.stream().filter(e -> e.isEntregue() && e.encData(min,max)).collect(Collectors.toList());
+
+        return list;
+    }
+
+    public List<String> getEncReady(String userCode){
+        return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceite() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
+    }
+
+
+    //---------------------------------------------------------------Métodos Estafeta--------------------------------------------------------------------------\\
 
     public Estafeta getEstafeta(String code) {
         return estafetas.get(code).clone();
@@ -50,11 +76,60 @@ public class GestTrazAqui implements IGestTrazAqui{
         estafetas.get(code).addEncomenda(encCode);
     }
 
+    public String getEstafetaType(String estCode){
+        return estafetas.get(estCode).getType();
+    }
+
+    public String getEstafetaName(String estCode){
+        return estafetas.get(estCode).getName();
+    }
+
+    public List<Estafeta> possiveisEstafetas(String enc) {
+        List<Estafeta> estafetaList;
+        Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
+        boolean isMedic = encomendas.get(enc).isMedic();
+        //se for transportadora filtrar por preço
+        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && e.getGps().distancia(cr) < e.getRaio()))
+                .map(Estafeta::clone).collect(Collectors.toList());
+
+        return estafetaList;
+    }
+
+    public String escolheEstafeta(String encCode) {
+        Encomenda encomenda = encomendas.get(encCode).clone();
+        List<Estafeta> estafetaList = possiveisEstafetas(encCode);
+        Iterator<Estafeta> it = estafetaList.iterator();
+        boolean escolhido = false;
+        String code = "";
+        Estafeta curr;
+        double maxprice = users.get(encomenda.getUserCode()).getPrecoMax();
+
+        while (it.hasNext() && !escolhido) {
+            curr = it.next();
+            if(curr.getType().equals("Voluntario") || precoEncomenda(encCode,curr.getCode()) <= maxprice) {
+                escolhido = true;
+                code = curr.getCode();
+            }
+        }
+        return code;
+    }
+
+    public void classificarEstafeta(double pontuacao,String code){
+        estafetas.get(code).atualizaClassificacao(pontuacao);
+    }
+
+    public void setEstafetaFree(String code) {
+        estafetas.get(code).setFree(true);
+    }
+
+
+    //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
+
     public List<String> getLojas() {
         List<String> lojas = new ArrayList<>();
 
         for (Loja l: this.lojas.values())
-            lojas.add(l.getStoreCode() + ": " + l.getStoreName() +"\n");
+            lojas.add(l.getStoreCode() + ": " + l.getStoreName());
 
         return lojas;
     }
@@ -79,10 +154,21 @@ public class GestTrazAqui implements IGestTrazAqui{
         List<String> produtos = new ArrayList<>();
 
         for (String prodCode: getLoja(storeCode).getProds())
-            produtos.add(prodCode + ": " + getProdName(prodCode) + "\n");
+            produtos.add(prodCode + ": " + getProdName(prodCode));
 
         return produtos;
     }
+
+    public boolean containsLoja(String storeCode) {
+        return lojas.containsKey(storeCode);
+    }
+
+    public boolean containsProdutoLoja(String storeCode, String prodCode) {
+        return lojas.get(storeCode).containsProd(prodCode);
+    }
+
+
+    //--------------------------------------------------------------Métodos Encomenda--------------------------------------------------------------------------\\
 
     public Encomenda getEncomenda(String encCode) {
         return encomendas.get(encCode).clone();
@@ -100,6 +186,39 @@ public class GestTrazAqui implements IGestTrazAqui{
     public boolean containsEncomenda(String encCode) {
         return encomendas.containsKey(encCode);
     }
+
+    public void aceitarEncomenda(String encCode) {
+        Encomenda enc = encomendas.get(encCode);
+        enc.setAceite(true);
+    }
+
+    //guardar tempo de entrega
+    public void entregarEncomenda(String encCode,String estafetaCode) {
+        encomendas.get(encCode).setTranspCode(estafetaCode);
+        encomendas.get(encCode).setEntregue(true);
+        estafetas.get(estafetaCode).setEnc(encCode);
+    }
+
+    public Set<String> encomendasAceites() {
+        Set<String> res = new HashSet<>();
+
+        encomendas.values().stream().map(Encomenda::clone).filter(Encomenda::isAceite).map(Encomenda::getEncCode).forEach(res::add);
+        return res;
+    }
+
+    public boolean isEncomendaAceite(String encCode) {
+        return encomendasAceites().contains(encCode);
+    }
+
+    public double precoEncomenda(String encCode,String transpCode) {
+        Encomenda enc = getEncomenda(encCode);
+        double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())
+                + lojas.get(enc.getStoreCode()).getGps().distancia(users.get(enc.getUserCode()).getGps());
+        return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaPeso();
+    }
+
+
+    //----------------------------------------------------------------Métodos Produto--------------------------------------------------------------------------\\
 
     public Produto getProduto(String prodCode) {
         return produtos.get(prodCode).clone();
@@ -121,6 +240,9 @@ public class GestTrazAqui implements IGestTrazAqui{
         return produtos.get(prodCode).getWeight();
     }
 
+
+    //----------------------------------------------------------------Métodos Login--------------------------------------------------------------------------\\
+
     public Login getLogin(String code) {
         return loginMap.get(code).clone();
     }
@@ -130,14 +252,6 @@ public class GestTrazAqui implements IGestTrazAqui{
     }
 
     public void addLogin(Login login) { loginMap.put(login.getCode(), login);}
-
-    public String getEstafetaType(String estCode){
-        return estafetas.get(estCode).getType();
-    }
-
-    public String getEstafetaName(String estCode){
-        return estafetas.get(estCode).getName();
-    }
 
     public boolean containsUser(String code) {
         return loginMap.containsKey(code);
@@ -151,93 +265,8 @@ public class GestTrazAqui implements IGestTrazAqui{
         return loginMap.values().stream().filter(c -> c.getNome().equals(name)).filter(c -> c.getTipoConta().equals(type)).collect(Collectors.toList()).size() != 0;
     }
 
-    public boolean containsLoja(String storeCode) {
-        return lojas.containsKey(storeCode);
-    }
 
-    public boolean containsProdutoLoja(String storeCode, String prodCode) {
-        return lojas.get(storeCode).containsProd(prodCode);
-    }
-
-    public void aceitarEncomenda(String encCode) {
-        Encomenda enc = encomendas.get(encCode);
-        enc.setAceite(true);
-        //String estafetaCode = escolheEstafeta(enc);
-        //estafetas.get(estafetaCode).setEnc(encCode);
-        //users.get(enc.getUserCode()).setEntrega(enc);
-        //enc.setTranspCode(estafetaCode);
-    }
-    //guardar tempo de entrega
-    public void entregarEncomenda(String encCode,String estafetaCode) {
-        encomendas.get(encCode).setTranspCode(estafetaCode);
-        encomendas.get(encCode).setEntregue(true);
-        estafetas.get(estafetaCode).setEnc(encCode);
-    }
-
-    public Set<String> encomendasAceites() {
-        Set<String> res = new HashSet<>();
-
-        encomendas.values().stream().map(Encomenda::clone).filter(Encomenda::isAceite).map(Encomenda::getEncCode).forEach(res::add);
-        return res;
-    }
-
-    public boolean isEncomendaAceite(String encCode) {
-        return encomendasAceites().contains(encCode);
-    }
-
-    public List<Estafeta> possiveisEstafetas(String enc) {
-        List<Estafeta> estafetaList;
-        Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
-        boolean isMedic = encomendas.get(enc).isMedic();
-        //se for transportadora filtrar por preço
-        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && e.getGps().distancia(cr) < e.getRaio()))
-                                                  .map(Estafeta::clone).collect(Collectors.toList());
-
-        return estafetaList;
-    }
-
-    public String escolheEstafeta(String encCode) {
-        Encomenda encomenda = encomendas.get(encCode).clone();
-        List<Estafeta> estafetaList = possiveisEstafetas(encCode);
-        Iterator<Estafeta> it = estafetaList.iterator();
-        boolean escolhido = false;
-        String code = "";
-        Estafeta curr;
-        double maxprice = users.get(encomenda.getUserCode()).getPrecoMax();
-
-        while (it.hasNext() && !escolhido) {
-            curr = it.next();
-            if(curr.getType().equals("Voluntario") || precoEncomenda(encCode,curr.getCode()) <= maxprice) {
-                escolhido = true;
-                code = curr.getCode();
-            }
-        }
-        return code;
-    }
-
-    public List<Encomenda> getUserEncbyData(String code,int type, LocalDateTime min,LocalDateTime max) {
-        List<Encomenda> list = new ArrayList<>();
-
-        for (String c : users.get(code).getEntregas()) {
-            list.add(encomendas.get(c).clone());
-        }
-        if(type == 1)
-            list = list.stream().filter(e -> e.isEntregue() && e.isVoluntario() && e.encData(min,max)).collect(Collectors.toList());
-        else if(type == 2)
-            list = list.stream().filter(e -> e.isEntregue() && e.isTransportadora() && e.encData(min,max)).collect(Collectors.toList());
-        else
-            list = list.stream().filter(e -> e.isEntregue() && e.encData(min,max)).collect(Collectors.toList());
-
-        return list;
-    }
-
-    public void setEstafetaFree(String code) {
-        estafetas.get(code).setFree(true);
-    }
-
-    public List<String> getEncReady(String userCode){
-        return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceite() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
-    }
+    //----------------------------------------------------------------Outros Métodos--------------------------------------------------------------------------\\
 
     public double calculaTempo(Coordenadas cr1,Coordenadas cr2,Coordenadas cr3,double tempoFilaEspera,double velocidade) {
         Random rand = new Random();
@@ -254,17 +283,6 @@ public class GestTrazAqui implements IGestTrazAqui{
             tempo *= 1.5;
 
         return tempo;
-    }
-
-    public void classificarEstafeta(double pontuacao,String code){
-        estafetas.get(code).atualizaClassificacao(pontuacao);
-    }
-
-    public double precoEncomenda(String encCode,String transpCode) {
-        Encomenda enc = getEncomenda(encCode);
-        double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())
-                + lojas.get(enc.getStoreCode()).getGps().distancia(users.get(enc.getUserCode()).getGps());
-        return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaPeso();
     }
 
     public String generateCode(String tipoConta) {

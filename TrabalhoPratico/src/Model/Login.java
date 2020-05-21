@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.Random;
-
 public class Login {
     private String code;
     private String password;

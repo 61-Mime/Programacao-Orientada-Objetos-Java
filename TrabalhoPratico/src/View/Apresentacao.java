@@ -1,5 +1,7 @@
 package View;
 
+import java.util.List;
+
 public class Apresentacao implements IApresentacao {
 
     public void welcome() {
@@ -43,7 +45,6 @@ public class Apresentacao implements IApresentacao {
 
     public void printMenu() {
         printMenus((new String[]{"Login", "Registar"}),22,0);
-
     }
 
     public void printEscolheVolintariTransportadora() {
@@ -73,5 +74,14 @@ public class Apresentacao implements IApresentacao {
     public void printMessageLn(String message) {
         System.out.println("\n" + message);
 
+    }
+
+    public void printArray(String message, List<String> arr) {
+        System.out.println("\n" + message);
+
+        for(String line : arr)
+            System.out.println(line);
+
+        System.out.print("\n");
     }
 }

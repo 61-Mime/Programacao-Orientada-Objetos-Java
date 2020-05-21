@@ -77,24 +77,6 @@ public class Utilizador {
         return new ArrayList<>(entregas);
     }
 
-    /*
-    public List<Encomenda> getEntregas() {
-        List<Encomenda> ent = new ArrayList<>();
-
-        for(Encomenda enc: this.entregas)
-            ent.add(enc.clone());
-
-        return ent;
-    }
-
-    public void setEntregas(List<Encomenda> ent) {
-        this.entregas = new ArrayList<>();
-
-        for(Encomenda enc: ent)
-            this.entregas.add(enc.clone());
-    }
-*/
-
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
