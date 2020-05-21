@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Loja {
@@ -9,6 +10,7 @@ public class Loja {
     private Coordenadas gps;
     private boolean hasQueueInfo;
     private double queueTime;
+    private List<String> prods;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 

@@ -10,6 +10,7 @@ public class GestTrazAqui implements IGestTrazAqui{
     private Map<String, Loja> lojas;
     private Map<String, Estafeta> estafetas;
     private Map<String, Encomenda> encomendas;
+    private Map<String, Produto> produtos;
     private Map<String, Login> loginMap;
 
     public GestTrazAqui() {
@@ -17,6 +18,7 @@ public class GestTrazAqui implements IGestTrazAqui{
         this.lojas = new HashMap<>();
         this.estafetas = new HashMap<>();
         this.encomendas = new HashMap<>();
+        this.produtos = new HashMap<>();
         this.loginMap = new HashMap<>();
     }
 
@@ -67,6 +69,18 @@ public class GestTrazAqui implements IGestTrazAqui{
     public void addEncomenda(Encomenda encomenda) {
         users.get(encomenda.getUserCode()).addEncomenda(encomenda.getEncCode());
         encomendas.put(encomenda.getEncCode(), encomenda);
+    }
+
+    public Produto getProduto(String prodCode) {
+        return produtos.get(prodCode).clone();
+    }
+
+    public void setProduto(Produto prod) {
+        produtos.replace(prod.getProdCode(), prod);
+    }
+
+    public void addProduto(Produto prod) {
+        produtos.put(prod.getProdCode(), prod);
     }
 
     public Login getLogin(String code) {

@@ -1,0 +1,66 @@
+p4,Detergente,0.4
+p5,Agua sanitaria,1.5
+p6,Esponja de aco,0.2
+p7,Sabao em pedra,0.3
+p8,Sabonete,0.2
+p9,Shampoo,1.5
+p10,Condicionador,2
+p11,Desinfetante,0.33
+p12,Lustra moveis,0.5
+p13,Tira manchas,1.2
+p14,Limpa vidros,1.5
+p15,Alcool,1.5
+p16,Saco de lixo 30l,2
+p17,Saco de lixo 50l,3
+p19,Sumo garrafa 1l,1
+p20,Sumo caixa 500ml,0.5
+p21,Leite integral litro,0.99
+p22,Leite desnatado litro,0.95
+p24,Feijao 2kg,2
+p25,Macarrao,0.5
+p26,Extrato de tomate,0.5
+p28,Sal,1
+p29,Acucar,1
+p31,Bolacha,0.35
+p33,Farofa pronta,1
+p34,Farinha de trigo,1
+p35,Farinha de milho,1
+p36,Farinha de mandioca,1
+p37,Sardinha,0.4
+p38,Atum,0.1
+p40,Molho de pimenta,0.33
+p41,Ervilha,2.5
+p42,Milho verde,0.7
+p44,Goiabada,0.45
+p48,Creme de leite,0.5
+p49,Leite condensado,0.33
+p51,Alface,0.2
+p52,Couve,0.4
+p53,Batata,0.6
+p55,Cenoura,0.3
+p56,Beterraba,0.14
+p59,Espinafre,0.205
+p60,Banana,0.158
+p61,Ovos,0.33
+p62,Uva,0.25
+p63,Abacate,0.4
+p65,Melancia,9.486
+p67,Salsa,0.05
+p68,Cebola,0.185
+p69,Queijo,0.2
+p70,Queijo Mussarela,0.25
+p71,Queijo outros,1.3
+p72,Manteiga,0.25
+p73,Margarina,0.25
+p74,Iogurte,0.
+p76,Peixe,1.2
+p77,Frango,1.2
+p79,Carne seca,0.2
+p80,Salsicha,0.6
+p95,Vinho Branco Faisão,1.2
+p99,Vinho do Porto,1.3
+l29:p5,p9,p10,p11,p12,p24,p31,p33,p34,p36,p38,p59,p68,p74,p77,p79,p80,p95,p99
+l58:p5,p9,p10,p11,p12,p14,p19,p21,p22,p26,p28,p29,p31,p33,p35,p36,p38,p51,p63,p65,p67,p69,p72,p76,p95
+l8:p4,p6,p12,p13,p16,p17,p19,p20,p21,p24,p31,p33,p34,p36,p38,p40,p41,p42,p44,p48,p49,p52,p53,p55,p56,p59,p60,p61,p62,p69,p70,p72,p73,p74,p76,p77,p80
+l83:p7,p11,p25,p33,p34,p36,p41,p59,p68,p74,p76,p77,p79,p95,p99
+l13:p8,p10,p15,p12,p21,p22,p26,p37,p41,p53,p55,p56,p71,p76,p77,p79,p80,p99

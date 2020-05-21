@@ -120,4 +120,11 @@ public class Parse {
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));
     }
 
+    public void parseProdutos(GestTrazAqui c) {
+        List<String> linhas = lerFicheiro("produtos.txt");
+
+        for(String linha: linhas) {
+
+        }
+    }
 }
