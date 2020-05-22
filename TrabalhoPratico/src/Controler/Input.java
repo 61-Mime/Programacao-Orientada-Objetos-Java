@@ -4,11 +4,12 @@ import Model.Coordenadas;
 import Model.GestTrazAqui;
 import View.Apresentacao;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-public class Input {
+public class Input implements Serializable {
     Apresentacao a = new Apresentacao();
 
     public double lerDouble(String message,int min,int max){
@@ -47,7 +48,7 @@ public class Input {
         return data;
     }
 
-    public String lerString(String message, GestTrazAqui c){
+    public String lerString(String message, GestTrazAqui c) {
         Scanner s = new Scanner(System.in);
         String line;
 

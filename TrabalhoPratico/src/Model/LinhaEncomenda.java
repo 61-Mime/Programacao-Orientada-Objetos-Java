@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class LinhaEncomenda {
+public class LinhaEncomenda implements Serializable {
 
     private String productCode;
     private String description;

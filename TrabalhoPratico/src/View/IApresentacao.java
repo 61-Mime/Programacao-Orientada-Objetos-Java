@@ -6,7 +6,7 @@ public interface IApresentacao {
     void printMenuLogin();
     void printMainMenu(String type);
     void printMenuUtilizador();
-    void printMenuEstafeta();
+    void printMenuVoluntario();
     void printMessage(String message);
     void printMessageLn(String message);
 }

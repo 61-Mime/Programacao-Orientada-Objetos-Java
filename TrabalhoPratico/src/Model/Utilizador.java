@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Utilizador implements Comparable<Utilizador> {
+public class Utilizador implements Comparable<Utilizador>, Serializable {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;

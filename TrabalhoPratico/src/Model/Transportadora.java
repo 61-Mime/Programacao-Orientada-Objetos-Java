@@ -1,12 +1,13 @@
 package Model;
 
-public class Transportadora extends Estafeta {
+import java.io.Serializable;
+
+public class Transportadora extends Estafeta implements Serializable {
 
     private int nif;
     private double taxaKm;
     private double taxaPeso;
     private int numEncomendas;
-    //faturação total
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 

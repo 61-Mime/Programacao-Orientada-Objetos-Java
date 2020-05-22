@@ -6,13 +6,14 @@ import Model.LinhaEncomenda;
 import Model.Login;
 import View.Apresentacao;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class InterpretadorUtilizador {
+public class InterpretadorUtilizador implements Serializable {
     Apresentacao a = new Apresentacao();
     Input in = new Input();
 

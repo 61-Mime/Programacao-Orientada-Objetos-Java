@@ -1,16 +1,18 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Loja {
+public class Loja implements Serializable {
 
     private String storeCode;
     private String storeName;
     private Coordenadas gps;
     private boolean hasQueueInfo;
     private double queueTime;
+//    private int queueSize;
     private List<String> prods;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\

@@ -3,10 +3,11 @@ package Controler;
 import Model.*;
 import View.Apresentacao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class InterpretadorLogin {
+public class InterpretadorLogin implements Serializable {
     Apresentacao a = new Apresentacao();
     Input in = new Input();
 
