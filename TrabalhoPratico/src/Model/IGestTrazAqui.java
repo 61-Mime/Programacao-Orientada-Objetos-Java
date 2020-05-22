@@ -26,8 +26,8 @@ public interface IGestTrazAqui {
     Set<String> encomendasAceites();
     boolean isEncomendaAceite(String encCode);
     double precoEncomenda(String encCode,String transpCode);
-    List<Estafeta> possiveisEstafetas(String enc);
-    String escolheEstafeta(String enc);
+    List<String> possiveisEstafetas(String enc);
+    String escolheEstafeta(List<String>list,String enc);
     public String getEstafetaType(String estCode);
     public String getEstafetaName(String estCode);
 }

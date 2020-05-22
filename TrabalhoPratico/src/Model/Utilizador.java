@@ -78,6 +78,10 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         return new ArrayList<>(entregas);
     }
 
+    public int getEntregasSize(){
+        return entregas.size();
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 

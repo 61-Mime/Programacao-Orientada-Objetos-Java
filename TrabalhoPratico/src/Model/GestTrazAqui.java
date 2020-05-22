@@ -63,7 +63,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public List<String> getTopUsers() {
-        return users.values().stream().sorted().limit(10).map(c -> c.getCodigoUtilizador() + ": " + c.getName()).collect(Collectors.toList());
+        return users.values().stream().sorted().limit(10).map(c -> c.getCodigoUtilizador() + ": " + c.getName() + " " + c.getEntregasSize()).collect(Collectors.toList());
     }
 
     //---------------------------------------------------------------Métodos Estafeta--------------------------------------------------------------------------\\
@@ -104,34 +104,31 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getClassificacao();
     }
 
-    public List<Estafeta> possiveisEstafetas(String enc) {
-        List<Estafeta> estafetaList;
+    public List<String> possiveisEstafetas(String enc) {
+        List<String> estafetaList;
         Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
         boolean isMedic = encomendas.get(enc).isMedic();
+        double maxprice = users.get(encomendas.get(enc).getUserCode()).getPrecoMax();
         //se for transportadora filtrar por preço
-        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && e.getGps().distancia(cr) < e.getRaio()))
-                .map(Estafeta::clone).collect(Collectors.toList());
+        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && e.getGps().distancia(cr) < e.getRaio() && (precoEncomenda(enc,e.getCode()) <= maxprice)))
+                .map(Estafeta::getCode).collect(Collectors.toList());
 
         return estafetaList;
     }
 
-    public String escolheEstafeta(String encCode) {
-        Encomenda encomenda = encomendas.get(encCode).clone();
-        List<Estafeta> estafetaList = possiveisEstafetas(encCode);
-        Iterator<Estafeta> it = estafetaList.iterator();
-        boolean escolhido = false;
-        String code = "";
-        Estafeta curr;
-        double maxprice = users.get(encomenda.getUserCode()).getPrecoMax();
+    public String escolheEstafeta(List<String> listEst,String encCode) {
+        String best = "";
+        Coordenadas coord = getStoreCoordFromEnc(encCode);
+        double distmin = Double.MAX_VALUE,curr;
 
-        while (it.hasNext() && !escolhido) {
-            curr = it.next();
-            if(curr.getType().equals("Voluntario") || precoEncomenda(encCode,curr.getCode()) <= maxprice) {
-                escolhido = true;
-                code = curr.getCode();
+        for(String code:listEst){
+            if((curr = getEstafetaCoord(code).distancia(coord)) <= distmin) {
+                best = code;
+                distmin = curr;
             }
         }
-        return code;
+
+        return best;
     }
 
     public void classificarEstafeta(double pontuacao,String code){
@@ -147,7 +144,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public List<String> getTopTrans() {
-        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> c.getCode() + ": " + c.getName()).collect(Collectors.toList());
+        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> c.getCode() + ": " + c.getName() + " " + c.getNumKm()).collect(Collectors.toList());
     }
 
     public List<Encomenda> getEncomendasEstafeta(String code, LocalDateTime min, LocalDateTime max) {
@@ -215,7 +212,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         List<String> produtos = new ArrayList<>();
 
         for (String prodCode: getLoja(storeCode).getProds())
-            produtos.add(prodCode + ": " + getProdName(prodCode));
+            produtos.add(prodCode + ": " + getProdName(prodCode) + " " + getProdWeight(prodCode) + "Kg " + getProdPrice(prodCode) + "€ ");
 
         return produtos;
     }
@@ -275,6 +272,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public double precoEncomenda(String encCode,String transpCode) {
+        if(estafetas.get(transpCode).getType().equals("Voluntario"))
+            return 0;
+
         Encomenda enc = getEncomenda(encCode);
         double dist = estafetas.get(transpCode).getGps().distancia(lojas.get(enc.getStoreCode()).getGps())
                 + lojas.get(enc.getStoreCode()).getGps().distancia(users.get(enc.getUserCode()).getGps());
@@ -302,6 +302,14 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public double getProdWeight(String prodCode) {
         return produtos.get(prodCode).getWeight();
+    }
+
+    public double getProdPrice(String prodCode) {
+        return produtos.get(prodCode).getPrice();
+    }
+
+    public boolean getProdisMedic(String prodCode) {
+        return produtos.get(prodCode).isMedic();
     }
 
 
@@ -355,26 +363,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         StringBuilder sb = new StringBuilder();
         Random rand = new Random();
         char c = ' ';
-
-        switch (tipoConta) {
-            case "Utilizador":
-                c = 'u';
-                break;
-            case "Voluntario":
-                c = 'v';
-                break;
-            case "Transportadora":
-                c = 't';
-                break;
-            case "Loja":
-                c = 'l';
-                break;
-            case "Encomenda":
-                c = 'e';
-                break;
-        }
-
         int randInt;
+
+        c = tipoConta.toLowerCase().charAt(0);
 
         if (c != 'e')
             randInt = rand.nextInt(100);

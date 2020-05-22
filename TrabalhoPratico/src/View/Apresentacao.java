@@ -131,6 +131,10 @@ public class Apresentacao implements IApresentacao, Serializable {
         System.out.println("Dados inválidos");
     }
 
+    public void printErroEntrega() {
+        System.out.println("Sem mais estafetas disponiveis!");
+    }
+
     public void printErroComandoInvalido(){
         System.out.println("Comando Inválido");
     }
@@ -176,7 +180,7 @@ public class Apresentacao implements IApresentacao, Serializable {
     }
 
     public void printPedirClassificar() {
-        System.out.println("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+        System.out.println("Pretende classificar o serviço?(S/N)");
     }
 
     public void printPedirEncomenda() {

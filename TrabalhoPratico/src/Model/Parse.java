@@ -151,8 +151,10 @@ public class Parse implements Serializable {
         String code = campos[0];
         String name = campos[1];
         double weight = Double.parseDouble(campos[2]);
+        double price = Double.parseDouble(campos[3]);
+        boolean isMedic = (Integer.parseInt(campos[4]) == 1);
 
-        return new Produto(code, name, weight);
+        return new Produto(code, name, weight,price,isMedic);
     }
 
     private List<String> parseProdutosLoja(String str) {

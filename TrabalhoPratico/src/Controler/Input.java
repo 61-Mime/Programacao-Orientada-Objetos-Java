@@ -12,6 +12,18 @@ import java.util.Scanner;
 public class Input implements Serializable {
     Apresentacao a = new Apresentacao();
 
+    public boolean lerSN(String message){
+        Scanner s = new Scanner(System.in);
+        String line;
+
+        do{
+            a.printMessage(message);
+            line = s.nextLine();
+        } while (!line.toUpperCase().equals("S") && !line.toUpperCase().equals("N"));
+
+        return line.toUpperCase().equals("S");
+    }
+
     public double lerDouble(String message,int min,int max){
         Scanner s = new Scanner(System.in);
         double n = -1;

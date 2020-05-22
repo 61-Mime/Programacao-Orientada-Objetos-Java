@@ -7,6 +7,8 @@ public class Produto implements Serializable {
     private String prodCode;
     private String name;
     private double weight;
+    private double price;
+    private boolean isMedic;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -16,16 +18,20 @@ public class Produto implements Serializable {
         this.weight = 0d;
     }
 
-    public Produto(String prodCode, String name, double weight) {
+    public Produto(String prodCode, String name, double weight,double price,boolean isMedic) {
         this.prodCode = prodCode;
         this.name = name;
         this.weight = weight;
+        this.price = price;
+        this.isMedic = isMedic;
     }
 
     public Produto(Produto p) {
         this.prodCode = p.getProdCode();
         this.name = p.getName();
         this.weight = p.getWeight();
+        this.price = p.getPrice();
+        this.isMedic = p.isMedic();
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -52,6 +58,22 @@ public class Produto implements Serializable {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public boolean isMedic() {
+        return isMedic;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setMedic(boolean medic) {
+        isMedic = medic;
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

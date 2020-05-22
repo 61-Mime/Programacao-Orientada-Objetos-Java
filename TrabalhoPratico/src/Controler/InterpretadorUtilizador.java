@@ -6,6 +6,7 @@ import Model.LinhaEncomenda;
 import Model.Login;
 import View.Apresentacao;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -43,6 +44,26 @@ public class InterpretadorUtilizador implements Serializable {
         return true;
     }
 
+    public String aceitaEstafeta(GestTrazAqui c,String encCode){
+        boolean aceite = false;
+        Scanner sc = new Scanner(System.in);
+        List <String> list = c.possiveisEstafetas(encCode);
+        String code = "";
+        System.out.println(list);
+        while (!aceite) {
+            code = c.escolheEstafeta(list,encCode);
+            if(code.equals("") || c.getEstafetaType(code).equals("Voluntario"))
+                aceite = true;
+            else {
+                if(in.lerSN("Aceita a trancportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
+                    aceite = true;
+                else
+                    list.remove(code);
+            }
+        }
+        return code;
+    }
+
     private Encomenda registaEncomenda(String[] linhaPartida, GestTrazAqui c, String userCode, String storeCode) {
         double peso = 0;
         String[] tmp;
@@ -66,7 +87,7 @@ public class InterpretadorUtilizador implements Serializable {
     }
 
     public void interpretador(GestTrazAqui c, Login l) {
-        boolean r=true;
+        boolean r=true,escolhido = false;
         Scanner s = new Scanner(System.in);
         String code,encCode;
         double pontuacao = 0;
@@ -83,15 +104,18 @@ public class InterpretadorUtilizador implements Serializable {
                     a.printPedirEncomenda();
                     encCode = s.nextLine();
                     if(list.contains(encCode)) {
-                        code = c.escolheEstafeta(encCode);
-                        c.entregarEncomenda(encCode,code);
-                        a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
-                                                 c.calculaTempo(c.getEstafetaCoord(code), c.getStoreCoordFromEnc(encCode), c.getUserCoord(l.getCode()), c.getStoreQueueTimeFromEnc(encCode), c.getEstafetaVelocidade(code)));
+                        code = aceitaEstafeta(c,encCode);
+                        if(!code.equals("")) {
+                            c.entregarEncomenda(encCode, code);
+                            a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
+                                    c.calculaTempo(c.getEstafetaCoord(code), c.getStoreCoordFromEnc(encCode), c.getUserCoord(l.getCode()), c.getStoreQueueTimeFromEnc(encCode), c.getEstafetaVelocidade(code)));
 
-                        a.printPedirClassificar();
-                        if(s.nextLine().toUpperCase().equals("S"))
-                            pontuacao = in.lerDouble("Introduza a classificação (0/10)",0,10);
-                        c.classificarEstafeta(pontuacao,code);
+                            if (in.lerSN("Pretende classificar a entrega?(S/N)"))
+                                pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
+                            c.classificarEstafeta(pontuacao, code);
+                        }
+                        else
+                            a.printErroEntrega();
                     }
                     else
                         a.printErroEncomendaInvalida();
