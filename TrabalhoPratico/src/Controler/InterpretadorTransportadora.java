@@ -30,29 +30,39 @@ public class InterpretadorTransportadora {
 
         while (r) {
             a.printMenuTransportadora();
-            command = (int) in.lerDouble("Escolha a sua opção:", 0, 4);
+            command = (int) in.lerDouble("Escolha a sua opção:", 0, 5);
 
             switch (command) {
                 case 1:
-                    c.setEstafetaFree(l.getCode());
-                    a.printMessage("Está disponivel para entregar encomendas");
+                    if(c.isEstafetaFree(l.getCode())) {
+                        c.setEstafetaFree(l.getCode(), false);
+                        a.printEstafetaIndisponivel();
+                    }
+                    else {
+                        c.setEstafetaFree(l.getCode(), true);
+                        a.printEstafetaDisponivel();
+                    }
                     break;
 
                 case 2:
                     String encCode = lerStringEncomenda("Introduza o código de encomenda: ", c, l.getCode());
-                    System.out.println(c.precoEncomenda(encCode, l.getCode()));
+                    a.printEstafetaPreco(c.precoEncomenda(encCode, l.getCode()));
                     break;
 
                 case 3:
                     min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
-                    System.out.println(c.getEncomendasEstafeta(l.getCode(),min,max));
+                    a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
                     break;
 
                 case 4:
                     min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
-                    System.out.println(c.calcularFaturacao(l.getCode(), min, max));
+                    a.printEstafetaFaturacao(c.calcularFaturacao(l.getCode(), min, max));
+                    break;
+
+                case 5:
+                    a.printEstafetaClassicacao(c.getEstafetaClassificação(l.getCode()));
                     break;
 
                 case 0:
@@ -60,7 +70,7 @@ public class InterpretadorTransportadora {
                     break;
 
                 default:
-                    a.printMessageLn("Comando inválido");
+                    a.printErroComandoInvalido();
             }
         }
     }

@@ -30,7 +30,7 @@ public class Interpretador implements Serializable{
                     r = false;
                     break;
                 default:
-                    a.printMessageLn("Comando inválido");
+                    a.printErroComandoInvalido();
                     break;
             }
         }
@@ -41,56 +41,86 @@ public class Interpretador implements Serializable{
         InterpretadorLogin intL = new InterpretadorLogin();
         Scanner s = new Scanner(System.in);
         int command;
+        Login l = null;
 
         a.welcome();
         s.nextLine();
 
-        Login l = intL.interpretador(c);
-
-        if(l==null)
-            return;
-
         GuardarCarregarEstado g = new GuardarCarregarEstado();
 
         while(r) {
-            a.printMainMenu(l.getTipoConta());
-            command = (int) in.lerDouble("Escolha a sua opção:", 0, 4);
-            switch (command) {
-                case 1:
-                    if (l.getTipoConta().equals("Utilizador")) {
-                        InterpretadorUtilizador intU = new InterpretadorUtilizador();
-                        intU.interpretador(c, l);
-                    }
+            if(l==null) {
+                a.printMainMenuLogIn();
+                command = (int) in.lerDouble("Escolha a sua opção:", 0, 3);
 
-                    else if (l.getTipoConta().equals("Voluntario")) {
-                        InterpretadorVoluntario intE = new InterpretadorVoluntario();
-                        intE.interpretador(c, l);
-                    }
+                switch (command) {
+                    case 1:
+                        l = intL.interpretador(c);
+                        break;
+                    case 2:
+                        g.guardaDados("GestTrazAqui.dat", c);
+                        a.printFicheiroGuardado("GestTrazAqui.dat");
+                        break;
+                    case 3:
+                        c = g.carregaDados("GestTrazAqui.dat");
+                        a.printFicheiroCarregado("GestTrazAqui.dat");
+                        break;
+                    case 0:
+                        r = false;
+                        break;
+                    default:
+                        a.printErroComandoInvalido();
+                        break;
 
-                    else if (l.getTipoConta().equals("Transportadora")) {
-                        InterpretadorTransportadora intT = new InterpretadorTransportadora();
-                        intT.interpretador(c, l);
-                    }
-                    break;
-                case 2:
-                    interpretadorConsultas(c);
-                    break;
-                case 3:
-                    g.guardaDados("GestTrazAqui.dat", c);
-                    break;
-                case 4:
-                    c = g.carregaDados("GestTrazAqui.dat");
-                    break;
-                case 0:
-                    r = false;
-                    break;
-                default:
-                    a.printMessageLn("Comando inválido");
-                    break;
+                }
+            }
+
+            else {
+                a.printMainMenuLogOut(l.getTipoConta());
+                command = (int) in.lerDouble("Escolha a sua opção:", 0, 5);
+                switch (command) {
+                    case 1:
+                        l = null;
+                        a.printLogoutSucesso();
+                        break;
+                    case 2:
+                        switch (l.getTipoConta()) {
+                            case "Utilizador":
+                                InterpretadorUtilizador intU = new InterpretadorUtilizador();
+                                intU.interpretador(c, l);
+                                break;
+                            case "Voluntario":
+                                InterpretadorVoluntario intE = new InterpretadorVoluntario();
+                                intE.interpretador(c, l);
+                                break;
+                            case "Transportadora":
+                                InterpretadorTransportadora intT = new InterpretadorTransportadora();
+                                intT.interpretador(c, l);
+                                break;
+                        }
+                        break;
+                    case 3:
+                        interpretadorConsultas(c);
+                        break;
+                    case 4:
+                        g.guardaDados("GestTrazAqui.dat", c);
+                        a.printFicheiroGuardado("GestTrazAqui.dat");
+                        break;
+                    case 5:
+                        c = g.carregaDados("GestTrazAqui.dat");
+                        a.printFicheiroCarregado("GestTrazAqui.dat");
+                        break;
+                    case 0:
+                        r = false;
+                        break;
+                    default:
+                        a.printErroComandoInvalido();
+                        break;
+                }
             }
         }
 
-        a.printMessageLn("A sair do programa");
+        a.printSair();
 
         s.close();
     }

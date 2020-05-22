@@ -21,8 +21,8 @@ public class Transportadora extends Estafeta implements Serializable {
     }
 
     public Transportadora(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao,
-                          int nif, double taxaKm, double taxaPeso, int numEncomendas) {
-        super(voluntaryCode, name, gps, raio, velocidade, numKm, isFree,isMedic, classificacao,"Transportadora");
+                          int numCla, int nif, double taxaKm, double taxaPeso, int numEncomendas) {
+        super(voluntaryCode, name, gps, raio, velocidade, numKm, isFree,isMedic, classificacao,numCla,"Transportadora");
         this.nif = nif;
         this.taxaKm = taxaKm;
         this.taxaPeso = taxaPeso;

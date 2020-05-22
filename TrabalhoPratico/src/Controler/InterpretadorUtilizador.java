@@ -79,27 +79,29 @@ public class InterpretadorUtilizador implements Serializable {
             switch(command) {
                 case 1:
                     List<String> list = c.getEncReady(l.getCode());
-                    System.out.println(list);
-                    System.out.println("Escolha uma encomenda:");
+                    a.printArray("Encomendas disponíveis:", list);
+                    a.printPedirEncomenda();
                     encCode = s.nextLine();
                     if(list.contains(encCode)) {
                         code = c.escolheEstafeta(encCode);
                         c.entregarEncomenda(encCode,code);
-                        System.out.println("A sua encomenda foi entregue pelo "+ c.getEstafetaType(code) +" " + c.getEstafetaName(code));
-                        System.out.println("Pretende classificar a entrega?(S/N)");
+                        a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
+                                                 c.calculaTempo(c.getEstafetaCoord(code), c.getStoreCoordFromEnc(encCode), c.getUserCoord(l.getCode()), c.getStoreQueueTimeFromEnc(encCode), c.getEstafetaVelocidade(code)));
+
+                        a.printPedirClassificar();
                         if(s.nextLine().toUpperCase().equals("S"))
                             pontuacao = in.lerDouble("Introduza a classificação (0/10)",0,10);
                         c.classificarEstafeta(pontuacao,code);
                     }
                     else
-                        System.out.println("Encomenda não está disponivel!");
+                        a.printErroEncomendaInvalida();
                     break;
 
                 case 2:
                     int res = (int) in.lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);//escolheVoluntarioTransportadora();
                     LocalDateTime min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     LocalDateTime max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
-                    System.out.println(c.getUserEncbyData(l.getCode(),res,min,max));
+                    a.printEncomendas("Lista de Encomendas do Utilizador", c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 
                 case 3:
@@ -113,7 +115,7 @@ public class InterpretadorUtilizador implements Serializable {
                     Encomenda enc = registaEncomenda(linha, c, l.getCode(), loja);
                     c.addEncomenda(enc);
                     c.aceitarEncomenda(enc.getEncCode());
-                    a.printMessageLn("A sua encomenda foi aceite pela loja e precisa de ser solicitada.");
+                    a.printEncomendaAceite();
                     break;
 
                 case 0:
@@ -121,7 +123,7 @@ public class InterpretadorUtilizador implements Serializable {
                     break;
 
                 default:
-                    a.printMessageLn("Comando inválido");
+                    a.printErroComandoInvalido();
                     break;
             }
         }

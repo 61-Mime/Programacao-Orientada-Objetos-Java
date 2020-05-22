@@ -38,6 +38,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         users.put(user.getCodigoUtilizador(), user);
     }
 
+    public Coordenadas getUserCoord(String userCode) {
+        return users.get(userCode).getGps();
+    }
+
     public List<Encomenda> getUserEncbyData(String code,int type, LocalDateTime min,LocalDateTime max) {
         List<Encomenda> list = new ArrayList<>();
 
@@ -88,6 +92,18 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(estCode).getName();
     }
 
+    public Coordenadas getEstafetaCoord(String code) {
+        return estafetas.get(code).getGps();
+    }
+
+    public double getEstafetaVelocidade(String code) {
+        return estafetas.get(code).getVelocidade();
+    }
+
+    public double getEstafetaClassificação(String code) {
+        return estafetas.get(code).getClassificacao();
+    }
+
     public List<Estafeta> possiveisEstafetas(String enc) {
         List<Estafeta> estafetaList;
         Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
@@ -122,8 +138,12 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         estafetas.get(code).atualizaClassificacao(pontuacao);
     }
 
-    public void setEstafetaFree(String code) {
-        estafetas.get(code).setFree(true);
+    public boolean isEstafetaFree(String code) {
+        return estafetas.get(code).isFree();
+    }
+
+    public void setEstafetaFree(String code, boolean free) {
+        estafetas.get(code).setFree(free);
     }
 
     public List<String> getTopTrans() {
@@ -173,6 +193,22 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public void addProdLoja(String storeCode, List<String> produtos) {
         lojas.get(storeCode).addProdList(produtos);
+    }
+
+    private Coordenadas getStoreCoord(String storeCode) {
+        return lojas.get(storeCode).getGps();
+    }
+
+    public Coordenadas getStoreCoordFromEnc(String encCode) {
+        return getStoreCoord(encomendas.get(encCode).getStoreCode());
+    }
+
+    private double getStoreQueueTime(String storeCode) {
+        return lojas.get(storeCode).getQueueTime();
+    }
+
+    public double getStoreQueueTimeFromEnc(String encCode) {
+        return getStoreQueueTime(encomendas.get(encCode).getStoreCode());
     }
 
     public List<String> getProdutosLoja(String storeCode) {
@@ -296,17 +332,19 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     //----------------------------------------------------------------Outros Métodos--------------------------------------------------------------------------\\
 
-    public double calculaTempo(Coordenadas cr1,Coordenadas cr2,Coordenadas cr3,double tempoFilaEspera,double velocidade) {
+    public double calculaTempo(Coordenadas crE,Coordenadas crL,Coordenadas crU,double tempoFilaEspera,double velocidade) {
         Random rand = new Random();
         int condicoesAtmosfericas = rand.nextInt(3);
+        int queueSize = rand.nextInt(8);
         if(tempoFilaEspera == -1)
-            tempoFilaEspera = rand.nextDouble() * 50;
+            tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
 
-        double dist = cr1.distancia(cr2) + cr2.distancia(cr3);
+        double dist = crE.distancia(crL) + crL.distancia(crU);
         double tempo = (velocidade * dist)/60 + tempoFilaEspera;
 
         if(condicoesAtmosfericas == 2)
             tempo *= 1.2;
+
         else if(condicoesAtmosfericas == 3)
             tempo *= 1.5;
 

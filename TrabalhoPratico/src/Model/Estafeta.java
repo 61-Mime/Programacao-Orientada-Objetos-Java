@@ -16,6 +16,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private boolean isFree;
     private boolean isMedic;
     private double classificacao;
+    private int numCla;
     private List<String> registo;
     private String type;
 
@@ -32,10 +33,11 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.isFree = false;
         this.isMedic = false;
         this.classificacao = 0d;
+        this.numCla = 0;
         this.registo = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, String type) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
@@ -44,6 +46,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.velocidade = velocidade;
         this.numKm = numKm;
         this.classificacao = classificacao;
+        this.numCla = numCla;
         this.isFree = isFree;
         this.isMedic = isMedic;
         this.registo = new ArrayList<>();
@@ -60,6 +63,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.isFree = v.isFree();
         this.isMedic = v.isMedic();
         this.classificacao = v.getClassificacao();
+        this.numCla = v.getNumCla();
         setRegisto(v.getRegisto());
     }
 
@@ -146,6 +150,18 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.classificacao = classificacao;
     }
 
+    public int getNumCla() {
+        return numCla;
+    }
+
+    public void setNumCla(int numCla) {
+        this.numCla = numCla;
+    }
+
+    public void incNumCla() {
+        this.numCla ++;
+    }
+
     public List<String> getRegisto() {
         return new ArrayList<>(registo);
     }
@@ -214,7 +230,8 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
     public void atualizaClassificacao(double classificacao) {
-        this.setClassificacao((this.getClassificacao() * this.registo.size() + classificacao) / (this.registo.size() + 1));
+        setClassificacao((getClassificacao() * getNumCla() + classificacao) / (getNumCla() + 1));
+        incNumCla();
     }
 
     public void addEncomenda(String encCode) {

@@ -1,5 +1,7 @@
 package View;
 
+import Model.Encomenda;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -51,11 +53,15 @@ public class Apresentacao implements IApresentacao, Serializable {
     }
 
     public void printMenuLogin() {
-        printMenus((new String[]{"Login", "Registar"}),"MENU LOGIN",0);
+        printMenus((new String[]{"Login", "Registar"}),"MENU LOGIN",1);
     }
 
-    public void printMainMenu(String type) {
-        printMenus((new String[]{"Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
+    public void printMainMenuLogIn() {
+        printMenus((new String[]{"Login/Registar", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
+    }
+
+    public void printMainMenuLogOut(String type) {
+        printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
     }
 
     public void printMenuConsultas() {
@@ -67,20 +73,15 @@ public class Apresentacao implements IApresentacao, Serializable {
     }
 
     public void printMenuVoluntario() {
-        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceder às encomendas"},"MENU VOLUNTÁRIO",1);
+        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", " ","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
     }
 
     public void printMenuTransportadora() {
-        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado"},"MENU TRANSPORTADORA",1);
+        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação"},"MENU TRANSPORTADORA",1);
     }
 
     public void printMessage(String message) {
         System.out.println(message);
-    }
-
-    public void printMessageLn(String message) {
-        System.out.println("\n" + message);
-
     }
 
     public void printArray(String message, List<String> arr) {
@@ -99,5 +100,117 @@ public class Apresentacao implements IApresentacao, Serializable {
             System.out.println((i+1) + ") " + arr.get(i));
 
         System.out.print("\n");
+    }
+
+    public void printEncomendas(String message, List<Encomenda> arr)  {
+        System.out.println("\n" + message);
+
+        for(Encomenda line : arr)
+            System.out.println(line);
+
+        System.out.print("\n");
+    }
+
+    public void printCodigoAcesso(String code) {
+        System.out.println("Códido de Acesso: " + code);
+    }
+
+    public void printLoginSucesso() {
+        System.out.println("Login efetuado com sucesso");
+    }
+
+    public void printLogoutSucesso() {
+        System.out.println("Logout efetuado com sucesso");
+    }
+
+    public void printRegistoSucesso() {
+        System.out.println("Registo efetuado com sucesso");
+    }
+
+    public void printErroDadosInvalidos() {
+        System.out.println("Dados inválidos");
+    }
+
+    public void printErroComandoInvalido(){
+        System.out.println("Comando Inválido");
+    }
+
+    public void printErroEncomendaInvalida(){
+        System.out.println("Encomenda Inválida");
+    }
+
+    public void printFicheiroCarregado(String file){
+        System.out.println("Ficheiro " + file + " carregado");
+    }
+
+    public void printFicheiroGuardado(String file){
+        System.out.println("Ficheiro " + file + " guardado");
+    }
+
+    public void printSair() {
+        System.out.println("A Sair do Programa");
+    }
+
+    public void printPedirUsername() {
+        System.out.println("Introduza o username: ");
+    }
+
+    public void printPedirPassword() {
+        System.out.println("Introduza a password: ");
+    }
+
+    public void printPedirEncomendasMedicas() {
+        System.out.println("Pode transportar encomendas médicas? (S/N): ");
+    }
+
+    public void printPedirFilaEspera() {
+        System.out.println("A loja tem informação sobre a fila de espera? (S/N): ");
+    }
+
+    public void printPedirNomeCompleto() {
+        System.out.println("Introduza o nome completo: ");
+    }
+
+    public void printPedirTipoConta() {
+        System.out.println("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+    }
+
+    public void printPedirClassificar() {
+        System.out.println("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+    }
+
+    public void printPedirEncomenda() {
+        System.out.println("Escolha uma encomenda: ");
+    }
+
+    public void printEstafetaDisponivel() {
+        System.out.println("Está disponivel para entregar encomendas");
+    }
+
+    public void printEstafetaIndisponivel() {
+        System.out.println("Está indisponivel para entregar encomendas");
+    }
+
+    public void printEstafetaPreco(double preco) {
+        System.out.println("Preço: " + preco + " €");
+    }
+
+    public void printEstafetaFaturacao(double faturacao) {
+        System.out.println("Faturação: " + faturacao + " €");
+    }
+
+    public void printEstafetaClassicacao(double classificacao) {
+        System.out.println("Classificação: " + classificacao);
+    }
+
+    public void printEncomendaEntregue(String code, String tipo, String nome, double preco, double tempo) {
+        System.out.println("A sua encomenda foi entregue pelo(a) " + tipo + " " + code + ": " + nome);
+        if(tipo.equals("Transportadora"))
+            System.out.println("Preço: " + preco + " €");
+        System.out.println("Tempo de entrega: " + tempo + " min");
+    }
+
+    public void printEncomendaAceite() {
+        System.out.println("A sua encomenda foi aceite pela loja e precisa de ser solicitada");
     }
 }

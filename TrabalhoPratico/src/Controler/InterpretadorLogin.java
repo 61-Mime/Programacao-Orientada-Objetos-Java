@@ -15,11 +15,11 @@ public class InterpretadorLogin implements Serializable {
         Scanner s = new Scanner(System.in);
         String user, pass;
 
-        a.printMessage("Introduza o usercode: ");
+        a.printPedirUsername();
         user = s.nextLine();
 
         if(c.containsUser(user)) {
-            a.printMessage("Introduza a password: ");
+            a.printPedirPassword();
             pass = s.nextLine();
 
             if(c.containsPassword(user, pass))
@@ -49,12 +49,12 @@ public class InterpretadorLogin implements Serializable {
         raio = in.lerDouble("Introduza o seu raio da ação: ",0,100000);
         velocidade = in.lerDouble("Introduza a sua velocidade média: ",0,100000);
 
-        a.printMessage("Pode transportar encomendas médicas? (S/N): ");
+        a.printPedirEncomendasMedicas();
         medic = s.nextLine();
 
         isMedic = medic.equals("S");
 
-        return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, type);
+        return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, 0, type);
     }
 
     private Transportadora registarTransportadora(Estafeta e) {
@@ -66,7 +66,7 @@ public class InterpretadorLogin implements Serializable {
         taxaKm = in.lerDouble("Introduza a sua taxa por Km: ",0,1000000);
         taxaPeso = in.lerDouble("Introduza a sua taxa por Kg: ",0,1000000);
 
-        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(), nif, taxaKm, taxaPeso, 0);
+        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(),e.getNumCla(), nif, taxaKm, taxaPeso, 0);
     }
 
     private Loja registarLoja(String code, String nome) {
@@ -76,7 +76,7 @@ public class InterpretadorLogin implements Serializable {
 
         Coordenadas cr = in.lerCoordenada();
 
-        a.printMessage("A loja tem informação sobre a fila de espera? (S/N): ");
+        a.printPedirFilaEspera();
         queue = s.nextLine();
 
         hasQueue = queue.equals("S");
@@ -94,11 +94,11 @@ public class InterpretadorLogin implements Serializable {
         Login l = new Login();
         String code, nome, pass, tipo;
 
-        a.printMessage("Introduza o nome completo: ");
+        a.printPedirNomeCompleto();
         nome = s.nextLine();
 
         do {
-            a.printMessage("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+            a.printPedirTipoConta();
             tipo = s.nextLine();
         } while(!(tipo.equals("Voluntario") || tipo.equals("Transportadora") || tipo.equals("Utilizador") || tipo.equals("Loja")));
 
@@ -106,7 +106,7 @@ public class InterpretadorLogin implements Serializable {
             l.setNome(nome);
             l.setTipoConta(tipo);
 
-            a.printMessage("Introduza a password: ");
+            a.printPedirPassword();
             pass = s.nextLine();
 
             l.setPassword(pass);
@@ -131,7 +131,7 @@ public class InterpretadorLogin implements Serializable {
                     break;
             }
 
-            a.printMessageLn("Código de acesso: " + l);
+            a.printCodigoAcesso(code);
 
             c.addLogin(l);
 
@@ -153,18 +153,18 @@ public class InterpretadorLogin implements Serializable {
             switch(command){
                 case 1:
                     if((l = login(c))!= null) {
-                        a.printMessageLn("Login efetuado com sucesso");
+                        a.printLoginSucesso();
                         r = false;
                     }
                     else
-                        a.printMessageLn("Dados inválidos");
+                        a.printErroDadosInvalidos();
                     break;
 
                 case 2:
                     if(registar(c))
-                        a.printMessageLn("Registo efetuado com sucesso\nEfetue Login para continuar");
+                        a.printRegistoSucesso();
                     else
-                        a.printMessageLn("Dados inválidos");
+                        a.printErroDadosInvalidos();
                     break;
 
                 case 0:
@@ -173,7 +173,7 @@ public class InterpretadorLogin implements Serializable {
                     break;
 
                 default:
-                    a.printMessageLn("Comando Inválido");
+                    a.printErroComandoInvalido();
                     break;
             }
         }

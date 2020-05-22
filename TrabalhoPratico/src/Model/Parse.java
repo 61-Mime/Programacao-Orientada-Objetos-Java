@@ -93,7 +93,7 @@ public class Parse implements Serializable {
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         double raio = Double.parseDouble(campos[4]);
 
-        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, "Voluntario");
+        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario");
     }
 
     private Estafeta parseTransportadora(String input){
@@ -105,7 +105,7 @@ public class Parse implements Serializable {
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
 
-        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,nif,precoPorKm,0.05, 0);
+        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0);
     }
 
     private Encomenda parseEncomenda(String input){
