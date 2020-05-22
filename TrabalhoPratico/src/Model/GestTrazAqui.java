@@ -151,7 +151,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public void limpaEstafetaNotificacoes(String code) {
-        users.get(code).limpaNotificacoes();
+        estafetas.get(code).limpaNotificacoes();
     }
 
     public List<String> possiveisEstafetas(String enc) {

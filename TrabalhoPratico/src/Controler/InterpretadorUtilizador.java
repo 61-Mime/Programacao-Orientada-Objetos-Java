@@ -55,7 +55,7 @@ public class InterpretadorUtilizador implements Serializable {
             if(code.equals("") || c.getEstafetaType(code).equals("Voluntario"))
                 aceite = true;
             else {
-                if(in.lerSN("Aceita a trancportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
+                if(in.lerSN("Aceita a transportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
                     aceite = true;
                 else
                     list.remove(code);
