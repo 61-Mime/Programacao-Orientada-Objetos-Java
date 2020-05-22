@@ -66,8 +66,12 @@ public class Apresentacao implements IApresentacao, Serializable {
         printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),"MENU UTILIZADOR",1);
     }
 
-    public void printMenuEstafeta() {
-        printMenus(new String[]{"Sinalizar como disponivel para entregar encomendas"},"MENU ESTAFETA",1);
+    public void printMenuVoluntario() {
+        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceder às encomendas"},"MENU VOLUNTÁRIO",1);
+    }
+
+    public void printMenuTransportadora() {
+        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado"},"MENU TRANSPORTADORA",1);
     }
 
     public void printMessage(String message) {

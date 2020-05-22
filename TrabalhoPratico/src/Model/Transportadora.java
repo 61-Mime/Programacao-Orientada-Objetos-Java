@@ -8,7 +8,6 @@ public class Transportadora extends Estafeta implements Serializable {
     private double taxaKm;
     private double taxaPeso;
     private int numEncomendas;
-    //faturação total
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 

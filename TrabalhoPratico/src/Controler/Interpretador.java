@@ -62,9 +62,14 @@ public class Interpretador implements Serializable{
                         intU.interpretador(c, l);
                     }
 
-                    else if (l.getTipoConta().equals("Voluntario") || l.getTipoConta().equals("Transportadora")) {
-                        InterpretadorEstafeta intE = new InterpretadorEstafeta();
+                    else if (l.getTipoConta().equals("Voluntario")) {
+                        InterpretadorVoluntario intE = new InterpretadorVoluntario();
                         intE.interpretador(c, l);
+                    }
+
+                    else if (l.getTipoConta().equals("Transportadora")) {
+                        InterpretadorTransportadora intT = new InterpretadorTransportadora();
+                        intT.interpretador(c, l);
                     }
                     break;
                 case 2:

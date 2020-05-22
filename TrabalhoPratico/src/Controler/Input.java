@@ -48,7 +48,7 @@ public class Input implements Serializable {
         return data;
     }
 
-    public String lerString(String message, GestTrazAqui c){
+    public String lerString(String message, GestTrazAqui c) {
         Scanner s = new Scanner(System.in);
         String line;
 

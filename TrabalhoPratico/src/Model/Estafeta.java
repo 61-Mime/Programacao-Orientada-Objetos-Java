@@ -220,4 +220,8 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     public void addEncomenda(String encCode) {
         registo.add(encCode);
     }
+
+    public boolean containsEncomenda(String encCode) {
+        return registo.contains(encCode);
+    }
 }

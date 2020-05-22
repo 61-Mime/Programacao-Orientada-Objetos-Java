@@ -130,6 +130,24 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> c.getCode() + ": " + c.getName()).collect(Collectors.toList());
     }
 
+    public List<Encomenda> getEncomendasEstafeta(String code, LocalDateTime min, LocalDateTime max) {
+        List<Encomenda> list = new ArrayList<>();
+
+        for (String c : estafetas.get(code).getRegisto()) {
+            list.add(encomendas.get(c).clone());
+        }
+
+        return list.stream().filter(e -> e.encData(min,max)).collect(Collectors.toList());
+    }
+
+    public double calcularFaturacao(String code, LocalDateTime min, LocalDateTime max) {
+        return encomendas.values().stream().filter(e -> e.encData(min,max) && e.getTranspCode().equals(code))
+                .map(e -> precoEncomenda(e.getEncCode(), code)).reduce(0d, Double::sum);
+    }
+
+    public boolean containsEncomendaEstafeta(String encCode, String code) {
+        return estafetas.get(code).containsEncomenda(encCode);
+    }
     //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
 
     public List<String> getLojas() {
