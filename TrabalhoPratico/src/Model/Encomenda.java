@@ -14,8 +14,9 @@ public class Encomenda implements Serializable {
     private double weight;
     private boolean isMedic;
     private LocalDateTime data;
-    private boolean aceite;
+    private boolean aceiteLoja;
     private boolean entregue;
+    private double tempoEntrega;
     private List<LinhaEncomenda> linha;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -28,20 +29,22 @@ public class Encomenda implements Serializable {
         this.storeCode = "";
         this.isMedic = false;
         this.data = LocalDateTime.now();
-        this.aceite = false;
+        this.aceiteLoja = false;
         this.entregue = false;
+        this.tempoEntrega = 0;
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String encCode, String userCode, String transpCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceite,List<LinhaEncomenda> linha,boolean entregue) {
+    public Encomenda(String encCode, String userCode, String transpCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceiteLoja, List<LinhaEncomenda> linha, boolean entregue, double tempo) {
         this.encCode = encCode;
         this.userCode = userCode;
         this.transpCode = transpCode;
         this.storeCode = storeCode;
         this.weight = weight;
         this.isMedic = isMedic;
-        this.aceite = aceite;
+        this.aceiteLoja = aceiteLoja;
         this.entregue = entregue;
+        this.tempoEntrega = tempo;
         this.data = data;
         setLinha(linha);
     }
@@ -54,7 +57,7 @@ public class Encomenda implements Serializable {
         this.storeCode = enc.storeCode;
         this.isMedic = enc.isMedic;
         this.data = enc.getData();
-        this.aceite = isAceite();
+        this.aceiteLoja = isAceiteLoja();
         this.entregue = enc.isEntregue();
         setLinha(enc.getLinha());
     }
@@ -126,12 +129,12 @@ public class Encomenda implements Serializable {
         this.data = data;
     }
 
-    public boolean isAceite() {
-        return aceite;
+    public boolean isAceiteLoja() {
+        return aceiteLoja;
     }
 
-    public void setAceite(boolean aceite) {
-        this.aceite = aceite;
+    public void setAceiteLoja(boolean aceiteLoja) {
+        this.aceiteLoja = aceiteLoja;
     }
 
     public boolean isEntregue() {
@@ -142,6 +145,13 @@ public class Encomenda implements Serializable {
         this.entregue = entregue;
     }
 
+    public void setTempoEntrega(double tempoEntrega) {
+        this.tempoEntrega = tempoEntrega;
+    }
+
+    public double getTempoEntrega() {
+        return tempoEntrega;
+    }
 
     public boolean isVoluntario() {
         return transpCode.charAt(0) == 'v';
@@ -181,7 +191,7 @@ public class Encomenda implements Serializable {
         sb.append(", weight=").append(weight);
         sb.append(", isMedic=").append(isMedic);
         sb.append(", data=").append(data);
-        sb.append(", aceite=").append(aceite);
+        sb.append(", aceite=").append(aceiteLoja);
         sb.append(", linha=").append(linha);
         sb.append('}').append("\n");
         return sb.toString();
@@ -196,7 +206,7 @@ public class Encomenda implements Serializable {
         Encomenda encomenda = (Encomenda) o;
         return Double.compare(encomenda.weight, weight) == 0 &&
                 isMedic == encomenda.isMedic &&
-                aceite == encomenda.aceite &&
+                aceiteLoja == encomenda.aceiteLoja &&
                 Objects.equals(encCode, encomenda.encCode) &&
                 Objects.equals(userCode, encomenda.userCode) &&
                 Objects.equals(transpCode, encomenda.transpCode) &&

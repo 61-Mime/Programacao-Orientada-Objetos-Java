@@ -207,6 +207,23 @@ public class Apresentacao implements IApresentacao, Serializable {
         System.out.println("Classificação: " + classificacao);
     }
 
+    public void printEncomendaStandBy(String code){
+        System.out.println("A sua encomenda está à espera de ser aceite pelo voluntário " + code);
+    }
+
+    public void printSemEncomendas(){
+        System.out.println("Não existem encomendas para entrega!");
+    }
+
+    public void printEncRecusada(){
+        System.out.println("Encomenda recusada com sucesso!");
+    }
+
+    public void printEncomendaEntregueVol(String code, String nome, double tempo) {
+        System.out.println("A encomenda foi entregue ao utilizador " + code + ": " + nome);
+        System.out.println("Tempo de entrega: " + tempo + " min");
+    }
+
     public void printEncomendaEntregue(String code, String tipo, String nome, double preco, double tempo) {
         System.out.println("A sua encomenda foi entregue pelo(a) " + tipo + " " + code + ": " + nome);
         if(tipo.equals("Transportadora"))

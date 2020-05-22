@@ -30,4 +30,9 @@ public interface IGestTrazAqui {
     String escolheEstafeta(List<String>list,String enc);
     public String getEstafetaType(String estCode);
     public String getEstafetaName(String estCode);
+    public String encomendaStandBy(String estCode);
+    public String getEncUser(String encCode);
+    public String getEncUserName(String encCode);
+    public void addStandBy(String code, String encCode);
+    public void remStandBy(String code, String encCode);
 }

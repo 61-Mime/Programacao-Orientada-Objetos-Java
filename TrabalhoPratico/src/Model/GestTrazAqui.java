@@ -59,7 +59,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public List<String> getEncReady(String userCode){
-        return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceite() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
+        return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceiteLoja() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
     }
 
     public List<String> getTopUsers() {
@@ -165,6 +165,18 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public boolean containsEncomendaEstafeta(String encCode, String code) {
         return estafetas.get(code).containsEncomenda(encCode);
     }
+
+    public String encomendaStandBy(String estCode){
+        return estafetas.get(estCode).getRegisto().stream().filter(enc -> !encomendas.get(enc).isEntregue()).findFirst().orElse("");
+    }
+
+    public void removerEnc(String code,String encCode){
+        estafetas.get(code).removeEnc(encCode);
+    }
+
+    public void setEstafetaOccup(String code,boolean occup){
+        estafetas.get(code).setOccup(occup);
+    }
     //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
 
     public List<String> getLojas() {
@@ -241,29 +253,41 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         encomendas.put(encomenda.getEncCode(), encomenda);
     }
 
+    public void addStandBy(String code, String encCode) {
+        users.get(code).addStandBy(encCode);
+    }
+
+    public void remStandBy(String code, String encCode) {
+        users.get(code).removeStandBy(encCode);
+    }
+
     public boolean containsEncomenda(String encCode) {
         return encomendas.containsKey(encCode);
     }
 
     public void aceitarEncomenda(String encCode) {
         Encomenda enc = encomendas.get(encCode);
-        enc.setAceite(true);
+        enc.setAceiteLoja(true);
     }
 
     //guardar tempo de entrega
     public void entregarEncomenda(String encCode,String estafetaCode) {
-        Coordenadas cr = lojas.get(encomendas.get(encCode).getStoreCode()).getGps();
+        Encomenda enc = encomendas.get(encCode);
+        Estafeta e = estafetas.get(estafetaCode);
+        Loja l = lojas.get(enc.getStoreCode());
+        Coordenadas cr = lojas.get(enc.getStoreCode()).getGps();
 
-        encomendas.get(encCode).setTranspCode(estafetaCode);
-        encomendas.get(encCode).setEntregue(true);
-        estafetas.get(estafetaCode).setEnc(encCode);
-        estafetas.get(estafetaCode).addNumKm(estafetas.get(estafetaCode).getGps().distancia(cr));
+        enc.setTranspCode(estafetaCode);
+        enc.setEntregue(true);
+        enc.setTempoEntrega(calculaTempo(e.getGps(),l.getGps(),users.get(enc.getUserCode()).getGps(),l.getQueueTime(),e.getVelocidade()));
+        e.setEnc(encCode);
+        e.addNumKm(e.getGps().distancia(cr));
     }
 
     public Set<String> encomendasAceites() {
         Set<String> res = new HashSet<>();
 
-        encomendas.values().stream().map(Encomenda::clone).filter(Encomenda::isAceite).map(Encomenda::getEncCode).forEach(res::add);
+        encomendas.values().stream().map(Encomenda::clone).filter(Encomenda::isAceiteLoja).map(Encomenda::getEncCode).forEach(res::add);
         return res;
     }
 
@@ -281,6 +305,17 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return  ((Transportadora)estafetas.get(transpCode)).getTaxaKm() * dist + enc.getWeight() * ((Transportadora)estafetas.get(transpCode)).getTaxaPeso();
     }
 
+    public String getEncUser(String encCode){
+        return encomendas.get(encCode).getUserCode();
+    }
+
+    public double getEncTime(String encCode){
+        return encomendas.get(encCode).getTempoEntrega();
+    }
+
+    public String getEncUserName(String encCode){
+        return users.get(encomendas.get(encCode).getUserCode()).getName();
+    }
 
     //----------------------------------------------------------------Métodos Produto--------------------------------------------------------------------------\\
 
@@ -348,7 +383,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
             tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
 
         double dist = crE.distancia(crL) + crL.distancia(crU);
-        double tempo = (velocidade * dist)/60 + tempoFilaEspera;
+        double tempo = (dist/velocidade)*60 + tempoFilaEspera;
 
         if(condicoesAtmosfericas == 2)
             tempo *= 1.2;

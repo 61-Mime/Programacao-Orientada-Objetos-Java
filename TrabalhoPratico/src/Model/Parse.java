@@ -70,11 +70,9 @@ public class Parse implements Serializable {
         String [] campos = input.split(",");
         String nome = campos[1];
         String codUtilizador = campos[0];
-//        double cr = Double.parseDouble(campos[0]);
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
-        List<String> entregas = new ArrayList<>();
 
-        return new Utilizador(codUtilizador,nome,gps,100,entregas);
+        return new Utilizador(codUtilizador,nome,gps,100,new ArrayList<>(),new ArrayList<>());
     }
 
     private Loja parseLoja(String input){
@@ -93,7 +91,7 @@ public class Parse implements Serializable {
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         double raio = Double.parseDouble(campos[4]);
 
-        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario");
+        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario",false);
     }
 
     private Estafeta parseTransportadora(String input){
@@ -105,7 +103,7 @@ public class Parse implements Serializable {
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
 
-        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0);
+        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0,false);
     }
 
     private Encomenda parseEncomenda(String input){
@@ -119,7 +117,7 @@ public class Parse implements Serializable {
         for(int i = 4;i < size - 1;i+=4)
             linha.add(parseLinhaEncomenda(campos[i],campos[i+1],campos[i+2],campos[i+3]));
 
-        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false);
+        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false,0);
     }
     private LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));

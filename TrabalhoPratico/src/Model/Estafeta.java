@@ -15,6 +15,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private double numKm;
     private boolean isFree;
     private boolean isMedic;
+    private boolean occup;
     private double classificacao;
     private int numCla;
     private List<String> registo;
@@ -32,12 +33,13 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.numKm = 0d;
         this.isFree = false;
         this.isMedic = false;
+        this.occup = false;
         this.classificacao = 0d;
         this.numCla = 0;
         this.registo = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type,boolean occup) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
@@ -48,6 +50,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.classificacao = classificacao;
         this.numCla = numCla;
         this.isFree = isFree;
+        this.occup = occup;
         this.isMedic = isMedic;
         this.registo = new ArrayList<>();
     }
@@ -175,6 +178,22 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.registo.add(enc);
         if(this.getType() == "Transportadora")
             ((Transportadora)this).setNumEncomendas();
+    }
+
+    public void removeEnc(String encCode){
+        registo.remove(encCode);
+    }
+
+    public boolean isOccup() {
+        return occup;
+    }
+
+    public void setOccup(boolean occup) {
+        this.occup = occup;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

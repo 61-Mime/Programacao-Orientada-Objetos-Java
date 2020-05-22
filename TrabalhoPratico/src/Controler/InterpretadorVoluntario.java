@@ -33,7 +33,21 @@ public class InterpretadorVoluntario implements Serializable {
                     break;
 
                 case 2:
-                    code = c.escolheEstafeta(c.possiveisEstafetas(encCode),encCode);
+                    code = c.encomendaStandBy(l.getCode());
+                    if(!code.equals("")) {
+                        if (in.lerSN("Pretender aceitar a entrega da encomenda " + code + " ao utilizador " + c.getEncUser(code))) {
+                            c.entregarEncomenda(code, l.getCode());
+                            a.printEncomendaEntregueVol(c.getEncUser(code), c.getEncUserName(code), c.getEncTime(code));
+                        }
+                        else {
+                            c.removerEnc(l.getCode(), code);
+                            a.printEncRecusada();
+                        }
+                        c.setEstafetaOccup(l.getCode(),false);
+                        c.remStandBy(c.getEncUser(code),code);
+                    }
+                    else
+                        a.printSemEncomendas();
 
                     break;
 

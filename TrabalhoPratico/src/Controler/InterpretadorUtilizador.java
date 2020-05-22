@@ -79,7 +79,7 @@ public class InterpretadorUtilizador implements Serializable {
         String encCode;
         do { encCode = c.generateCode("Encomenda"); } while(c.containsEncomenda(encCode));
 
-        return new Encomenda(encCode, userCode, "", storeCode, peso, false, LocalDateTime.now(), false, linhaEncomendas, false);
+        return new Encomenda(encCode, userCode, "", storeCode, peso, false, LocalDateTime.now(), false, linhaEncomendas, false,0);
     }
 
     private LinhaEncomenda registaLinhaEncomenda(String prodCode, double quantidade, GestTrazAqui c) { // Atualizar preço
@@ -87,7 +87,7 @@ public class InterpretadorUtilizador implements Serializable {
     }
 
     public void interpretador(GestTrazAqui c, Login l) {
-        boolean r=true,escolhido = false;
+        boolean r=true;
         Scanner s = new Scanner(System.in);
         String code,encCode;
         double pontuacao = 0;
@@ -106,13 +106,21 @@ public class InterpretadorUtilizador implements Serializable {
                     if(list.contains(encCode)) {
                         code = aceitaEstafeta(c,encCode);
                         if(!code.equals("")) {
-                            c.entregarEncomenda(encCode, code);
-                            a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
-                                    c.calculaTempo(c.getEstafetaCoord(code), c.getStoreCoordFromEnc(encCode), c.getUserCoord(l.getCode()), c.getStoreQueueTimeFromEnc(encCode), c.getEstafetaVelocidade(code)));
+                            if(c.getEstafetaType(code).equals("Voluntario")){
+                                c.addEncomendaEstafeta(code,encCode);
+                                c.setEstafetaOccup(code,false);
+                                c.addStandBy(l.getCode(),encCode);
+                                a.printEncomendaStandBy(code);
+                            }
+                            else {
+                                c.entregarEncomenda(encCode, code);
+                                a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
+                                        c.getEncTime(encCode));
 
-                            if (in.lerSN("Pretende classificar a entrega?(S/N)"))
-                                pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
-                            c.classificarEstafeta(pontuacao, code);
+                                if (in.lerSN("Pretende classificar a entrega?(S/N)"))
+                                    pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
+                                c.classificarEstafeta(pontuacao, code);
+                            }
                         }
                         else
                             a.printErroEntrega();
@@ -122,7 +130,7 @@ public class InterpretadorUtilizador implements Serializable {
                     break;
 
                 case 2:
-                    int res = (int) in.lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);//escolheVoluntarioTransportadora();
+                    int res = (int) in.lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);
                     LocalDateTime min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
                     LocalDateTime max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
                     a.printEncomendas("Lista de Encomendas do Utilizador", c.getUserEncbyData(l.getCode(),res,min,max));
