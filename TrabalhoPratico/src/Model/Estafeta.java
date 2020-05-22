@@ -287,7 +287,6 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     }
 
     public void limpaNotificacoes() {
-        for(String not: notificacoes)
-            notificacoes.remove(not);
+        notificacoes = new ArrayList<>();
     }
 }

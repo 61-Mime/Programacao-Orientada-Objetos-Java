@@ -184,7 +184,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     }
 
     public void limpaNotificacoes() {
-        for(String not: notificacoes)
-            notificacoes.remove(not);
+        notificacoes = new ArrayList<>();
     }
 }
