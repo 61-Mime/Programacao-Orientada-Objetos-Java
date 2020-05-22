@@ -62,7 +62,7 @@ public class InterpretadorTransportadora {
                     break;
 
                 case 5:
-                    a.printEstafetaClassicacao(c.getEstafetaClassificação(l.getCode()));
+                    a.printEstafetaClassicacao(c.getEstafetaClassificacao(l.getCode()));
                     break;
 
                 case 0:

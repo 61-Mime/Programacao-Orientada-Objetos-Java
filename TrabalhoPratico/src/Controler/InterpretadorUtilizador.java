@@ -65,25 +65,29 @@ public class InterpretadorUtilizador implements Serializable {
     }
 
     private Encomenda registaEncomenda(String[] linhaPartida, GestTrazAqui c, String userCode, String storeCode) {
-        double peso = 0;
+        double peso = 0, preco = 0;
         String[] tmp;
         List<LinhaEncomenda> linhaEncomendas = new ArrayList<>();
+        boolean isMedic = false;
 
         for (String s: linhaPartida) {
             tmp = s.split(" ");
             double quantidade = Double.parseDouble(tmp[1]);
             peso += quantidade * c.getProdWeight(tmp[0]);
-            linhaEncomendas.add(registaLinhaEncomenda(tmp[0], quantidade, c));
+            linhaEncomendas.add(registaLinhaEncomenda(tmp[0], quantidade, c.getProdPrice(tmp[0]), c));
+
+            if(c.getProdisMedic(tmp[0]))
+                isMedic = true;
         }
 
         String encCode;
         do { encCode = c.generateCode("Encomenda"); } while(c.containsEncomenda(encCode));
 
-        return new Encomenda(encCode, userCode, "", storeCode, peso, false, LocalDateTime.now(), false, linhaEncomendas, false,0);
+        return new Encomenda(encCode, userCode, "", storeCode, peso, isMedic, LocalDateTime.now(), false, linhaEncomendas, false,0);
     }
 
-    private LinhaEncomenda registaLinhaEncomenda(String prodCode, double quantidade, GestTrazAqui c) { // Atualizar preço
-        return new LinhaEncomenda(prodCode, c.getProdName(prodCode), quantidade, 0);// bump
+    private LinhaEncomenda registaLinhaEncomenda(String prodCode, double quantidade, double preco, GestTrazAqui c) {
+        return new LinhaEncomenda(prodCode, c.getProdName(prodCode), quantidade, preco);
     }
 
     public void interpretador(GestTrazAqui c, Login l) {
@@ -105,22 +109,23 @@ public class InterpretadorUtilizador implements Serializable {
                     encCode = s.nextLine();
                     if(list.contains(encCode)) {
                         code = aceitaEstafeta(c,encCode);
-                        if(!code.equals("")) {
-                            if(c.getEstafetaType(code).equals("Voluntario")){
-                                c.addEncomendaEstafeta(code,encCode);
-                                c.setEstafetaOccup(code,false);
-                                c.addStandBy(l.getCode(),encCode);
-                                a.printEncomendaStandBy(code);
-                            }
-                            else {
-                                c.entregarEncomenda(encCode, code);
-                                a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code),
-                                        c.getEncTime(encCode));
+                        if(c.getEstafetaType(code).equals("Voluntario")){
+                            c.addEncomendaEstafeta(code,encCode);
+                            c.addUserStandBy(l.getCode(), encCode);
+                            c.setEstafetaOccup(code,true);
+                            c.addEstafetaNotificacao(code, a.notificacaoNovaEntregaPendente(l.getCode()));
+                            a.printEncomendaStandBy(code);
+                        }
+                        else if(c.getEstafetaType(code).equals("Transportadora")){
+                            c.entregarEncomenda(encCode, code);
+                            a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code), c.getEncTime(encCode));
 
-                                if (in.lerSN("Pretende classificar a entrega?(S/N)"))
-                                    pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
-                                c.classificarEstafeta(pontuacao, code);
-                            }
+                            if (in.lerSN("Pretende classificar a entrega?(S/N)"))
+                                pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
+                            c.classificarEstafeta(pontuacao, code);
+
+                            c.addUserNotificacao(l.getCode(), a.notificacaoEntregaTransportadora(code, encCode));
+                            c.addEstafetaNotificacao(code, a.notificacaoEntregaAoUtilizador(l.getCode(), encCode));
                         }
                         else
                             a.printErroEntrega();
@@ -145,9 +150,19 @@ public class InterpretadorUtilizador implements Serializable {
                                                                 "Por exemplo: p9 2.1 | p10 3 | p11 3.2", c, loja);
 
                     Encomenda enc = registaEncomenda(linha, c, l.getCode(), loja);
-                    c.addEncomenda(enc);
-                    c.aceitarEncomenda(enc.getEncCode());
-                    a.printEncomendaAceite();
+
+                    a.printFatura(enc);
+
+                    if(in.lerSN("Quer continuar com a compra? (S/N)")) {
+                        c.addEncomenda(enc);
+                        c.aceitarEncomenda(enc.getEncCode());
+                        a.printEncomendaAceite();
+                        c.addUserNotificacao(l.getCode(), a.notificacaoCompraRealizada(enc.getEncCode(), loja));
+                    }
+
+                    else
+                        a.printCompraCancelada();
+
                     break;
 
                 case 0:

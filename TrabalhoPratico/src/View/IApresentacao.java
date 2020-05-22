@@ -5,7 +5,7 @@ public interface IApresentacao {
     void clear();
     void printMenuLogin();
     void printMainMenuLogIn();
-    void printMainMenuLogOut(String type);
+    void printMainMenuLogOut(String type, int numN);
     void printMenuUtilizador();
     void printMenuVoluntario();
     void printMessage(String message);

@@ -9,6 +9,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     private String code;
     private String name;
+    private String type;
     private Coordenadas gps;
     private double raio;
     private double velocidade;
@@ -19,7 +20,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private double classificacao;
     private int numCla;
     private List<String> registo;
-    private String type;
+    private List<String> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -37,9 +38,10 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.classificacao = 0d;
         this.numCla = 0;
         this.registo = new ArrayList<>();
+        this.notificacoes = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type,boolean occup) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type,boolean occup, List<String> notificacoes) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
@@ -53,6 +55,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.occup = occup;
         this.isMedic = isMedic;
         this.registo = new ArrayList<>();
+        this.notificacoes = new ArrayList<>();
     }
 
     public Estafeta(Estafeta v) {
@@ -68,6 +71,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.classificacao = v.getClassificacao();
         this.numCla = v.getNumCla();
         setRegisto(v.getRegisto());
+        setNotificacoes(v.getNotificacoes());
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -196,6 +200,27 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.type = type;
     }
 
+    public List<String> getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setNotificacoes(List<String> notificacoes) {
+        this.notificacoes = new ArrayList<>();
+        this.notificacoes.addAll(notificacoes);
+    }
+
+    public int getNumNotificacoes() {
+        return notificacoes.size();
+    }
+
+    public void addNotificacao(String not) {
+        notificacoes.add(not);
+    }
+
+    public void removeNotificacao(String not) {
+        notificacoes.remove(not);
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
@@ -259,5 +284,10 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     public boolean containsEncomenda(String encCode) {
         return registo.contains(encCode);
+    }
+
+    public void limpaNotificacoes() {
+        for(String not: notificacoes)
+            notificacoes.remove(not);
     }
 }

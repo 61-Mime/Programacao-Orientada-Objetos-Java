@@ -33,6 +33,4 @@ public interface IGestTrazAqui {
     public String encomendaStandBy(String estCode);
     public String getEncUser(String encCode);
     public String getEncUserName(String encCode);
-    public void addStandBy(String code, String encCode);
-    public void remStandBy(String code, String encCode);
 }

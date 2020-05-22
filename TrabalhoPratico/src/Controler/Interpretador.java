@@ -36,12 +36,24 @@ public class Interpretador implements Serializable{
         }
     }
 
+    private void notificacoes(GestTrazAqui c, Login l, String type) {
+        if(type.equals("Utilizador")) {
+            a.printTable("Notificações", c.getUserNotificacoes(l.getCode()));
+            c.limpaUserNotificacoes(l.getCode());
+        }
+        else {
+            a.printTable("Notificações", c.getEstafetaNotificacoes(l.getCode()));
+            c.limpaEstafetaNotificacoes(l.getCode());
+        }
+    }
+
     public void interpretador(GestTrazAqui c) throws ClassNotFoundException, IOException {
         boolean r=true;
         InterpretadorLogin intL = new InterpretadorLogin();
         Scanner s = new Scanner(System.in);
-        int command;
+        int command, numN;
         Login l = null;
+        String type;
 
         a.welcome();
         s.nextLine();
@@ -76,8 +88,15 @@ public class Interpretador implements Serializable{
             }
 
             else {
-                a.printMainMenuLogOut(l.getTipoConta());
-                command = (int) in.lerDouble("Escolha a sua opção:", 0, 5);
+                type = l.getTipoConta();
+
+                if(l.getTipoConta().equals("Utilizador"))
+                    numN = c.getUserNumNotificacoes(l.getCode());
+                else
+                    numN = c.getEstafetaNumNotificacoes(l.getCode());
+
+                a.printMainMenuLogOut(l.getTipoConta(),numN);
+                command = (int) in.lerDouble("Escolha a sua opção:", 0, 6);
                 switch (command) {
                     case 1:
                         l = null;
@@ -109,6 +128,9 @@ public class Interpretador implements Serializable{
                     case 5:
                         c = g.carregaDados("GestTrazAqui.dat");
                         a.printFicheiroCarregado("GestTrazAqui.dat");
+                        break;
+                    case 6:
+                        notificacoes(c, l, type);
                         break;
                     case 0:
                         r = false;

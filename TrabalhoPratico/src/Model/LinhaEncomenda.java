@@ -64,6 +64,10 @@ public class LinhaEncomenda implements Serializable {
         this.unitPrice = unitPrice;
     }
 
+    public double getPrice() {
+        return quantity * unitPrice;
+    }
+
     //--------------------------------------------------------------equals, toString e clone--------------------------------------------------------------------------\\
 
     public boolean equals(Object o) {
@@ -77,12 +81,11 @@ public class LinhaEncomenda implements Serializable {
     }
 
     public String toString() {
-        final StringBuilder sb = new StringBuilder("LinhaEncomenda{");
-        sb.append("productCode='").append(productCode).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", quantity=").append(quantity);
-        sb.append(", unitPrice=").append(unitPrice);
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder("");
+        sb.append(productCode).append(": ");
+        sb.append(description).append(" ");
+        sb.append(quantity).append(" ");
+        sb.append(unitPrice).append("€");
         return sb.toString();
     }
 

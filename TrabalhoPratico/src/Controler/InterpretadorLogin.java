@@ -36,7 +36,7 @@ public class InterpretadorLogin implements Serializable {
         Coordenadas cr = in.lerCoordenada();
         price = in.lerDouble("Introduza o Preco Máximo: ",0,1000000);
 
-        return new Utilizador(code, nome, cr, price, new ArrayList<>(),new ArrayList<>());
+        return new Utilizador(code, nome, cr, price, new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
     }
 
     private Estafeta registarEstafeta(String code, String nome, String type) {
@@ -54,7 +54,7 @@ public class InterpretadorLogin implements Serializable {
 
         isMedic = medic.equals("S");
 
-        return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, 0, type,false);
+        return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, 0, type,false,new ArrayList<>());
     }
 
     private Transportadora registarTransportadora(Estafeta e) {
@@ -66,7 +66,7 @@ public class InterpretadorLogin implements Serializable {
         taxaKm = in.lerDouble("Introduza a sua taxa por Km: ",0,1000000);
         taxaPeso = in.lerDouble("Introduza a sua taxa por Kg: ",0,1000000);
 
-        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(),e.getNumCla(), nif, taxaKm, taxaPeso, 0,false);
+        return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(),e.getNumCla(), nif, taxaKm, taxaPeso, 0,false, new ArrayList<>());
     }
 
     private Loja registarLoja(String code, String nome) {

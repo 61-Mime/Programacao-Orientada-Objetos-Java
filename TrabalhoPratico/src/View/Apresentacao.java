@@ -1,6 +1,7 @@
 package View;
 
 import Model.Encomenda;
+import Model.LinhaEncomenda;
 
 import java.io.Serializable;
 import java.util.List;
@@ -60,8 +61,8 @@ public class Apresentacao implements IApresentacao, Serializable {
         printMenus((new String[]{"Login/Registar", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
     }
 
-    public void printMainMenuLogOut(String type) {
-        printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
+    public void printMainMenuLogOut(String type, int numN) {
+        printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro", "Notificações (" + numN + ")"}),"MENU PRINCIPAL",0);
     }
 
     public void printMenuConsultas() {
@@ -73,7 +74,7 @@ public class Apresentacao implements IApresentacao, Serializable {
     }
 
     public void printMenuVoluntario() {
-        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", " ","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
+        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar Encomenda","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
     }
 
     public void printMenuTransportadora() {
@@ -109,6 +110,15 @@ public class Apresentacao implements IApresentacao, Serializable {
             System.out.println(line);
 
         System.out.print("\n");
+    }
+
+    public void printFatura(Encomenda enc)  {
+        System.out.print("\n");
+
+        for(LinhaEncomenda line : enc.getLinha())
+            System.out.println(line);
+
+        System.out.println("Preço: " + enc.getPrice() +"€\n");
     }
 
     public void printCodigoAcesso(String code) {
@@ -233,5 +243,37 @@ public class Apresentacao implements IApresentacao, Serializable {
 
     public void printEncomendaAceite() {
         System.out.println("A sua encomenda foi aceite pela loja e precisa de ser solicitada");
+    }
+
+    public void printCompraCancelada() {
+        System.out.println("A encomenda foi cancelada");
+    }
+
+    public String notificacaoVoluntarioAceite(String code) {
+        return "O voluntário " + code + " aceitou a sua encomenda";
+    }
+
+    public String notificacaoVoluntarioRecusado(String code) {
+        return "O voluntário " + code + " recusou a sua encomenda\nVolte a solicitar a encomenda";
+    }
+
+    public String notificacaoNovaEntregaPendente(String userCode) {
+        return "Tem uma entrega pendente do utilizador " + userCode;
+    }
+
+    public String notificacaoEntregaTransportadora(String transCode, String encCode) {
+        return "Entrega da encomenda " + encCode + " realizada com sucesso pela transportadora " + transCode;
+    }
+
+    public String notificacaoEntregaVoluntario(String transCode, String encCode) {
+        return "Entrega da encomenda " + encCode + " realizada com sucesso pelo voluntario " + transCode;
+    }
+
+    public String notificacaoEntregaAoUtilizador(String userCode, String encCode) {
+        return "Entrega da encomenda " + encCode + " realizada com sucesso ao utilizador " + userCode;
+    }
+
+    public String notificacaoCompraRealizada(String encCode, String storeCode) {
+        return "Compra realizada (" + encCode + ") na loja: " + storeCode + "\nSolicite a entrega da encomenda";
     }
 }

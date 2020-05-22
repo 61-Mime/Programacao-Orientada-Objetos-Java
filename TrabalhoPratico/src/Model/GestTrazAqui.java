@@ -38,6 +38,26 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         users.put(user.getCodigoUtilizador(), user);
     }
 
+    public List<String> getUserNotificacoes(String code) {
+        return users.get(code).getNotificacoes();
+    }
+
+    public int getUserNumNotificacoes(String code) {
+        return users.get(code).getNumNotificacoes();
+    }
+
+    public void addUserNotificacao(String code, String not) {
+        users.get(code).addNotificacao(not);
+    }
+
+    public void removeUserNotificacao(String code, String not) {
+        users.get(code).removeNotificacao(not);
+    }
+
+    public void limpaUserNotificacoes(String code) {
+        users.get(code).limpaNotificacoes();
+    }
+
     public Coordenadas getUserCoord(String userCode) {
         return users.get(userCode).getGps();
     }
@@ -64,6 +84,16 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public List<String> getTopUsers() {
         return users.values().stream().sorted().limit(10).map(c -> c.getCodigoUtilizador() + ": " + c.getName() + " " + c.getEntregasSize()).collect(Collectors.toList());
+    }
+
+    public void addUserStandBy(String userCode, String encCode) {
+        users.get(userCode).addStandBy(encCode);
+        users.get(userCode).removeEncomenda(encCode);
+    }
+
+    public void removeUserStandBy(String userCode, String encCode) {
+        users.get(userCode).removeStandBy(encCode);
+        users.get(userCode).addEncomenda(encCode);
     }
 
     //---------------------------------------------------------------Métodos Estafeta--------------------------------------------------------------------------\\
@@ -100,8 +130,28 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getVelocidade();
     }
 
-    public double getEstafetaClassificação(String code) {
+    public double getEstafetaClassificacao(String code) {
         return estafetas.get(code).getClassificacao();
+    }
+
+    public List<String> getEstafetaNotificacoes(String code) {
+        return estafetas.get(code).getNotificacoes();
+    }
+
+    public int getEstafetaNumNotificacoes(String code) {
+        return estafetas.get(code).getNumNotificacoes();
+    }
+
+    public void addEstafetaNotificacao(String code, String not) {
+        estafetas.get(code).addNotificacao(not);
+    }
+
+    public void removeEstafetaNotificacao(String code, String not) {
+        estafetas.get(code).removeNotificacao(not);
+    }
+
+    public void limpaEstafetaNotificacoes(String code) {
+        users.get(code).limpaNotificacoes();
     }
 
     public List<String> possiveisEstafetas(String enc) {
@@ -109,8 +159,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
         boolean isMedic = encomendas.get(enc).isMedic();
         double maxprice = users.get(encomendas.get(enc).getUserCode()).getPrecoMax();
-        //se for transportadora filtrar por preço
-        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && e.getGps().distancia(cr) < e.getRaio() && (precoEncomenda(enc,e.getCode()) <= maxprice)))
+
+        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && !e.isOccup() && e.getGps().distancia(cr) < e.getRaio() && (precoEncomenda(enc,e.getCode()) <= maxprice)))
                 .map(Estafeta::getCode).collect(Collectors.toList());
 
         return estafetaList;
@@ -251,14 +301,6 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public void addEncomenda(Encomenda encomenda) {
         users.get(encomenda.getUserCode()).addEncomenda(encomenda.getEncCode());
         encomendas.put(encomenda.getEncCode(), encomenda);
-    }
-
-    public void addStandBy(String code, String encCode) {
-        users.get(code).addStandBy(encCode);
-    }
-
-    public void remStandBy(String code, String encCode) {
-        users.get(code).removeStandBy(encCode);
     }
 
     public boolean containsEncomenda(String encCode) {

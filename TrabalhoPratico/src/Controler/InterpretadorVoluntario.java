@@ -14,7 +14,7 @@ public class InterpretadorVoluntario implements Serializable {
     public void interpretador(GestTrazAqui c, Login l) {
         boolean r = true;
         int command;
-        String code;
+        String encCode;
 
         while (r) {
             a.printMenuVoluntario();
@@ -33,18 +33,24 @@ public class InterpretadorVoluntario implements Serializable {
                     break;
 
                 case 2:
-                    code = c.encomendaStandBy(l.getCode());
-                    if(!code.equals("")) {
-                        if (in.lerSN("Pretender aceitar a entrega da encomenda " + code + " ao utilizador " + c.getEncUser(code))) {
-                            c.entregarEncomenda(code, l.getCode());
-                            a.printEncomendaEntregueVol(c.getEncUser(code), c.getEncUserName(code), c.getEncTime(code));
+                    encCode = c.encomendaStandBy(l.getCode());
+                    if(!encCode.equals("")) {
+                        c.removeUserStandBy(c.getEncUser(encCode), encCode);
+                        if (in.lerSN("Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode))) {
+                            c.entregarEncomenda(encCode, l.getCode());
+                            a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
+
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioAceite(l.getCode()));
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoEntregaVoluntario(l.getCode(), encCode));
+                            c.addEstafetaNotificacao(l.getCode(), a.notificacaoEntregaAoUtilizador(c.getEncUser(encCode), encCode));
                         }
                         else {
-                            c.removerEnc(l.getCode(), code);
+                            c.removerEnc(l.getCode(), encCode);
                             a.printEncRecusada();
+
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioRecusado(l.getCode()));
                         }
                         c.setEstafetaOccup(l.getCode(),false);
-                        c.remStandBy(c.getEncUser(code),code);
                     }
                     else
                         a.printSemEncomendas();
@@ -58,7 +64,7 @@ public class InterpretadorVoluntario implements Serializable {
                     break;
 
                 case 4:
-                    a.printEstafetaClassicacao(c.getEstafetaClassificação(l.getCode()));
+                    a.printEstafetaClassicacao(c.getEstafetaClassificacao(l.getCode()));
                     break;
 
                 case 0:

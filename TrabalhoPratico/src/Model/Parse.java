@@ -72,7 +72,7 @@ public class Parse implements Serializable {
         String codUtilizador = campos[0];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Utilizador(codUtilizador,nome,gps,100,new ArrayList<>(),new ArrayList<>());
+        return new Utilizador(codUtilizador,nome,gps,100,new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
     }
 
     private Loja parseLoja(String input){
@@ -91,7 +91,7 @@ public class Parse implements Serializable {
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
         double raio = Double.parseDouble(campos[4]);
 
-        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario",false);
+        return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario",false,new ArrayList<>());
     }
 
     private Estafeta parseTransportadora(String input){
@@ -103,7 +103,7 @@ public class Parse implements Serializable {
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
 
-        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0,false);
+        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0,false,new ArrayList<>());
     }
 
     private Encomenda parseEncomenda(String input){

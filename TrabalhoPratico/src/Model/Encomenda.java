@@ -232,4 +232,13 @@ public class Encomenda implements Serializable {
     public boolean encData(LocalDateTime min, LocalDateTime max) {
         return data.isBefore(max) && data.isAfter(min);
     }
+
+    public double getPrice() {
+        double price = 0d;
+
+        for(LinhaEncomenda l: linha)
+            price += l.getPrice();
+
+        return price;
+    }
 }

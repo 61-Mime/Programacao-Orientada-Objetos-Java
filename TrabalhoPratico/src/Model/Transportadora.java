@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Transportadora extends Estafeta implements Serializable {
 
@@ -21,8 +22,8 @@ public class Transportadora extends Estafeta implements Serializable {
     }
 
     public Transportadora(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao,
-                          int numCla, int nif, double taxaKm, double taxaPeso, int numEncomendas,boolean occup) {
-        super(voluntaryCode, name, gps, raio, velocidade, numKm, isFree,isMedic, classificacao,numCla,"Transportadora",occup);
+                          int numCla, int nif, double taxaKm, double taxaPeso, int numEncomendas, boolean occup, List<String> notificacoes) {
+        super(voluntaryCode, name, gps, raio, velocidade, numKm, isFree,isMedic, classificacao,numCla,"Transportadora",occup,notificacoes);
         this.nif = nif;
         this.taxaKm = taxaKm;
         this.taxaPeso = taxaPeso;

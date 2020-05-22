@@ -13,6 +13,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     private double precoMax;
     private List<String> entregas;
     private List<String> standBy;
+    private List<String> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -23,15 +24,17 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.precoMax = 0;
         this.entregas = new ArrayList<>();
         this.standBy = new ArrayList<>();
+        this.notificacoes = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas,List<String> standBy) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas, List<String> standBy, List<String> notificacoes) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
         this.precoMax = precoMax;
         this.gps = gps.clone();
         setEntregas(entregas);
         setStandBy(standBy);
+        setNotificacoes(notificacoes);
     }
 
     public Utilizador(Utilizador user) {
@@ -41,6 +44,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.gps = user.getGps();
         setEntregas(user.getEntregas());
         setStandBy(user.getStandBy());
+        setNotificacoes(user.getNotificacoes());
     }
 
      //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -98,13 +102,42 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.precoMax = precoMax;
     }
 
-    public List<String> getStandBy(){
-        return new ArrayList<>(standBy);
+    public List<String> getStandBy() {
+        return standBy;
     }
 
     public void setStandBy(List<String> standBy) {
         this.standBy = new ArrayList<>();
         this.standBy.addAll(standBy);
+    }
+
+    public void addStandBy(String encCode) {
+        standBy.add(encCode);
+    }
+
+    public void removeStandBy(String encCode) {
+        standBy.add(encCode);
+    }
+
+    public List<String> getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setNotificacoes(List<String> notificacoes) {
+        this.notificacoes = new ArrayList<>();
+        this.notificacoes.addAll(notificacoes);
+    }
+
+    public int getNumNotificacoes() {
+        return notificacoes.size();
+    }
+
+    public void addNotificacao(String not) {
+        notificacoes.add(not);
+    }
+
+    public void removeNotificacao(String not) {
+        notificacoes.remove(not);
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
@@ -146,11 +179,12 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.entregas.add(enc);
     }
 
-    public void addStandBy(String enc) {
-        this.standBy.add(enc);
+    public void removeEncomenda(String enc) {
+        this.entregas.remove(enc);
     }
 
-    public void removeStandBy(String enc) {
-        this.standBy.remove(enc);
+    public void limpaNotificacoes() {
+        for(String not: notificacoes)
+            notificacoes.remove(not);
     }
 }
