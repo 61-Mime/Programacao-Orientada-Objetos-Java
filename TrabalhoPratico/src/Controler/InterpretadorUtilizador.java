@@ -109,14 +109,14 @@ public class InterpretadorUtilizador implements Serializable {
                     encCode = s.nextLine();
                     if(list.contains(encCode)) {
                         code = aceitaEstafeta(c,encCode);
-                        if(c.getEstafetaType(code).equals("Voluntario")){
+                        if(!code.equals("") && c.getEstafetaType(code).equals("Voluntario")){
                             c.addEncomendaEstafeta(code,encCode);
                             c.addUserStandBy(l.getCode(), encCode);
                             c.setEstafetaOccup(code,true);
                             c.addEstafetaNotificacao(code, a.notificacaoNovaEntregaPendente(l.getCode()));
                             a.printEncomendaStandBy(code);
                         }
-                        else if(c.getEstafetaType(code).equals("Transportadora")){
+                        else if(!code.equals("") && c.getEstafetaType(code).equals("Transportadora")){
                             c.entregarEncomenda(encCode, code);
                             a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code), c.getEncTime(encCode));
 
