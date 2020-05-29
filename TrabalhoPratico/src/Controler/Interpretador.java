@@ -55,8 +55,16 @@ public class Interpretador implements Serializable{
         Login l = null;
         String type;
 
-        a.welcome();
-        s.nextLine();
+        if(in.lerSN(a.pedirMusica())) {
+            a.welcome();
+            Audio music = new Audio();
+            music.play("music1.wav");
+        }
+
+        else {
+            a.welcome();
+            s.nextLine();
+        }
 
         GuardarCarregarEstado g = new GuardarCarregarEstado();
 

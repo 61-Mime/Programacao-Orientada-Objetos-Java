@@ -276,4 +276,8 @@ public class Apresentacao implements IApresentacao, Serializable {
     public String notificacaoCompraRealizada(String encCode, String storeCode) {
         return "Compra realizada (" + encCode + ") na loja: " + storeCode + "\nSolicite a entrega da encomenda";
     }
+
+    public String pedirMusica() {
+        return "Deseja ouvir música de fundo? (S/N)";
+    }
 }
