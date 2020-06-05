@@ -38,35 +38,29 @@ public class Interpretador implements Serializable{
 
     private void notificacoes(GestTrazAqui c, Login l, String type) {
         if(type.equals("Utilizador")) {
-            a.printTable("Notificações", c.getUserNotificacoes(l.getCode()));
+            //a.printTable("Notificações", c.getUserNotificacoes(l.getCode()));
             c.limpaUserNotificacoes(l.getCode());
         }
         else {
-            a.printTable("Notificações", c.getEstafetaNotificacoes(l.getCode()));
+            //a.printTable("Notificações", c.getEstafetaNotificacoes(l.getCode()));
             c.limpaEstafetaNotificacoes(l.getCode());
         }
     }
 
     public void interpretador(GestTrazAqui c) throws ClassNotFoundException, IOException {
-        boolean r=true;
-        InterpretadorLogin intL = new InterpretadorLogin();
-        Scanner s = new Scanner(System.in);
         int command, numN;
-        Login l = null;
+        boolean r=true;
         String type;
 
-        if(in.lerSN(a.pedirMusica())) {
-            a.welcome();
-            Audio music = new Audio();
-            music.play("music1.wav");
-        }
-
-        else {
-            a.welcome();
-            s.nextLine();
-        }
-
+        InterpretadorLogin intL = new InterpretadorLogin();
+        Scanner s = new Scanner(System.in);
+        Login l = null;
+        Audio m = new Audio();
         GuardarCarregarEstado g = new GuardarCarregarEstado();
+
+        a.welcome();
+        m.play("sound/on.wav");
+        s.nextLine();
 
         while(r) {
             if(l==null) {
@@ -130,11 +124,11 @@ public class Interpretador implements Serializable{
                         interpretadorConsultas(c);
                         break;
                     case 4:
-                        g.guardaDados("GestTrazAqui.dat", c);
-                        a.printFicheiroGuardado("GestTrazAqui.dat");
+                        g.guardaDados("files/GestTrazAqui.dat", c);
+                        a.printFicheiroGuardado("files/GestTrazAqui.dat");
                         break;
                     case 5:
-                        c = g.carregaDados("GestTrazAqui.dat");
+                        c = g.carregaDados("files/GestTrazAqui.dat");
                         a.printFicheiroCarregado("GestTrazAqui.dat");
                         break;
                     case 6:

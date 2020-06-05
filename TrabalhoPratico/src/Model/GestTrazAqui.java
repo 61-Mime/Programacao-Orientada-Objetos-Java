@@ -38,7 +38,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         users.put(user.getCodigoUtilizador(), user);
     }
 
-    public List<String> getUserNotificacoes(String code) {
+    public List<Notificacao> getUserNotificacoes(String code) {
         return users.get(code).getNotificacoes();
     }
 
@@ -46,8 +46,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return users.get(code).getNumNotificacoes();
     }
 
-    public void addUserNotificacao(String code, String not) {
-        users.get(code).addNotificacao(not);
+    public void addUserNotificacao(String code, String not, int type) {
+        users.get(code).addNotificacao(not, type);
     }
 
     public void removeUserNotificacao(String code, String not) {
@@ -134,7 +134,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getClassificacao();
     }
 
-    public List<String> getEstafetaNotificacoes(String code) {
+    public List<Notificacao> getEstafetaNotificacoes(String code) {
         return estafetas.get(code).getNotificacoes();
     }
 
@@ -142,8 +142,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getNumNotificacoes();
     }
 
-    public void addEstafetaNotificacao(String code, String not) {
-        estafetas.get(code).addNotificacao(not);
+    public void addEstafetaNotificacao(String code, String not, int type) {
+        estafetas.get(code).addNotificacao(not, type);
     }
 
     public void removeEstafetaNotificacao(String code, String not) {

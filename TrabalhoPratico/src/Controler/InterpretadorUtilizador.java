@@ -113,7 +113,7 @@ public class InterpretadorUtilizador implements Serializable {
                             c.addEncomendaEstafeta(code,encCode);
                             c.addUserStandBy(l.getCode(), encCode);
                             c.setEstafetaOccup(code,true);
-                            c.addEstafetaNotificacao(code, a.notificacaoNovaEntregaPendente(l.getCode()));
+                            c.addEstafetaNotificacao(code, a.notificacaoNovaEntregaPendente(l.getCode()), 1);
                             a.printEncomendaStandBy(code);
                         }
                         else if(!code.equals("") && c.getEstafetaType(code).equals("Transportadora")){
@@ -124,8 +124,8 @@ public class InterpretadorUtilizador implements Serializable {
                                 pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
                             c.classificarEstafeta(pontuacao, code);
 
-                            c.addUserNotificacao(l.getCode(), a.notificacaoEntregaTransportadora(code, encCode));
-                            c.addEstafetaNotificacao(code, a.notificacaoEntregaAoUtilizador(l.getCode(), encCode));
+                            c.addUserNotificacao(l.getCode(), a.notificacaoEntregaTransportadora(code, encCode), 2);
+                            c.addEstafetaNotificacao(code, a.notificacaoEntregaAoUtilizador(l.getCode(), encCode), 1);
                         }
                         else
                             a.printErroEntrega();
@@ -157,7 +157,7 @@ public class InterpretadorUtilizador implements Serializable {
                         c.addEncomenda(enc);
                         c.aceitarEncomenda(enc.getEncCode());
                         a.printEncomendaAceite();
-                        c.addUserNotificacao(l.getCode(), a.notificacaoCompraRealizada(enc.getEncCode(), loja));
+                        c.addUserNotificacao(l.getCode(), a.notificacaoCompraRealizada(enc.getEncCode(), loja), 1);
                     }
 
                     else

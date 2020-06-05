@@ -13,7 +13,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     private double precoMax;
     private List<String> entregas;
     private List<String> standBy;
-    private List<String> notificacoes;
+    private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -27,7 +27,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.notificacoes = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas, List<String> standBy, List<String> notificacoes) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas, List<String> standBy, List<Notificacao> notificacoes) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
         this.precoMax = precoMax;
@@ -119,11 +119,11 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         standBy.add(encCode);
     }
 
-    public List<String> getNotificacoes() {
+    public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
 
-    public void setNotificacoes(List<String> notificacoes) {
+    public void setNotificacoes(List<Notificacao> notificacoes) {
         this.notificacoes = new ArrayList<>();
         this.notificacoes.addAll(notificacoes);
     }
@@ -132,8 +132,8 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         return notificacoes.size();
     }
 
-    public void addNotificacao(String not) {
-        notificacoes.add(not);
+    public void addNotificacao(String not, int type) {
+        notificacoes.add(new Notificacao(not, type));
     }
 
     public void removeNotificacao(String not) {

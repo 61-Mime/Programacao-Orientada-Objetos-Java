@@ -20,7 +20,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private double classificacao;
     private int numCla;
     private List<String> registo;
-    private List<String> notificacoes;
+    private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -41,7 +41,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.notificacoes = new ArrayList<>();
     }
 
-    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type,boolean occup, List<String> notificacoes) {
+    public Estafeta(String voluntaryCode, String name, Coordenadas gps, double raio, double velocidade, double numKm, boolean isFree, boolean isMedic, double classificacao, int numCla, String type,boolean occup, List<Notificacao> notificacoes) {
         this.code = voluntaryCode;
         this.name = name;
         this.type = type;
@@ -200,11 +200,11 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.type = type;
     }
 
-    public List<String> getNotificacoes() {
+    public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
 
-    public void setNotificacoes(List<String> notificacoes) {
+    public void setNotificacoes(List<Notificacao> notificacoes) {
         this.notificacoes = new ArrayList<>();
         this.notificacoes.addAll(notificacoes);
     }
@@ -213,8 +213,8 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         return notificacoes.size();
     }
 
-    public void addNotificacao(String not) {
-        notificacoes.add(not);
+    public void addNotificacao(String not, int type) {
+        notificacoes.add(new Notificacao(not, type));
     }
 
     public void removeNotificacao(String not) {

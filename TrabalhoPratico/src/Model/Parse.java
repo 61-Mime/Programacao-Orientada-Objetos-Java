@@ -12,7 +12,7 @@ import java.util.stream.DoubleStream;
 
 public class Parse implements Serializable {
     public void parse(GestTrazAqui c){
-        List<String> linhas = lerFicheiro("logs.txt");
+        List<String> linhas = lerFicheiro("files/logs.txt");
         String [] linhaPartida;
         Login log;
 
@@ -124,7 +124,7 @@ public class Parse implements Serializable {
     }
 
     private void parseProdutosTxt(GestTrazAqui c) {
-        List<String> linhas = lerFicheiro("produtos.txt");
+        List<String> linhas = lerFicheiro("files/produtos.txt");
         String[] linhaPartida;
 
         for(String linha: linhas) {

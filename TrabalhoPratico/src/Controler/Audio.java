@@ -16,19 +16,11 @@ public class Audio {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audio);
                 clip.start();
-
-                s.nextLine();
             }
             else
                 System.out.println("Não existe");
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
