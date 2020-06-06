@@ -3,10 +3,15 @@ package View;
 import Model.Encomenda;
 import Model.LinhaEncomenda;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ApresentacaoUtilizador {
-    Output out = new Output();
+public class ApresentacaoUtilizador implements Serializable {
+    private final Output out;
+
+    public ApresentacaoUtilizador() {
+        out = new Output();
+    }
 
     public void printMenuUtilizador() {
         out.printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),"MENU UTILIZADOR",1);
@@ -34,8 +39,8 @@ public class ApresentacaoUtilizador {
         System.out.println("Sem mais estafetas disponiveis!");
     }
 
-    public void printErroEncomendaInvalida(){
-        System.out.println("Encomenda Inválida");
+    public void printErroSemEncomenda(){
+        System.out.println("Não existem encomendas");
     }
 
     public void printEncomendaEntregueVol(String code, String nome, double tempo) {
@@ -64,5 +69,9 @@ public class ApresentacaoUtilizador {
 
     public void printEncomendaStandBy(String code){
         System.out.println("A sua encomenda está à espera de ser aceite pelo voluntário " + code);
+    }
+
+    public String pedirEncomenda() {
+        return "Escolha uma encomenda: ";
     }
 }

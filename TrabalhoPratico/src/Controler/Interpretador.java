@@ -1,9 +1,8 @@
 package Controler;
 
+import Files.GuardarCarregarEstado;
 import Model.*;
 import View.Apresentacao;
-import View.ApresentacaoNotificacoes;
-import View.Audio;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,7 +10,21 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Interpretador implements Serializable{
-    Input in = new Input();
+    private final Input in;
+    private final InterpretadorLogin intL;
+    private final InterpretadorUtilizador intU;
+    private final InterpretadorVoluntario intE;
+    private final InterpretadorTransportadora intT;
+    private final InterpretadorLoja intLj;
+
+    public Interpretador() {
+        in = new Input();
+        intL = new InterpretadorLogin();
+        intU = new InterpretadorUtilizador();
+        intE = new InterpretadorVoluntario();
+        intT = new InterpretadorTransportadora();
+        intLj = new InterpretadorLoja();
+    }
 
     private void interpretadorConsultas(GestTrazAqui c, Apresentacao a) {
         boolean r=true;
@@ -44,7 +57,7 @@ public class Interpretador implements Serializable{
         if(type.equals("Utilizador"))
             notificacoes = c.getUserNotificacoes(l.getCode());
         else
-            notificacoes = c.getUserNotificacoes(l.getCode());
+            notificacoes = c.getEstafetaNotificacoes(l.getCode());
 
         int size = notificacoes.size();
 
@@ -64,8 +77,10 @@ public class Interpretador implements Serializable{
                 else if(command==2 && page>=0)
                     page --;
 
-                else if(command==3 && notificacoes.get(page).getType() == 2)
-                    System.out.println("CLASSIFICAR");
+                else if(command==3 && notificacoes.get(page).getType() == 2) {
+                    double pontuacao = in.lerDouble(a,"Introduza a classificação (0/10)", 0, 10);
+                    c.classificarEstafeta(pontuacao, notificacoes.get(page).getEstCode());
+                }
 
                 else if(command==0)
                     r=false;
@@ -82,19 +97,18 @@ public class Interpretador implements Serializable{
             c.limpaEstafetaNotificacoes(l.getCode());
     }
 
-    public void interpretador(GestTrazAqui c, Apresentacao a) throws ClassNotFoundException, IOException {
-        int command, numN;
+    public void interpretador(GestTrazAqui c, Apresentacao a, Login l) throws ClassNotFoundException, IOException {
+        int command, numN=0;
         boolean r=true;
         String type;
 
-        InterpretadorLogin intL = new InterpretadorLogin();
         Scanner s = new Scanner(System.in);
-        Login l = null;
         GuardarCarregarEstado g = new GuardarCarregarEstado();
 
         a.welcome();
         a.play("sound/on.wav");
         s.nextLine();
+        a.play("sound/ok.wav");
 
         while(r) {
             if(l==null) {
@@ -119,7 +133,6 @@ public class Interpretador implements Serializable{
                     default:
                         a.printErroComandoInvalido();
                         break;
-
                 }
             }
 
@@ -128,7 +141,7 @@ public class Interpretador implements Serializable{
 
                 if(l.getTipoConta().equals("Utilizador"))
                     numN = c.getUserNumNotificacoes(l.getCode());
-                else
+                else if(l.getTipoConta().equals("Voluntario") || l.getTipoConta().equals("Transportadora"))
                     numN = c.getEstafetaNumNotificacoes(l.getCode());
 
                 a.printMainMenuLogOut(l.getTipoConta(),numN);
@@ -141,16 +154,16 @@ public class Interpretador implements Serializable{
                     case 2:
                         switch (l.getTipoConta()) {
                             case "Utilizador":
-                                InterpretadorUtilizador intU = new InterpretadorUtilizador();
                                 intU.interpretador(c, a, l);
                                 break;
                             case "Voluntario":
-                                InterpretadorVoluntario intE = new InterpretadorVoluntario();
                                 intE.interpretador(a, c, l);
                                 break;
                             case "Transportadora":
-                                InterpretadorTransportadora intT = new InterpretadorTransportadora();
                                 intT.interpretador(c, a, l);
+                                break;
+                            case "Loja":
+                                intLj.interpretador(a, c, l);
                                 break;
                         }
                         break;

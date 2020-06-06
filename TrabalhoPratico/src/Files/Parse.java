@@ -1,4 +1,6 @@
-package Model;
+package Files;
+
+import Model.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -8,9 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
-public class Parse implements Serializable {
+public class Parse implements Serializable, IParse {
     public void parse(GestTrazAqui c){
         List<String> linhas = lerFicheiro("files/logs.txt");
         String [] linhaPartida;

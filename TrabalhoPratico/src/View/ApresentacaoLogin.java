@@ -1,7 +1,13 @@
 package View;
 
-public class ApresentacaoLogin {
-    Output out = new Output();
+import java.io.Serializable;
+
+public class ApresentacaoLogin implements Serializable {
+    private final Output out;
+
+    public ApresentacaoLogin() {
+        out = new Output();
+    }
 
     public void printMenuLogin() {
         out.printMenus((new String[]{"Login", "Registar"}),"MENU LOGIN",1);

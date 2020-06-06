@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Scanner;
 
-public class Audio {
+public class Audio implements Serializable{
 
     public void play(String filePath){
         try {

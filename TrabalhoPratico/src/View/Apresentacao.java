@@ -7,13 +7,27 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Apresentacao implements IApresentacao, Serializable {
-    ApresentacaoMain am = new ApresentacaoMain();
-    ApresentacaoLogin al = new ApresentacaoLogin();
-    ApresentacaoUtilizador au = new ApresentacaoUtilizador();
-    ApresentacaoVoluntarioTransportadora avt = new ApresentacaoVoluntarioTransportadora();
-    ApresentacaoNotificacoes an = new ApresentacaoNotificacoes();
-    Output out = new Output();
-    Audio audio = new Audio();
+    private final ApresentacaoMain am;
+    private final ApresentacaoLogin al;
+    private final ApresentacaoUtilizador au;
+    private final ApresentacaoVoluntarioTransportadora avt;
+    private final ApresentacaoNotificacoes an;
+    private final ApresentacaoLoja alj;
+    private final Output out;
+    private final Audio audio;
+
+    // ------------------------ Construtor ------------------------- \\
+
+    public Apresentacao() {
+        am = new ApresentacaoMain();
+        al = new ApresentacaoLogin();
+        au = new ApresentacaoUtilizador();
+        avt = new ApresentacaoVoluntarioTransportadora();
+        an = new ApresentacaoNotificacoes();
+        alj = new ApresentacaoLoja();
+        out = new Output();
+        audio = new Audio();
+    }
 
     // ------------------------ Apresentação Main ------------------------- \\
 
@@ -117,8 +131,8 @@ public class Apresentacao implements IApresentacao, Serializable {
         au.printErroEntrega();
     }
 
-    public void printErroEncomendaInvalida(){
-        au.printErroEncomendaInvalida();
+    public void printErroSemEncomenda(){
+        au.printErroSemEncomenda();
     }
 
     public void printEncomendaEntregueVol(String code, String nome, double tempo) {
@@ -145,6 +159,10 @@ public class Apresentacao implements IApresentacao, Serializable {
         au.printEncomendaStandBy(code);
     }
 
+    public String pedirEncomenda() {
+        return au.pedirEncomenda();
+    }
+
     // ------------------------ Apresentação Voluntario Transportadora ------------------------- \\
 
     public void printMenuVoluntario() {
@@ -153,10 +171,6 @@ public class Apresentacao implements IApresentacao, Serializable {
 
     public void printMenuTransportadora() {
         avt.printMenuTransportadora();
-    }
-
-    public void printPedirEncomenda() {
-        avt.printPedirEncomenda();
     }
 
     public void printEstafetaDisponivel() {
@@ -185,6 +199,16 @@ public class Apresentacao implements IApresentacao, Serializable {
 
     public void printEncRecusada(){
         avt.printEncRecusada();
+    }
+
+    // ------------------------ Apresentacao Loja ------------------------- \\
+
+    public void printMenuLoja() {
+        alj.printMenuLoja();
+    }
+
+    public void printMenuLojaIndisponivel() {
+        alj.printMenuLojaIndisponivel();
     }
 
     // ------------------------ Apresentacao Notificacoes ------------------------- \\

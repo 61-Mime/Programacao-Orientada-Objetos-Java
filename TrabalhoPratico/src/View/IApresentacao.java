@@ -29,16 +29,15 @@ public interface IApresentacao {
     public void printEncomendas(String message, List<Encomenda> arr);
     public void printFatura(Encomenda enc);
     public void printErroEntrega();
-    public void printErroEncomendaInvalida();
     public void printEncomendaEntregueVol(String code, String nome, double tempo);
     public void printEncomendaEntregue(String code, String tipo, String nome, double preco, double tempo);
     public void printEncomendaAceite();
     public void printCompraCancelada();
     public void printPedirClassificar();
     public void printEncomendaStandBy(String code);
+    public String pedirEncomenda();
     public void printMenuVoluntario();
     public void printMenuTransportadora();
-    public void printPedirEncomenda();
     public void printEstafetaDisponivel();
     public void printEstafetaIndisponivel();
     public void printEstafetaPreco(double preco);
@@ -46,6 +45,8 @@ public interface IApresentacao {
     public void printEstafetaClassicacao(double classificacao);
     public void printSemEncomendas();
     public void printEncRecusada();
+    public void printMenuLoja();
+    public void printMenuLojaIndisponivel();
     public void notifTable(String not, int type, int page, int max);
     public void printEmptyNot();
     public String notificacaoVoluntarioAceite(String code);

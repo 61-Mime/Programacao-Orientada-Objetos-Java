@@ -13,6 +13,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     private Map<String, Encomenda> encomendas;
     private Map<String, Produto> produtos;
     private Map<String, Login> loginMap;
+    private int[] randomTraffic;
+    private int[] randomWeather;
+    private int[] randomQueue;
 
     public GestTrazAqui() {
         this.users = new HashMap<>();
@@ -21,8 +24,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         this.encomendas = new HashMap<>();
         this.produtos = new HashMap<>();
         this.loginMap = new HashMap<>();
+        this.randomTraffic = new int[]{1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6};
+        this.randomWeather = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4};
+        this.randomQueue = new int[]{0, 0, 1, 1, 2, 2, 3, 4, 5, 7, 8, 10};
     }
-
 
     //--------------------------------------------------------------Métodos Utilizador--------------------------------------------------------------------------\\
 
@@ -46,12 +51,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return users.get(code).getNumNotificacoes();
     }
 
-    public void addUserNotificacao(String code, String not, int type) {
-        users.get(code).addNotificacao(not, type);
-    }
-
-    public void removeUserNotificacao(String code, String not) {
-        users.get(code).removeNotificacao(not);
+    public void addUserNotificacao(String code, String not, int type, String estCode) {
+        users.get(code).addNotificacao(not, type, estCode);
     }
 
     public void limpaUserNotificacoes(String code) {
@@ -142,8 +143,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getNumNotificacoes();
     }
 
-    public void addEstafetaNotificacao(String code, String not, int type) {
-        estafetas.get(code).addNotificacao(not, type);
+    public void addEstafetaNotificacao(String code, String not, int type, String estCode) {
+        estafetas.get(code).addNotificacao(not, type, estCode);
     }
 
     public void removeEstafetaNotificacao(String code, String not) {
@@ -227,6 +228,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public void setEstafetaOccup(String code,boolean occup){
         estafetas.get(code).setOccup(occup);
     }
+
     //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
 
     public List<String> getLojas() {
@@ -287,6 +289,13 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return lojas.get(storeCode).containsProd(prodCode);
     }
 
+    public boolean hasQueueInfoLoja(String storeCode) {
+        return lojas.get(storeCode).isHasQueueInfo();
+    }
+
+    public void setStoreQueueTime(String storeCode, double time) {
+        lojas.get(storeCode).setQueueTime(time);
+    }
 
     //--------------------------------------------------------------Métodos Encomenda--------------------------------------------------------------------------\\
 
@@ -411,16 +420,16 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     public boolean containsNameAndType(String name, String type) {
-        return loginMap.values().stream().filter(c -> c.getNome().equals(name)).filter(c -> c.getTipoConta().equals(type)).collect(Collectors.toList()).size() != 0;
+        return loginMap.values().stream().filter(c -> c.getNome().equals(name)).anyMatch(c -> c.getTipoConta().equals(type));
     }
-
 
     //----------------------------------------------------------------Outros Métodos--------------------------------------------------------------------------\\
 
     public double calculaTempo(Coordenadas crE,Coordenadas crL,Coordenadas crU,double tempoFilaEspera,double velocidade) {
         Random rand = new Random();
-        int condicoesAtmosfericas = rand.nextInt(3);
-        int queueSize = rand.nextInt(8);
+        int condicoesAtmosfericas = randomWeather[rand.nextInt(15) - 1];
+        int queueSize = randomQueue[rand.nextInt(15) - 1];
+        int transito = randomTraffic[rand.nextInt(15) - 1];
         if(tempoFilaEspera == -1)
             tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
 
@@ -429,9 +438,21 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
         if(condicoesAtmosfericas == 2)
             tempo *= 1.2;
-
         else if(condicoesAtmosfericas == 3)
             tempo *= 1.5;
+        else if(condicoesAtmosfericas == 4)
+            tempo *= 2;
+
+        if(transito == 2)
+            tempo *= 1.2;
+        else if(transito == 3)
+            tempo *= 1.5;
+        else if(transito == 4)
+            tempo *= 2;
+        else if(transito == 5)
+            tempo *= 2.5;
+        else if(transito == 6)
+            tempo *= 3;
 
         return tempo;
     }

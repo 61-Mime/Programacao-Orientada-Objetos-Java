@@ -213,8 +213,8 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         return notificacoes.size();
     }
 
-    public void addNotificacao(String not, int type) {
-        notificacoes.add(new Notificacao(not, type));
+    public void addNotificacao(String not, int type, String estCode) {
+        notificacoes.add(new Notificacao(not, type, estCode));
     }
 
     public void removeNotificacao(String not) {

@@ -8,6 +8,7 @@ import View.Audio;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Input implements Serializable {
@@ -27,6 +28,28 @@ public class Input implements Serializable {
         a.play("sound/ok.wav");
 
         return line.toUpperCase().equals("S");
+    }
+
+    public void lerNum(Apresentacao a, String message,int num){
+        Scanner s = new Scanner(System.in);
+        int n = num-1;
+        int i = 0;
+
+        do{
+            if(i++ != 0)
+                a.play("sound/error.wav");
+
+            a.printMessage(message);
+            try {
+                String line = s.nextLine();
+                n = Integer.parseInt(line);
+            } catch (NumberFormatException nfe) {
+                a.printMessage(nfe.getMessage());
+                n = num-1;
+            }
+        } while (n != num);
+
+        a.play("sound/ok.wav");
     }
 
     public double lerDouble(Apresentacao a, String message,int min,int max){
@@ -77,7 +100,7 @@ public class Input implements Serializable {
         return data;
     }
 
-    public String lerString(Apresentacao a, String message, GestTrazAqui c) {
+    public String lerStringLoja(Apresentacao a, String message, GestTrazAqui c) {
         Scanner s = new Scanner(System.in);
         String line;
         int i = 0;
@@ -89,6 +112,27 @@ public class Input implements Serializable {
             a.printMessage(message);
             line = s.nextLine();
         } while (!c.containsLoja(line));
+
+        a.play("sound/ok.wav");
+
+        return line;
+    }
+
+    public String lerStringSolicitarEnc(Apresentacao a, String message, List<String> list) {
+        Scanner s = new Scanner(System.in);
+        String line;
+        int i = 0;
+
+        if(list.size() == 0)
+            a.printErroSemEncomenda();
+
+        do{
+            if(i++ != 0)
+                a.play("sound/error.wav");
+
+            a.printMessage(message);
+            line = s.nextLine();
+        } while (!list.contains(line));
 
         a.play("sound/ok.wav");
 

@@ -8,7 +8,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class InterpretadorVoluntario implements Serializable {
-    Input in = new Input();
+    private final Input in;
+
+    public InterpretadorVoluntario() {
+        in = new Input();
+    }
 
     public void interpretador(Apresentacao a, GestTrazAqui c, Login l) {
         boolean r = true;
@@ -35,19 +39,19 @@ public class InterpretadorVoluntario implements Serializable {
                     encCode = c.encomendaStandBy(l.getCode());
                     if(!encCode.equals("")) {
                         c.removeUserStandBy(c.getEncUser(encCode), encCode);
-                        if (in.lerSN(a,"Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode))) {
+                        if (in.lerSN(a,"Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode) + "(S/N)")) {
                             c.entregarEncomenda(encCode, l.getCode());
                             a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
 
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioAceite(l.getCode()), 1);
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoEntregaVoluntario(l.getCode(), encCode), 2);
-                            c.addEstafetaNotificacao(l.getCode(), a.notificacaoEntregaAoUtilizador(c.getEncUser(encCode), encCode), 1);
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioAceite(l.getCode()), 1, "");
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoEntregaVoluntario(l.getCode(), encCode), 2, l.getCode());
+                            c.addEstafetaNotificacao(l.getCode(), a.notificacaoEntregaAoUtilizador(c.getEncUser(encCode), encCode), 1, "");
                         }
                         else {
                             c.removerEnc(l.getCode(), encCode);
                             a.printEncRecusada();
 
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioRecusado(l.getCode()), 1);
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioRecusado(l.getCode()), 1, "");
                         }
                         c.setEstafetaOccup(l.getCode(),false);
                     }

@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class InterpretadorTransportadora {
-    Input in = new Input();
+    private final Input in;
+
+    public InterpretadorTransportadora() {
+        in = new Input();
+    }
 
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
         boolean r = true;

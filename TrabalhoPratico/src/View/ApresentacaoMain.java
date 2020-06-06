@@ -1,7 +1,13 @@
 package View;
 
-public class ApresentacaoMain {
-    Output out = new Output();
+import java.io.Serializable;
+
+public class ApresentacaoMain implements Serializable {
+    private final Output out;
+
+    public ApresentacaoMain() {
+        out = new Output();
+    }
 
     public void welcome() {
         System.out.println(" _____                 _               _");

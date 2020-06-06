@@ -1,8 +1,9 @@
 package View;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Output {
+public class Output implements Serializable {
     public void clear() {
         for(int i = 0; i<5; i++)
             System.out.println("");

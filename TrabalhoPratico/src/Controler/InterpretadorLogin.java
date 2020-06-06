@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InterpretadorLogin implements Serializable {
-    Input in = new Input();
+    private final Input in;
+
+    public InterpretadorLogin() {
+        in = new Input();
+    }
 
     private Login login(GestTrazAqui c, Apresentacao a) {
         Scanner s = new Scanner(System.in);
@@ -18,13 +22,17 @@ public class InterpretadorLogin implements Serializable {
         user = s.nextLine();
 
         if(c.containsUser(user)) {
+            a.play("sound/ok.wav");
             a.printPedirPassword();
             pass = s.nextLine();
 
-            if(c.containsPassword(user, pass))
+            if(c.containsPassword(user, pass)) {
+                a.play("sound/ok.wav");
                 return c.getLogin(user);
+            }
         }
 
+        a.play("sound/error.wav");
         return null;
     }
 
@@ -155,8 +163,9 @@ public class InterpretadorLogin implements Serializable {
                         a.printLoginSucesso();
                         r = false;
                     }
-                    else
+                    else {
                         a.printErroDadosInvalidos();
+                    }
                     break;
 
                 case 2:

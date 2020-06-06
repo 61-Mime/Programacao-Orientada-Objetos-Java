@@ -1,4 +1,5 @@
 import Controler.Interpretador;
+import Files.Parse;
 import Model.*;
 import View.Apresentacao;
 
@@ -12,8 +13,9 @@ public class Main implements Serializable {
         Interpretador i = new Interpretador();
         Apresentacao a = new Apresentacao();
         Parse parse = new Parse();
+        Login l = null;
         parse.parse(controlador);
 
-        i.interpretador(controlador, a);
+        i.interpretador(controlador, a, l);
     }
 }

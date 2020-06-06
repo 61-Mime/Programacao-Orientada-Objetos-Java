@@ -1,6 +1,8 @@
 package View;
 
-public class ApresentacaoNotificacoes {
+import java.io.Serializable;
+
+public class ApresentacaoNotificacoes implements Serializable {
 
     public void notifTable(String not, int type, int page, int max) {
         System.out.println("-------------------------------------------------------");

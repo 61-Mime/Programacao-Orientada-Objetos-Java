@@ -1,7 +1,13 @@
 package View;
 
-public class ApresentacaoVoluntarioTransportadora {
-    Output out = new Output();
+import java.io.Serializable;
+
+public class ApresentacaoVoluntarioTransportadora implements Serializable {
+    private final Output out;
+
+    public ApresentacaoVoluntarioTransportadora() {
+        out = new Output();
+    }
 
     public void printMenuVoluntario() {
         out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar Encomenda","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
@@ -9,10 +15,6 @@ public class ApresentacaoVoluntarioTransportadora {
 
     public void printMenuTransportadora() {
         out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação"},"MENU TRANSPORTADORA",1);
-    }
-
-    public void printPedirEncomenda() {
-        System.out.println("Escolha uma encomenda: ");
     }
 
     public void printEstafetaDisponivel() {
