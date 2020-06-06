@@ -76,24 +76,19 @@ public class InterpretadorLogin implements Serializable {
         return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(),e.getNumCla(), nif, taxaKm, taxaPeso, 0,false, new ArrayList<>());
     }
 
-    private Loja registarLoja(Apresentacao a, String code, String nome) {
+    private Loja registarLoja(Apresentacao a, GestTrazAqui c, String code, String nome) {
         Scanner s = new Scanner(System.in);
         String queue;
         boolean hasQueue;
 
         Coordenadas cr = in.lerCoordenada(a);
 
-        a.printPedirFilaEspera();
-        queue = s.nextLine();
-
-        hasQueue = queue.equals("S");
-
-        if (hasQueue) {
+        if (in.lerSN(a, "A loja tem informação de fila de espera? (S/N)")) {
             double queueTime = in.lerDouble(a,"Qual é o tempo médio de espera em fila?: ",0,1000);
-            return new Loja(code, nome, cr, hasQueue, queueTime, new ArrayList<>(), new ArrayList<>());
+            return new Loja(code, nome, cr, true, queueTime, c.randomListaProdutos() , new ArrayList<>());
         }
 
-        return new Loja(code, nome, cr, hasQueue, -1, new ArrayList<>(), new ArrayList<>());
+        return new Loja(code, nome, cr, false, -1, c.randomListaProdutos(), new ArrayList<>());
     }
 
     private boolean registar(GestTrazAqui c, Apresentacao a) {
@@ -134,7 +129,7 @@ public class InterpretadorLogin implements Serializable {
                     c.addUser(registarUtilizador(a, code, nome));
                     break;
                 case "Loja":
-                    c.addLoja(registarLoja(a, code, nome));
+                    c.addLoja(registarLoja(a, c, code, nome));
                     break;
             }
 

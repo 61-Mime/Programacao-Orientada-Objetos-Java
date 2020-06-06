@@ -78,4 +78,8 @@ public class ApresentacaoUtilizador implements Serializable {
     public String pedirEncomenda() {
         return "Escolha uma encomenda: ";
     }
+
+    public void printEncomendaInvalida() {
+        System.out.println("Encomenda Inválida");
+    }
 }

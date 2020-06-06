@@ -189,7 +189,6 @@ public class Input implements Serializable {
 
         for (String s: line) {
             tmp = s.split(" ");
-
             if (!c.containsProdutoLoja(storeCode, tmp[0]))
                 return false;
         }

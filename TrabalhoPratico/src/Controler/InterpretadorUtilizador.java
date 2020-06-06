@@ -55,6 +55,11 @@ public class InterpretadorUtilizador implements Serializable {
 
         Encomenda enc = registaEncomenda(linha, c, l.getCode(), loja);
 
+        if(enc == null) {
+            a.printEncomendaInvalida();
+            return;
+        }
+
         a.printFatura(enc);
 
         if(in.lerSN(a,"Quer continuar com a compra? (S/N)")) {
@@ -93,13 +98,17 @@ public class InterpretadorUtilizador implements Serializable {
         boolean isMedic = false;
 
         for (String s: linhaPartida) {
-            tmp = s.split(" ");
-            double quantidade = Double.parseDouble(tmp[1]);
-            peso += quantidade * c.getProdWeight(tmp[0]);
-            linhaEncomendas.add(registaLinhaEncomenda(tmp[0], quantidade, c.getProdPrice(tmp[0]), c));
+            try {
+                tmp = s.split(" ");
+                double quantidade = Double.parseDouble(tmp[1]);
+                peso += quantidade * c.getProdWeight(tmp[0]);
+                linhaEncomendas.add(registaLinhaEncomenda(tmp[0], quantidade, c.getProdPrice(tmp[0]), c));
 
-            if(c.getProdisMedic(tmp[0]))
-                isMedic = true;
+                if (c.getProdisMedic(tmp[0]))
+                    isMedic = true;
+            } catch(ArrayIndexOutOfBoundsException e) {
+                return null;
+            }
         }
 
         String encCode;
