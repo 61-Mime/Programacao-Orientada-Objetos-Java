@@ -151,6 +151,10 @@ public class Apresentacao implements IApresentacao, Serializable {
         au.printCompraCancelada();
     }
 
+    public void printCompraEspera() {
+        au.printCompraEspera();
+    }
+
     public void printPedirClassificar() {
         au.printPedirClassificar();
     }
@@ -211,6 +215,14 @@ public class Apresentacao implements IApresentacao, Serializable {
         alj.printMenuLojaIndisponivel();
     }
 
+    public void printCompraAceite(String encCode) {
+        alj.printCompraAceite(encCode);
+    }
+
+    public void printCompraRecusada(String encCode) {
+        alj.printCompraRecusada(encCode);
+    }
+
     // ------------------------ Apresentacao Notificacoes ------------------------- \\
 
     public void notifTable(String not, int type, int page, int max) {
@@ -221,32 +233,32 @@ public class Apresentacao implements IApresentacao, Serializable {
         an.printEmptyNot();
     }
 
-    public String notificacaoVoluntarioAceite(String code) {
-        return an.notificacaoVoluntarioAceite(code);
+    public String notificacaoUtilizadorLojaAceite(String storeCode) {
+        return an.notificacaoUtilizadorLojaAceite(storeCode);
     }
 
-    public String notificacaoVoluntarioRecusado(String code) {
-        return an.notificacaoVoluntarioRecusado(code);
+    public String notificacaoUtilizadorLojaRecusado(String storeCode) {
+        return an.notificacaoUtilizadorLojaRecusado(storeCode);
     }
 
-    public String notificacaoNovaEntregaPendente(String userCode) {
-        return an.notificacaoNovaEntregaPendente(userCode);
+    public String notificacaoUtilizadorVoluntarioRecusado(String code) {
+        return an.notificacaoUtilizadorVoluntarioRecusado(code);
     }
 
-    public String notificacaoEntregaTransportadora(String transCode, String encCode) {
-        return an.notificacaoEntregaTransportadora(transCode, encCode);
+    public String notificacaoUtilizadorEntregaTransportadora(String transCode, String encCode) {
+        return an.notificacaoUtilizadorEntregaTransportadora(transCode, encCode);
     }
 
-    public String notificacaoEntregaVoluntario(String transCode, String encCode) {
-        return an.notificacaoEntregaVoluntario(transCode, encCode);
+    public String notificacaoUtilizadorEntregaVoluntario(String transCode, String encCode) {
+        return an.notificacaoUtilizadorEntregaVoluntario(transCode, encCode);
     }
 
-    public String notificacaoEntregaAoUtilizador(String userCode, String encCode) {
-        return an.notificacaoEntregaAoUtilizador(userCode, encCode);
+    public String notificacaoVoluntarioNovaEntrega(String encCode, String userCode) {
+        return an.notificacaoVoluntarioNovaEntrega(encCode, userCode);
     }
 
-    public String notificacaoCompraRealizada(String encCode, String storeCode) {
-        return an.notificacaoCompraRealizada(encCode, storeCode);
+    public String notificacaoLojaNovaCompra(String encCode, String userCode) {
+        return an.notificacaoLojaNovaCompra(encCode, userCode);
     }
 
     // ------------------------ Audio ------------------------- \\

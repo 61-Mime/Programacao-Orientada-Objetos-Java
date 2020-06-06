@@ -6,6 +6,7 @@ import View.Apresentacao;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,8 +57,12 @@ public class Interpretador implements Serializable{
 
         if(type.equals("Utilizador"))
             notificacoes = c.getUserNotificacoes(l.getCode());
+        else if(type.equals("Loja"))
+            notificacoes = c.getLojaNotificacoes(l.getCode());
         else
             notificacoes = c.getEstafetaNotificacoes(l.getCode());
+
+        Collections.reverse(notificacoes);
 
         int size = notificacoes.size();
 
@@ -93,6 +98,8 @@ public class Interpretador implements Serializable{
 
         if(type.equals("Utilizador"))
             c.limpaUserNotificacoes(l.getCode());
+        else if(type.equals("Loja"))
+            c.limpaLojaNotificacoes(l.getCode());
         else
             c.limpaEstafetaNotificacoes(l.getCode());
     }
@@ -141,7 +148,9 @@ public class Interpretador implements Serializable{
 
                 if(l.getTipoConta().equals("Utilizador"))
                     numN = c.getUserNumNotificacoes(l.getCode());
-                else if(l.getTipoConta().equals("Voluntario") || l.getTipoConta().equals("Transportadora"))
+                else if(l.getTipoConta().equals("Loja"))
+                    numN = c.getLojaNumNotificacoes(l.getCode());
+                else
                     numN = c.getEstafetaNumNotificacoes(l.getCode());
 
                 a.printMainMenuLogOut(l.getTipoConta(),numN);

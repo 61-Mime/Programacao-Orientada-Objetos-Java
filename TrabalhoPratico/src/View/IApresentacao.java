@@ -49,13 +49,6 @@ public interface IApresentacao {
     public void printMenuLojaIndisponivel();
     public void notifTable(String not, int type, int page, int max);
     public void printEmptyNot();
-    public String notificacaoVoluntarioAceite(String code);
-    public String notificacaoVoluntarioRecusado(String code);
-    public String notificacaoNovaEntregaPendente(String userCode);
-    public String notificacaoEntregaTransportadora(String transCode, String encCode);
-    public String notificacaoEntregaVoluntario(String transCode, String encCode);
-    public String notificacaoEntregaAoUtilizador(String userCode, String encCode);
-    public String notificacaoCompraRealizada(String encCode, String storeCode);
     public void play(String filePath);
     public void printArray(String message, List<String> arr);
     public void printTable(String message, List<String> arr);

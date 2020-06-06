@@ -13,20 +13,22 @@ public class Loja implements Serializable {
     private boolean hasQueueInfo;
     private double queueTime;
     private List<String> prods;
+    private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Loja() {
-        this("", "", new Coordenadas(), false, -1, new ArrayList<>());
+        this("", "", new Coordenadas(), false, -1, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime, List<String> prods) {
+    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime, List<String> prods, List<Notificacao> notificacoes) {
         this.storeCode = storeCode;
         this.storeName = storeName;
         this.gps = gps.clone();
         this.hasQueueInfo = hasQueueInfo;
         this.queueTime = queueTime;
         this.prods = new ArrayList<>(prods);
+        this.notificacoes = new ArrayList<>(notificacoes);
     }
 
     public Loja(Loja l) {
@@ -36,6 +38,7 @@ public class Loja implements Serializable {
         this.hasQueueInfo = l.isHasQueueInfo();
         this.queueTime = l.getQueueTime();
         this.prods = l.getProds();
+        this.notificacoes = l.getNotificacoes();
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -89,6 +92,23 @@ public class Loja implements Serializable {
         this.prods = new ArrayList<>(prods);
     }
 
+    public List<Notificacao> getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setNotificacoes(List<Notificacao> notificacoes) {
+        this.notificacoes = new ArrayList<>();
+        this.notificacoes.addAll(notificacoes);
+    }
+
+    public int getNumNotificacoes() {
+        return notificacoes.size();
+    }
+
+    public void addNotificacao(String not, int type, String estCode) {
+        notificacoes.add(new Notificacao(not, type, estCode));
+    }
+
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 
@@ -135,5 +155,9 @@ public class Loja implements Serializable {
 
     public boolean containsProd(String prodCode) {
         return prods.contains(prodCode);
+    }
+
+    public void limpaNotificacoes() {
+        notificacoes = new ArrayList<>();
     }
 }

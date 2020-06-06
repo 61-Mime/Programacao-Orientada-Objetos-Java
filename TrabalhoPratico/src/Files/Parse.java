@@ -82,7 +82,7 @@ public class Parse implements Serializable, IParse {
         String storeName = campos[1];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Loja(storeCode,storeName,gps,false,0, new ArrayList<>());
+        return new Loja(storeCode,storeName,gps,false,0, new ArrayList<>(), new ArrayList<>());
     }
 
     private Estafeta parseVoluntario(String input){

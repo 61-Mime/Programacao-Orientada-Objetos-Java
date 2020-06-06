@@ -21,31 +21,31 @@ public class ApresentacaoNotificacoes implements Serializable {
         System.out.println("O utilizador não tem notificações");
     }
 
-    public String notificacaoVoluntarioAceite(String code) {
-        return "O voluntário " + code + " aceitou a sua encomenda";
+    public String notificacaoUtilizadorLojaAceite(String storeCode) {
+        return "A loja " + storeCode + " aceitou a sua compra.\nSolicite o levantamento da encomenda";
     }
 
-    public String notificacaoVoluntarioRecusado(String code) {
-        return "O voluntário " + code + " recusou a sua encomenda\nVolte a solicitar a encomenda";
+    public String notificacaoUtilizadorLojaRecusado(String storeCode) {
+        return "A loja " + storeCode + " recusou a sua compra.\nVolte a realizar o pedido";
     }
 
-    public String notificacaoNovaEntregaPendente(String userCode) {
-        return "Tem uma entrega pendente do utilizador " + userCode;
+    public String notificacaoUtilizadorVoluntarioRecusado(String code) {
+        return "O voluntário " + code + " recusou a sua encomenda.\nVolte a solicitar a encomenda";
     }
 
-    public String notificacaoEntregaTransportadora(String transCode, String encCode) {
+    public String notificacaoUtilizadorEntregaTransportadora(String transCode, String encCode) {
         return "Entrega da encomenda " + encCode + " realizada com sucesso pela transportadora " + transCode;
     }
 
-    public String notificacaoEntregaVoluntario(String transCode, String encCode) {
+    public String notificacaoUtilizadorEntregaVoluntario(String transCode, String encCode) {
         return "Entrega da encomenda " + encCode + " realizada com sucesso pelo voluntario " + transCode;
     }
 
-    public String notificacaoEntregaAoUtilizador(String userCode, String encCode) {
-        return "Entrega da encomenda " + encCode + " realizada com sucesso ao utilizador " + userCode;
+    public String notificacaoVoluntarioNovaEntrega(String encCode, String userCode) {
+        return "Tem uma entrega pendente (" + encCode + ") do utilizador " + userCode + ".";
     }
 
-    public String notificacaoCompraRealizada(String encCode, String storeCode) {
-        return "Compra realizada (" + encCode + ") na loja: " + storeCode + "\nSolicite a entrega da encomenda";
+    public String notificacaoLojaNovaCompra(String encCode, String userCode) {
+        return "Tem uma compra pendente (" + encCode + ") do utilizador " + userCode + ".";
     }
 }

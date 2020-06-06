@@ -60,7 +60,11 @@ public class ApresentacaoUtilizador implements Serializable {
     }
 
     public void printCompraCancelada() {
-        System.out.println("A encomenda foi cancelada");
+        System.out.println("A compra foi cancelada");
+    }
+
+    public void printCompraEspera() {
+        System.out.println("A compra está à espera de aceitação da loja");
     }
 
     public void printPedirClassificar() {

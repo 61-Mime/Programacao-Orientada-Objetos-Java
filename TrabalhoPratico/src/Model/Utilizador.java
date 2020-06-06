@@ -136,10 +136,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         notificacoes.add(new Notificacao(not, type, estCode));
     }
 
-    public void removeNotificacao(String not) {
-        notificacoes.remove(not);
-    }
-
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
 
 

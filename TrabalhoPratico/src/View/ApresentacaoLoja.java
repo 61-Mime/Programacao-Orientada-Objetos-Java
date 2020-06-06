@@ -10,13 +10,18 @@ public class ApresentacaoLoja implements Serializable {
     }
 
     public void printMenuLoja() {
-        out.printMenus(new String[]{"Atualizar Tempo de Fila de Espera"},"MENU LOJA",1);
+        out.printMenus(new String[]{"Atualizar Tempo de Fila de Espera", "Aceitar compra"},"MENU LOJA",1);
     }
 
     public void printMenuLojaIndisponivel() {
-        System.out.println("-------------------------------------------------");
-        System.out.println("Menu de loja indisponível para este tipo de lojas");
-        System.out.println("0 | Voltar Atrás");
-        System.out.println("-------------------------------------------------");
+        out.printMenus(new String[]{"Aceitar compra"},"MENU LOJA",1);
+    }
+
+    public void printCompraAceite(String encCode) {
+        System.out.println("A compra " + encCode + "foi aceite.");
+    }
+
+    public void printCompraRecusada(String encCode) {
+        System.out.println("A compra " + encCode + "foi recusada.");
     }
 }

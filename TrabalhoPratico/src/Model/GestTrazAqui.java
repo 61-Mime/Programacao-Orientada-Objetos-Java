@@ -297,6 +297,22 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         lojas.get(storeCode).setQueueTime(time);
     }
 
+    public List<Notificacao> getLojaNotificacoes(String code) {
+        return lojas.get(code).getNotificacoes();
+    }
+
+    public int getLojaNumNotificacoes(String code) {
+        return lojas.get(code).getNumNotificacoes();
+    }
+
+    public void addLojaNotificacao(String code, String not, int type, String estCode) {
+        lojas.get(code).addNotificacao(not, type, estCode);
+    }
+
+    public void limpaLojaNotificacoes(String code) {
+        lojas.get(code).limpaNotificacoes();
+    }
+
     //--------------------------------------------------------------Métodos Encomenda--------------------------------------------------------------------------\\
 
     public Encomenda getEncomenda(String encCode) {
@@ -360,12 +376,26 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return encomendas.get(encCode).getUserCode();
     }
 
+    public String getEncStore(String encCode){
+        return encomendas.get(encCode).getStoreCode();
+    }
+
     public double getEncTime(String encCode){
         return encomendas.get(encCode).getTempoEntrega();
     }
 
     public String getEncUserName(String encCode){
         return users.get(encomendas.get(encCode).getUserCode()).getName();
+    }
+
+    public List<String> encomendasNaoAceitesLoja(String storeCode) {
+        return encomendas.values().stream().filter(c -> c.getStoreCode().equals(storeCode)).filter(c-> !c.isAceiteLoja()).map(Encomenda::getEncCode).collect(Collectors.toList());
+    }
+
+    public void removeEncomenda(String encCode) {
+        String userCode = getEncUser(encCode);
+        users.get(userCode).removeEncomenda(encCode);
+        encomendas.remove(encCode);
     }
 
     //----------------------------------------------------------------Métodos Produto--------------------------------------------------------------------------\\

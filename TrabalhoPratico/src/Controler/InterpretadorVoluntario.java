@@ -42,16 +42,13 @@ public class InterpretadorVoluntario implements Serializable {
                         if (in.lerSN(a,"Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode) + "(S/N)")) {
                             c.entregarEncomenda(encCode, l.getCode());
                             a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
-
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioAceite(l.getCode()), 1, "");
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoEntregaVoluntario(l.getCode(), encCode), 2, l.getCode());
-                            c.addEstafetaNotificacao(l.getCode(), a.notificacaoEntregaAoUtilizador(c.getEncUser(encCode), encCode), 1, "");
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorEntregaVoluntario(l.getCode(), encCode), 2, l.getCode());
                         }
                         else {
                             c.removerEnc(l.getCode(), encCode);
                             a.printEncRecusada();
 
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoVoluntarioRecusado(l.getCode()), 1, "");
+                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorVoluntarioRecusado(l.getCode()), 1, "");
                         }
                         c.setEstafetaOccup(l.getCode(),false);
                     }

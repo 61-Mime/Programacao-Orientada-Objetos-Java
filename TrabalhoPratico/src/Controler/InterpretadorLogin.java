@@ -90,10 +90,10 @@ public class InterpretadorLogin implements Serializable {
 
         if (hasQueue) {
             double queueTime = in.lerDouble(a,"Qual é o tempo médio de espera em fila?: ",0,1000);
-            return new Loja(code, nome, cr, hasQueue, queueTime, new ArrayList<>());
+            return new Loja(code, nome, cr, hasQueue, queueTime, new ArrayList<>(), new ArrayList<>());
         }
 
-        return new Loja(code, nome, cr, hasQueue, -1, new ArrayList<>());
+        return new Loja(code, nome, cr, hasQueue, -1, new ArrayList<>(), new ArrayList<>());
     }
 
     private boolean registar(GestTrazAqui c, Apresentacao a) {
