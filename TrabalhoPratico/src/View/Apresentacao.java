@@ -7,277 +7,242 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Apresentacao implements IApresentacao, Serializable {
+    ApresentacaoMain am = new ApresentacaoMain();
+    ApresentacaoLogin al = new ApresentacaoLogin();
+    ApresentacaoUtilizador au = new ApresentacaoUtilizador();
+    ApresentacaoVoluntarioTransportadora avt = new ApresentacaoVoluntarioTransportadora();
+    ApresentacaoNotificacoes an = new ApresentacaoNotificacoes();
+    Output out = new Output();
+    Audio audio = new Audio();
+
+    // ------------------------ Apresentação Main ------------------------- \\
 
     public void welcome() {
-        System.out.println(" _____                 _               _");
-        System.out.println("|_   _| __ __ _ ____  / \\   __ _ _   _(_)");
-        System.out.println("  | || '__/ _` |_  / / _ \\ / _` | | | | |");
-        System.out.println("  | || | | (_| |/ / / ___ \\ (_| | |_| | |");
-        System.out.println("  |_||_|  \\__,_/___/_/   \\_\\__, |\\__,_|_|");
-        System.out.println("                              |_|");
-        System.out.println("Bem vindo à aplicação traz aqui.");
-        System.out.println("Pressione qualquer tecla para continuar.");
-    }
-
-    public void clear() {
-        for(int i = 0; i<5; i++)
-            System.out.println("");
-    }
-
-    private void printLine(int size) {
-        for(int i=0; i<size; i++)
-            System.out.print("-");
-
-        System.out.println("");
-    }
-
-    private void printMenus(String []menu, String message, int type){
-
-        int size, length=message.length();
-
-        for(String linha: menu)
-            if(linha.length() + 4 > length)
-                length = linha.length() + 4;
-
-        printLine(length);
-        System.out.println(message);
-        printLine(length);
-
-        size = menu.length;
-        for(int i = 0;i < size;i++)
-            System.out.println(i+1+" | "+menu[i]);
-        if(type == 0)
-            System.out.println("0 | Sair");
-        else
-            System.out.println("0 | Voltar atrás");
-        printLine(length);
-    }
-
-    public void printMenuLogin() {
-        printMenus((new String[]{"Login", "Registar"}),"MENU LOGIN",1);
+        am.welcome();
     }
 
     public void printMainMenuLogIn() {
-        printMenus((new String[]{"Login/Registar", "Gravar para um Ficheiro", "Carregar de um ficheiro"}),"MENU PRINCIPAL",0);
+        am.printMainMenuLogIn();
     }
 
     public void printMainMenuLogOut(String type, int numN) {
-        printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro", "Notificações (" + numN + ")"}),"MENU PRINCIPAL",0);
+        am.printMainMenuLogOut(type, numN);
     }
 
     public void printMenuConsultas() {
-        printMenus((new String[]{"Top Utilizadores do Sistema", "Top Transportadoras do Sistema"}),"MENU CONSULTAS",1);
-    }
-
-    public void printMenuUtilizador() {
-        printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),"MENU UTILIZADOR",1);
-    }
-
-    public void printMenuVoluntario() {
-        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar Encomenda","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
-    }
-
-    public void printMenuTransportadora() {
-        printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação"},"MENU TRANSPORTADORA",1);
-    }
-
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    public void printArray(String message, List<String> arr) {
-        System.out.println("\n" + message);
-
-        for(String line : arr)
-            System.out.println(line);
-
-        System.out.print("\n");
-    }
-
-    public void printTable(String message, List<String> arr) {
-        System.out.println("\n" + message);
-
-        for(int i=0; i<arr.size(); i++)
-            System.out.println((i+1) + ") " + arr.get(i));
-
-        System.out.print("\n");
-    }
-
-    public void printEncomendas(String message, List<Encomenda> arr)  {
-        System.out.println("\n" + message);
-
-        for(Encomenda line : arr)
-            System.out.println(line);
-
-        System.out.print("\n");
-    }
-
-    public void printFatura(Encomenda enc)  {
-        System.out.print("\n");
-
-        for(LinhaEncomenda line : enc.getLinha())
-            System.out.println(line);
-
-        System.out.println("Preço: " + enc.getPrice() +"€\n");
-    }
-
-    public void printCodigoAcesso(String code) {
-        System.out.println("Códido de Acesso: " + code);
-    }
-
-    public void printLoginSucesso() {
-        System.out.println("Login efetuado com sucesso");
-    }
-
-    public void printLogoutSucesso() {
-        System.out.println("Logout efetuado com sucesso");
-    }
-
-    public void printRegistoSucesso() {
-        System.out.println("Registo efetuado com sucesso");
-    }
-
-    public void printErroDadosInvalidos() {
-        System.out.println("Dados inválidos");
-    }
-
-    public void printErroEntrega() {
-        System.out.println("Sem mais estafetas disponiveis!");
+        am.printMenuConsultas();
     }
 
     public void printErroComandoInvalido(){
-        System.out.println("Comando Inválido");
-    }
-
-    public void printErroEncomendaInvalida(){
-        System.out.println("Encomenda Inválida");
+        am.printErroComandoInvalido();
     }
 
     public void printFicheiroCarregado(String file){
-        System.out.println("Ficheiro " + file + " carregado");
+        am.printFicheiroCarregado(file);
     }
 
     public void printFicheiroGuardado(String file){
-        System.out.println("Ficheiro " + file + " guardado");
+        am.printFicheiroGuardado(file);
     }
 
     public void printSair() {
         System.out.println("A Sair do Programa");
     }
 
+    // ------------------------ Apresentação Login ------------------------- \\
+
+    public void printMenuLogin() {
+        al.printMenuLogin();
+    }
+
+    public void printCodigoAcesso(String code) {
+        al.printCodigoAcesso(code);
+    }
+
+    public void printLoginSucesso() {
+        al.printLoginSucesso();
+    }
+
+    public void printLogoutSucesso() {
+        al.printLogoutSucesso();
+    }
+
+    public void printRegistoSucesso() {
+        al.printRegistoSucesso();
+    }
+
+    public void printErroDadosInvalidos() {
+        al.printErroDadosInvalidos();
+    }
+
     public void printPedirUsername() {
-        System.out.println("Introduza o username: ");
+        al.printPedirUsername();
     }
 
     public void printPedirPassword() {
-        System.out.println("Introduza a password: ");
+        al.printPedirPassword();
     }
 
     public void printPedirEncomendasMedicas() {
-        System.out.println("Pode transportar encomendas médicas? (S/N): ");
+        al.printPedirEncomendasMedicas();
     }
 
     public void printPedirFilaEspera() {
-        System.out.println("A loja tem informação sobre a fila de espera? (S/N): ");
+        al.printPedirFilaEspera();
     }
 
     public void printPedirNomeCompleto() {
-        System.out.println("Introduza o nome completo: ");
+        al.printPedirNomeCompleto();
     }
 
     public void printPedirTipoConta() {
-        System.out.println("Introduza o tipo de conta (Voluntario / Transportadora / Utilizador / Loja): ");
+        al.printPedirTipoConta();
     }
 
-    public void printPedirClassificar() {
-        System.out.println("Pretende classificar o serviço?(S/N)");
+    // ------------------------ Apresentação Utilizador ------------------------- \\
+
+    public void printMenuUtilizador() {
+        au.printMenuUtilizador();
     }
 
-    public void printPedirEncomenda() {
-        System.out.println("Escolha uma encomenda: ");
+    public void printEncomendas(String message, List<Encomenda> arr)  {
+        au.printEncomendas(message, arr);
     }
 
-    public void printEstafetaDisponivel() {
-        System.out.println("Está disponivel para entregar encomendas");
+    public void printFatura(Encomenda enc)  {
+        au.printFatura(enc);
     }
 
-    public void printEstafetaIndisponivel() {
-        System.out.println("Está indisponivel para entregar encomendas");
+    public void printErroEntrega() {
+        au.printErroEntrega();
     }
 
-    public void printEstafetaPreco(double preco) {
-        System.out.println("Preço: " + preco + " €");
-    }
-
-    public void printEstafetaFaturacao(double faturacao) {
-        System.out.println("Faturação: " + faturacao + " €");
-    }
-
-    public void printEstafetaClassicacao(double classificacao) {
-        System.out.println("Classificação: " + classificacao);
-    }
-
-    public void printEncomendaStandBy(String code){
-        System.out.println("A sua encomenda está à espera de ser aceite pelo voluntário " + code);
-    }
-
-    public void printSemEncomendas(){
-        System.out.println("Não existem encomendas para entrega!");
-    }
-
-    public void printEncRecusada(){
-        System.out.println("Encomenda recusada com sucesso!");
+    public void printErroEncomendaInvalida(){
+        au.printErroEncomendaInvalida();
     }
 
     public void printEncomendaEntregueVol(String code, String nome, double tempo) {
-        System.out.println("A encomenda foi entregue ao utilizador " + code + ": " + nome);
-        System.out.println("Tempo de entrega: " + tempo + " min");
+        au.printEncomendaEntregueVol(code, nome, tempo);
     }
 
     public void printEncomendaEntregue(String code, String tipo, String nome, double preco, double tempo) {
-        System.out.println("A sua encomenda foi entregue pelo(a) " + tipo + " " + code + ": " + nome);
-        if(tipo.equals("Transportadora"))
-            System.out.println("Preço: " + preco + " €");
-        System.out.println("Tempo de entrega: " + tempo + " min");
+        au.printEncomendaEntregue(code, tipo, nome, preco, tempo);
     }
 
     public void printEncomendaAceite() {
-        System.out.println("A sua encomenda foi aceite pela loja e precisa de ser solicitada");
+        au.printEncomendaAceite();
     }
 
     public void printCompraCancelada() {
-        System.out.println("A encomenda foi cancelada");
+        au.printCompraCancelada();
+    }
+
+    public void printPedirClassificar() {
+        au.printPedirClassificar();
+    }
+
+    public void printEncomendaStandBy(String code){
+        au.printEncomendaStandBy(code);
+    }
+
+    // ------------------------ Apresentação Voluntario Transportadora ------------------------- \\
+
+    public void printMenuVoluntario() {
+        avt.printMenuVoluntario();
+    }
+
+    public void printMenuTransportadora() {
+        avt.printMenuTransportadora();
+    }
+
+    public void printPedirEncomenda() {
+        avt.printPedirEncomenda();
+    }
+
+    public void printEstafetaDisponivel() {
+        avt.printEstafetaDisponivel();
+    }
+
+    public void printEstafetaIndisponivel() {
+        avt.printEstafetaIndisponivel();
+    }
+
+    public void printEstafetaPreco(double preco) {
+        avt.printEstafetaPreco(preco);
+    }
+
+    public void printEstafetaFaturacao(double faturacao) {
+        avt.printEstafetaFaturacao(faturacao);
+    }
+
+    public void printEstafetaClassicacao(double classificacao) {
+        avt.printEstafetaClassicacao(classificacao);
+    }
+
+    public void printSemEncomendas(){
+        avt.printSemEncomendas();
+    }
+
+    public void printEncRecusada(){
+        avt.printEncRecusada();
+    }
+
+    // ------------------------ Apresentacao Notificacoes ------------------------- \\
+
+    public void notifTable(String not, int type, int page, int max) {
+        an.notifTable(not, type, page, max);
+    }
+
+    public void printEmptyNot() {
+        an.printEmptyNot();
     }
 
     public String notificacaoVoluntarioAceite(String code) {
-        return "O voluntário " + code + " aceitou a sua encomenda";
+        return an.notificacaoVoluntarioAceite(code);
     }
 
     public String notificacaoVoluntarioRecusado(String code) {
-        return "O voluntário " + code + " recusou a sua encomenda\nVolte a solicitar a encomenda";
+        return an.notificacaoVoluntarioRecusado(code);
     }
 
     public String notificacaoNovaEntregaPendente(String userCode) {
-        return "Tem uma entrega pendente do utilizador " + userCode;
+        return an.notificacaoNovaEntregaPendente(userCode);
     }
 
     public String notificacaoEntregaTransportadora(String transCode, String encCode) {
-        return "Entrega da encomenda " + encCode + " realizada com sucesso pela transportadora " + transCode;
+        return an.notificacaoEntregaTransportadora(transCode, encCode);
     }
 
     public String notificacaoEntregaVoluntario(String transCode, String encCode) {
-        return "Entrega da encomenda " + encCode + " realizada com sucesso pelo voluntario " + transCode;
+        return an.notificacaoEntregaVoluntario(transCode, encCode);
     }
 
     public String notificacaoEntregaAoUtilizador(String userCode, String encCode) {
-        return "Entrega da encomenda " + encCode + " realizada com sucesso ao utilizador " + userCode;
+        return an.notificacaoEntregaAoUtilizador(userCode, encCode);
     }
 
     public String notificacaoCompraRealizada(String encCode, String storeCode) {
-        return "Compra realizada (" + encCode + ") na loja: " + storeCode + "\nSolicite a entrega da encomenda";
+        return an.notificacaoCompraRealizada(encCode, storeCode);
     }
 
-    public String pedirMusica() {
-        return "Deseja ouvir música de fundo? (S/N)";
+    // ------------------------ Audio ------------------------- \\
+
+    public void play(String filePath) {
+        audio.play(filePath);
     }
+
+    // ------------------------ Outros métodos ------------------------- \\
+
+    public void printArray(String message, List<String> arr) {
+        out.printArray(message, arr);
+    }
+
+    public void printTable(String message, List<String> arr) {
+        out.printTable(message, arr);
+    }
+
+    public void printMessage(String message) {
+        out.printMessage(message);
+    }
+
 }

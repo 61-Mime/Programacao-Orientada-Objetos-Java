@@ -15,36 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InterpretadorUtilizador implements Serializable {
-    Apresentacao a = new Apresentacao();
     Input in = new Input();
 
-    private String[] lerLinhaEncomenda(String message, GestTrazAqui c, String storeCode){
-        Scanner s = new Scanner(System.in);
-        String line;
-        String[] linhaPartida;
-
-        do{
-            a.printMessage(message);
-            line = s.nextLine();
-            linhaPartida = line.split(" \\| ");
-        } while (!linhaEncomendaValida(linhaPartida, storeCode, c));
-
-        return linhaPartida;
-    }
-
-    private boolean linhaEncomendaValida(String[] line, String storeCode, GestTrazAqui c) {
-        String[] tmp;
-
-        for (String s: line) {
-            tmp = s.split(" ");
-
-            if (!c.containsProdutoLoja(storeCode, tmp[0]))
-                return false;
-        }
-        return true;
-    }
-
-    public String aceitaEstafeta(GestTrazAqui c,String encCode){
+    public String aceitaEstafeta(Apresentacao a, GestTrazAqui c,String encCode){
         boolean aceite = false;
         Scanner sc = new Scanner(System.in);
         List <String> list = c.possiveisEstafetas(encCode);
@@ -55,7 +28,7 @@ public class InterpretadorUtilizador implements Serializable {
             if(code.equals("") || c.getEstafetaType(code).equals("Voluntario"))
                 aceite = true;
             else {
-                if(in.lerSN("Aceita a transportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
+                if(in.lerSN(a,"Aceita a transportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
                     aceite = true;
                 else
                     list.remove(code);
@@ -90,7 +63,7 @@ public class InterpretadorUtilizador implements Serializable {
         return new LinhaEncomenda(prodCode, c.getProdName(prodCode), quantidade, preco);
     }
 
-    public void interpretador(GestTrazAqui c, Login l) {
+    public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
         boolean r=true;
         Scanner s = new Scanner(System.in);
         String code,encCode;
@@ -99,7 +72,7 @@ public class InterpretadorUtilizador implements Serializable {
 
         while(r) {
             a.printMenuUtilizador();
-            command = (int) in.lerDouble("Escolha a sua opção:", 0, 3);
+            command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 3);
 
             switch(command) {
                 case 1:
@@ -108,7 +81,7 @@ public class InterpretadorUtilizador implements Serializable {
                     a.printPedirEncomenda();
                     encCode = s.nextLine();
                     if(list.contains(encCode)) {
-                        code = aceitaEstafeta(c,encCode);
+                        code = aceitaEstafeta(a,c,encCode);
                         if(!code.equals("") && c.getEstafetaType(code).equals("Voluntario")){
                             c.addEncomendaEstafeta(code,encCode);
                             c.addUserStandBy(l.getCode(), encCode);
@@ -120,8 +93,8 @@ public class InterpretadorUtilizador implements Serializable {
                             c.entregarEncomenda(encCode, code);
                             a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(encCode, code), c.getEncTime(encCode));
 
-                            if (in.lerSN("Pretende classificar a entrega?(S/N)"))
-                                pontuacao = in.lerDouble("Introduza a classificação (0/10)", 0, 10);
+                            if (in.lerSN(a,"Pretende classificar a entrega?(S/N)"))
+                                pontuacao = in.lerDouble(a,"Introduza a classificação (0/10)", 0, 10);
                             c.classificarEstafeta(pontuacao, code);
 
                             c.addUserNotificacao(l.getCode(), a.notificacaoEntregaTransportadora(code, encCode), 2);
@@ -135,25 +108,25 @@ public class InterpretadorUtilizador implements Serializable {
                     break;
 
                 case 2:
-                    int res = (int) in.lerDouble("Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);
-                    LocalDateTime min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
-                    LocalDateTime max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
+                    int res = (int) in.lerDouble(a,"Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);
+                    LocalDateTime min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02T10:15)");
+                    LocalDateTime max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02T10:15)");
                     a.printEncomendas("Lista de Encomendas do Utilizador", c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 
                 case 3:
                     a.printArray("Lojas disponíveis:", c.getLojas());
-                    String loja = in.lerString("Introduza o código da loja para fazer a encomenda:", c);
+                    String loja = in.lerString(a,"Introduza o código da loja para fazer a encomenda:", c);
 
                     a.printArray("Produtos disponíveis:", c.getProdutosLoja(loja));
-                    String[] linha = lerLinhaEncomenda("Escolhas os produtos, seguidos da quantidade separados por espaço e os produtos por \" | \"\n" +
+                    String[] linha = in.lerLinhaEncomenda(a,"Escolhas os produtos, seguidos da quantidade separados por espaço e os produtos por \" | \"\n" +
                                                                 "Por exemplo: p9 2.1 | p10 3 | p11 3.2", c, loja);
 
                     Encomenda enc = registaEncomenda(linha, c, l.getCode(), loja);
 
                     a.printFatura(enc);
 
-                    if(in.lerSN("Quer continuar com a compra? (S/N)")) {
+                    if(in.lerSN(a,"Quer continuar com a compra? (S/N)")) {
                         c.addEncomenda(enc);
                         c.aceitarEncomenda(enc.getEncCode());
                         a.printEncomendaAceite();

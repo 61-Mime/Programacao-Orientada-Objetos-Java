@@ -8,17 +8,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class InterpretadorVoluntario implements Serializable {
-    Apresentacao a = new Apresentacao();
     Input in = new Input();
 
-    public void interpretador(GestTrazAqui c, Login l) {
+    public void interpretador(Apresentacao a, GestTrazAqui c, Login l) {
         boolean r = true;
         int command;
         String encCode;
 
         while (r) {
             a.printMenuVoluntario();
-            command = (int) in.lerDouble("Escolha a sua opção:", 0, 4);
+            command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 4);
 
             switch (command) {
                 case 1:
@@ -36,7 +35,7 @@ public class InterpretadorVoluntario implements Serializable {
                     encCode = c.encomendaStandBy(l.getCode());
                     if(!encCode.equals("")) {
                         c.removeUserStandBy(c.getEncUser(encCode), encCode);
-                        if (in.lerSN("Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode))) {
+                        if (in.lerSN(a,"Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode))) {
                             c.entregarEncomenda(encCode, l.getCode());
                             a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
 
@@ -58,8 +57,8 @@ public class InterpretadorVoluntario implements Serializable {
                     break;
 
                 case 3:
-                    LocalDateTime min = in.lerData("Intruza a 1º data de tipo(2018-12-02T10:15)");
-                    LocalDateTime max = in.lerData("Intruza a 2º data de tipo(2018-12-02T10:15)");
+                    LocalDateTime min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02T10:15)");
+                    LocalDateTime max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02T10:15)");
                     a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
                     break;
 

@@ -1,4 +1,4 @@
-package Controler;
+package View;
 
 import javax.sound.sampled.*;
 import java.io.*;
