@@ -174,8 +174,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     }
 
     public void setRegisto(List<String> enc) {
-        this.registo = new ArrayList<>();
-        this.registo.addAll(enc);
+        this.registo = new ArrayList<>(enc);
     }
 
     public void setEnc(String enc) {

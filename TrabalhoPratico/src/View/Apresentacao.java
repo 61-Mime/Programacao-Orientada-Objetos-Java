@@ -269,6 +269,13 @@ public class Apresentacao implements IApresentacao, Serializable {
         return an.notificacaoUserNovaTransportadora(encCode, transpCode);
     }
 
+    public String notificacaoUtilizadorAceitarTransportadora(String encCode, String userCode,boolean aceite) {
+        if(aceite)
+            return an.notificacaoTransportadoraAceite(encCode, userCode);
+        else
+            return an.notificacaoTransportadoraRecusada(encCode, userCode);
+    }
+
     // ------------------------ Audio ------------------------- \\
 
     public void play(String filePath) {

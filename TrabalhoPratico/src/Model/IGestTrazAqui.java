@@ -6,6 +6,8 @@ import java.util.Set;
 public interface IGestTrazAqui {
     Utilizador getUser(String userCode);
     void setUser(Utilizador user);
+    boolean getUserEncStandBy(String enc);
+    List<String> getUserStandByTransp(String userCode);
     void addUser(Utilizador user);
     Estafeta getEstafeta(String code);
     void setEstafeta(Estafeta estafeta);
@@ -32,7 +34,13 @@ public interface IGestTrazAqui {
     String escolheEstafeta(List<String>list,String enc);
     String getEstafetaType(String estCode);
     String getEstafetaName(String estCode);
+    void addEstafetaRota(String transpCode,List<String> rota);
+    int getEstafetaRotaSize(String transpCode);
+    List<String> getEstafetaRota(String transpCode);
     String encomendaStandBy(String estCode);
     String getEncUser(String encCode);
     String getEncUserName(String encCode);
+    String getEncTransp(String encCode);
+    void sugerirTransp(String enc,String transpCode);
+    void removeEstafetaEncRota(String transpCode,String enc);
 }

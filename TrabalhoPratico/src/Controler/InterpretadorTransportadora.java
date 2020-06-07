@@ -85,10 +85,30 @@ public class InterpretadorTransportadora {
                     break;
 
                 case 6:
-                    List<String> enclist = criarRota(c,l.getCode(),a);
-                    if(enclist.size() > 0){
+                    if(c.getEstafetaRotaSize(l.getCode()) > 0) {
+                        List<String> enclist = c.getEstafetaRota(l.getCode());
+                        boolean val = true;
                         for(String enc:enclist){
+                            if(!c.getUserEncStandBy(enc))
+                                val = false;
+                        }
+                        if(val){
+                            for(String code:enclist) {
+                                c.entregarEncomenda(code, l.getCode());
+                                a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(code, l.getCode()), c.getEncTime(code));
+                                c.addUserNotificacao(c.getEncUser(code), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), code), 2, l.getCode());
+                            }
+                            a.printMessage("Encomendas entregues!");
+                        }
+                    }
+                    List<String> enclist = criarRota(c,l.getCode(),a);
+                    System.out.println(enclist.size());
+                    if(enclist.size() > 0){
+                        c.addEstafetaRota(l.getCode(),enclist);
+                        for(String enc:enclist){
+                            c.sugerirTransp(enc,l.getCode());
                             c.addUserNotificacao(c.getEncUser(enc), a.notificacaoUtilizadorAceitarTransportadora(enc,l.getCode()), 1, l.getCode());
+                            c.addUserStandBy(c.getEncUser(enc),enc);
                         }
                     }
                     break;

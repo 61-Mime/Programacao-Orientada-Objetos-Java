@@ -55,6 +55,19 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         users.get(code).addNotificacao(not, type, estCode);
     }
 
+    public boolean getUserEncStandBy(String enc){
+        return users.get(encomendas.get(enc).getUserCode()).isEncStandBy(enc);
+    }
+
+    public List<String> getUserStandByTransp(String userCode){
+        List<String> list = users.get(userCode).getStandBy();
+        if(list.size() == 0)
+            return list;
+        System.out.println(list.toString());
+        return list.stream().filter(enc -> estafetas.get(encomendas.get(enc).getUserCode()).getType().equals("Transportadora"))
+                            .collect(Collectors.toList());
+    }
+
     public void limpaUserNotificacoes(String code) {
         users.get(code).limpaNotificacoes();
     }
@@ -119,6 +132,18 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         estafetas.get(code).addEncomenda(encCode);
     }
 
+    public void addEstafetaRota(String transpCode,List<String> rota){
+        ((Transportadora)estafetas.get(transpCode)).setRota(rota);
+    }
+
+    public List<String> getEstafetaRota(String transpCode){
+        return ((Transportadora)estafetas.get(transpCode)).getRota();
+    }
+
+    public int getEstafetaRotaSize(String transpCode){
+        return ((Transportadora)estafetas.get(transpCode)).getRotaSize();
+    }
+
     public String getEstafetaType(String estCode){
         return estafetas.get(estCode).getType();
     }
@@ -149,6 +174,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public void addEstafetaNotificacao(String code, String not, int type, String estCode) {
         estafetas.get(code).addNotificacao(not, type, estCode);
+    }
+
+    public void removeEstafetaEncRota(String transpCode,String enc) {
+        ((Transportadora)estafetas.get(transpCode)).remEncRota(enc);
     }
 
     public void removeEstafetaNotificacao(String code, String not) {
@@ -369,6 +398,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         e.addNumKm(e.getGps().distancia(cr));
     }
 
+    public void sugerirTransp(String enc,String transpCode){
+        encomendas.get(enc).setTranspCode(transpCode);
+    }
+
     public Set<String> encomendasAceites() {
         Set<String> res = new HashSet<>();
 
@@ -396,6 +429,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public String getEncStore(String encCode){
         return encomendas.get(encCode).getStoreCode();
+    }
+
+    public String getEncTransp(String encCode){
+        return encomendas.get(encCode).getTranspCode();
     }
 
     public double getEncTime(String encCode){

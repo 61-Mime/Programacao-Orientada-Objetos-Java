@@ -52,4 +52,12 @@ public class ApresentacaoNotificacoes implements Serializable {
     public String notificacaoUserNovaTransportadora(String encCode, String transpCode) {
         return "Tem um entrega sugerida (" + encCode + ") da transportadora " + transpCode + ".";
     }
+
+    public String notificacaoTransportadoraAceite(String encCode, String userCode) {
+        return "O utilizador " + userCode + " aceitou o serviço de entrega da encomenda (" + encCode + ").";
+    }
+
+    public String notificacaoTransportadoraRecusada(String encCode, String userCode) {
+        return "O utilizador " + userCode + " rejeitou o serviço de entrega da encomenda (" + encCode + ").";
+    }
 }

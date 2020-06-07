@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Transportadora extends Estafeta implements Serializable {
@@ -9,6 +10,7 @@ public class Transportadora extends Estafeta implements Serializable {
     private double taxaKm;
     private double taxaPeso;
     private int numEncomendas;
+    private List<String> rota;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -28,6 +30,7 @@ public class Transportadora extends Estafeta implements Serializable {
         this.taxaKm = taxaKm;
         this.taxaPeso = taxaPeso;
         this.numEncomendas = numEncomendas;
+        this.rota = new ArrayList<>();
     }
 
     public Transportadora(Transportadora t) {
@@ -36,6 +39,7 @@ public class Transportadora extends Estafeta implements Serializable {
         this.taxaKm = t.getTaxaKm();
         this.taxaPeso = t.getTaxaPeso();
         this.numEncomendas = t.getNumEncomendas();
+        setRota(t.getRota());
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -70,6 +74,22 @@ public class Transportadora extends Estafeta implements Serializable {
 
     public void setNumEncomendas() {
         this.numEncomendas ++;
+    }
+
+    public List<String> getRota(){
+        return new ArrayList<>(rota);
+    }
+
+    public int getRotaSize(){
+        return rota.size();
+    }
+
+    public void setRota(List<String> rota){
+        rota = new ArrayList<>(rota);
+    }
+
+    public void remEncRota(String enc){
+        rota.remove(enc);
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
@@ -109,9 +129,9 @@ public class Transportadora extends Estafeta implements Serializable {
         return super.equals(o) && equals1(o);
     }
 
-//    public Transportadora clone() {
-//        return new Transportadora(this);
-//    }
+    public Transportadora clone() {
+        return new Transportadora(this);
+    }
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 

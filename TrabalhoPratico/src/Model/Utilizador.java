@@ -182,4 +182,8 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     public void limpaNotificacoes() {
         notificacoes = new ArrayList<>();
     }
+
+    public boolean isEncStandBy(String enc){
+        return standBy.contains(enc);
+    }
 }
