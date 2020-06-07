@@ -17,7 +17,7 @@ public class InterpretadorTransportadora {
     }
 
     private List<String> criarRota(GestTrazAqui c,String transpCode,Apresentacao a){
-        String code,encCode;
+        String encCode;
         int max = c.getEstafetaNumEnc(transpCode);
         boolean val = true;
         List<String> list = c.encomendasPossiveis(transpCode);
