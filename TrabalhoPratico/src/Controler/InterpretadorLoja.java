@@ -6,6 +6,7 @@ import View.Apresentacao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InterpretadorLoja implements Serializable {
     private final Input in;
@@ -38,9 +39,9 @@ public class InterpretadorLoja implements Serializable {
         String encCode;
 
         while (r) {
-            if(c.hasQueueInfoLoja(l.getCode())) {
+            if(!c.hasQueueInfoLoja(l.getCode())) {
                 a.printMenuLoja();
-                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 2);
+                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 3);
 
                 switch (command) {
                     case 1:
@@ -50,6 +51,9 @@ public class InterpretadorLoja implements Serializable {
 
                     case 2:
                         aceitarEncomendaLoja(c, a, l);
+                        break;
+                    case 3:
+                        a.printArray("Encomendas Loja:\n",c.getEncLoja(l.getCode()).stream().collect(Collectors.toList()));
                         break;
 
                     case 0:

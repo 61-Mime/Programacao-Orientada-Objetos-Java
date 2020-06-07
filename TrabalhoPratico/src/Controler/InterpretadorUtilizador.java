@@ -133,16 +133,19 @@ public class InterpretadorUtilizador implements Serializable {
             switch(command) {
                 case 1:
                     List<String> encList = c.getUserStandByTransp(l.getCode());
+                    System.out.println(encList.toString());
                     for(String enc:encList){
-                        if(in.lerSN(a,"(Encomenda " + enc + ")Aceita a transportadora " + c.getEncTransp(enc) + " pelo preço:" + c.precoEncomenda(enc,c.getEncTransp(enc)) + "€?(S/N)"))
-                            c.removeUserStandBy(c.getEncUser(enc),enc);
-                        else{
+                        if(!in.lerSN(a,"(Encomenda " + enc + ")Aceita a transportadora " + c.getEncTransp(enc) + " pelo preço:" + c.precoEncomenda(enc,c.getEncTransp(enc)) + "€?(S/N)")){
+                            //c.removeUserStandBy(c.getEncUser(enc),enc);
+                        //else{
                             c.removeEstafetaEncRota(c.getEncTransp(enc),enc);
                             c.removerEnc(l.getCode(),enc);
                             c.sugerirTransp(enc,"");
                             //notificar transp q aceitou ou recusou
                         }
+                        c.removeUserStandBy(c.getEncUser(enc),enc);
                     }
+
                     aceitarEncomenda(a, c, l);
                     break;
 

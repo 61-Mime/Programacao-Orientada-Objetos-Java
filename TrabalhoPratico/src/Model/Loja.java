@@ -1,9 +1,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Loja implements Serializable {
 
@@ -13,6 +11,7 @@ public class Loja implements Serializable {
     private boolean hasQueueInfo;
     private double queueTime;
     private List<String> prods;
+    private Set<String> encomendas;
     private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -29,6 +28,7 @@ public class Loja implements Serializable {
         this.queueTime = queueTime;
         this.prods = new ArrayList<>(prods);
         this.notificacoes = new ArrayList<>(notificacoes);
+        this.encomendas = new TreeSet<>();
     }
 
     public Loja(Loja l) {
@@ -39,6 +39,7 @@ public class Loja implements Serializable {
         this.queueTime = l.getQueueTime();
         this.prods = l.getProds();
         this.notificacoes = l.getNotificacoes();
+        encomendas = l.getEncomendas();
     }
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
@@ -92,6 +93,14 @@ public class Loja implements Serializable {
         this.prods = new ArrayList<>(prods);
     }
 
+    public Set<String> getEncomendas() {
+        return new TreeSet<>(encomendas);
+    }
+
+    public void setEncomendas(List<String> enc) {
+        this.encomendas = new TreeSet<>(enc);
+    }
+
     public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
@@ -107,6 +116,10 @@ public class Loja implements Serializable {
 
     public void addNotificacao(String not, int type, String estCode) {
         notificacoes.add(new Notificacao(not, type, estCode));
+    }
+
+    public void addEncomenda(String enc) {
+        encomendas.add(enc);
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

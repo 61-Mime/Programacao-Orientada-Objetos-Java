@@ -85,6 +85,7 @@ public class InterpretadorTransportadora {
                     break;
 
                 case 6:
+                    System.out.println(c.getEstafetaRota(l.getCode()).toString());
                     if(c.getEstafetaRotaSize(l.getCode()) > 0) {
                         List<String> enclist = c.getEstafetaRota(l.getCode());
                         boolean val = true;

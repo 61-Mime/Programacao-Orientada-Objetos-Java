@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Interpretador implements Serializable{
     private final Input in;
     private final InterpretadorLogin intL;

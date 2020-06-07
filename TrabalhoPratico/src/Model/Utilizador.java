@@ -116,7 +116,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     }
 
     public void removeStandBy(String encCode) {
-        standBy.add(encCode);
+        standBy.remove(encCode);
     }
 
     public List<Notificacao> getNotificacoes() {

@@ -63,8 +63,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         List<String> list = users.get(userCode).getStandBy();
         if(list.size() == 0)
             return list;
-        System.out.println(list.toString());
-        return list.stream().filter(enc -> estafetas.get(encomendas.get(enc).getUserCode()).getType().equals("Transportadora"))
+        return list.stream().filter(enc -> estafetas.get(encomendas.get(enc).getTranspCode()).getType().equals("Transportadora"))
                             .collect(Collectors.toList());
     }
 
@@ -300,6 +299,14 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         lojas.put(loja.getStoreCode(), loja);
     }
 
+    public void addEncLoja(String enc) {
+        lojas.get(encomendas.get(enc).getStoreCode()).addEncomenda(enc);
+    }
+
+    public Set<String> getEncLoja(String storeCode){
+        return lojas.get(storeCode).getEncomendas();
+    }
+
     public void addProdLoja(String storeCode, List<String> produtos) {
         lojas.get(storeCode).addProdList(produtos);
     }
@@ -383,6 +390,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public void aceitarEncomenda(String encCode) {
         Encomenda enc = encomendas.get(encCode);
         enc.setAceiteLoja(true);
+        addEncLoja(encCode);
     }
 
     public void entregarEncomenda(String encCode,String estafetaCode) {
