@@ -356,7 +356,6 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         enc.setAceiteLoja(true);
     }
 
-    //guardar tempo de entrega
     public void entregarEncomenda(String encCode,String estafetaCode) {
         Encomenda enc = encomendas.get(encCode);
         Estafeta e = estafetas.get(estafetaCode);
@@ -415,6 +414,22 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         String userCode = getEncUser(encCode);
         users.get(userCode).removeEncomenda(encCode);
         encomendas.remove(encCode);
+    }
+
+    public List<String> randomListaProdutos() {
+        List<String> prods = produtos.values().stream().map(Produto::getProdCode).collect(Collectors.toList());
+
+        Random rand = new Random();
+        int size = prods.size();
+        int totalItems = rand.nextInt((2*size)/3 - size/2) + size/2;
+        int randomIndex;
+
+        while(prods.size() != totalItems) {
+            randomIndex = rand.nextInt(prods.size());
+            prods.remove(randomIndex);
+        }
+
+        return prods;
     }
 
     //----------------------------------------------------------------Métodos Produto--------------------------------------------------------------------------\\

@@ -167,6 +167,10 @@ public class Apresentacao implements IApresentacao, Serializable {
         return au.pedirEncomenda();
     }
 
+    public void printEncomendaInvalida() {
+        au.printEncomendaInvalida();
+    }
+
     // ------------------------ Apresentação Voluntario Transportadora ------------------------- \\
 
     public void printMenuVoluntario() {
