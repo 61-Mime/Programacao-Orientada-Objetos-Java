@@ -103,6 +103,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).clone();
     }
 
+    public int getEstafetaNumEnc(String transpCode) {
+        return ((Transportadora)estafetas.get(transpCode)).getNumEncomendas();
+    }
+
     public void setEstafeta(Estafeta estafeta) {
         estafetas.replace(estafeta.getCode(), estafeta);
     }
@@ -158,13 +162,28 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public List<String> possiveisEstafetas(String enc) {
         List<String> estafetaList;
         Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
+        Coordenadas cr2 = users.get(encomendas.get(enc).getUserCode()).getGps();
         boolean isMedic = encomendas.get(enc).isMedic();
         double maxprice = users.get(encomendas.get(enc).getUserCode()).getPrecoMax();
 
-        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && !e.isOccup() && e.getGps().distancia(cr) < e.getRaio() && (precoEncomenda(enc,e.getCode()) <= maxprice)))
-                .map(Estafeta::getCode).collect(Collectors.toList());
+        estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && !e.isOccup() && (e.getGps().distancia(cr) < e.getRaio())
+                                                                && (e.getGps().distancia(cr2) < e.getRaio()) && (precoEncomenda(enc,e.getCode()) <= maxprice)))
+                                                                    .map(Estafeta::getCode).collect(Collectors.toList());
 
         return estafetaList;
+    }
+
+    public List<String> encomendasPossiveis(String transpCode){
+        List<String> encList;
+        Coordenadas cr = estafetas.get(transpCode).getGps();
+        boolean isMedic = estafetas.get(transpCode).isMedic();
+        double raio = estafetas.get(transpCode).getRaio();
+
+        encList = encomendas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isAceiteLoja() && !e.isEntregue() &&
+                                      lojas.get(e.getStoreCode()).getGps().distancia(cr) < raio && users.get(e.getUserCode()).getGps().distancia(cr) < raio))
+                                            .map(Encomenda::getEncCode).collect(Collectors.toList());
+
+        return encList;
     }
 
     public String escolheEstafeta(List<String> listEst,String encCode) {

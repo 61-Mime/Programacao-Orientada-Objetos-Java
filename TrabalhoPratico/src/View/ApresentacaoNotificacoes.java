@@ -48,4 +48,8 @@ public class ApresentacaoNotificacoes implements Serializable {
     public String notificacaoLojaNovaCompra(String encCode, String userCode) {
         return "Tem uma compra pendente (" + encCode + ") do utilizador " + userCode + ".";
     }
+
+    public String notificacaoUserNovaTransportadora(String encCode, String transpCode) {
+        return "Tem um entrega sugerida (" + encCode + ") da transportadora " + transpCode + ".";
+    }
 }

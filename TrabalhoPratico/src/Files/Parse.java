@@ -104,7 +104,7 @@ public class Parse implements Serializable, IParse {
         double raio = Double.parseDouble(campos[5]);
         double precoPorKm = Double.parseDouble(campos[6]);
 
-        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 0,false,new ArrayList<>());
+        return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 5,false,new ArrayList<>());
     }
 
     private Encomenda parseEncomenda(String input){

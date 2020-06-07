@@ -5,6 +5,8 @@ import Model.Login;
 import View.Apresentacao;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InterpretadorTransportadora {
@@ -14,6 +16,32 @@ public class InterpretadorTransportadora {
         in = new Input();
     }
 
+    private List<String> criarRota(GestTrazAqui c,String transpCode,Apresentacao a){
+        String code,encCode;
+        int max = c.getEstafetaNumEnc(transpCode);
+        boolean val = true;
+        List<String> list = c.encomendasPossiveis(transpCode);
+        List<String> rota = new ArrayList<>();
+
+        while (val && rota.size() < max) {
+            if(list.size() == 0) {
+                a.printSemEncomendas();
+                val = false;
+            }
+            else {
+                a.printArray("Encomendas disponíveis:", list);
+                encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), list);
+                list.remove(encCode);
+                rota.add(encCode);
+
+                if (!in.lerSN(a, "Pretende adicionar mais encomendas? (S/N)"))
+                    val = false;
+            }
+        }
+
+        return rota;
+    }
+
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
         boolean r = true;
         int command;
@@ -21,7 +49,7 @@ public class InterpretadorTransportadora {
 
         while (r) {
             a.printMenuTransportadora();
-            command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 5);
+            command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 6);
 
             switch (command) {
                 case 1:
@@ -56,6 +84,14 @@ public class InterpretadorTransportadora {
                     a.printEstafetaClassicacao(c.getEstafetaClassificacao(l.getCode()));
                     break;
 
+                case 6:
+                    List<String> enclist = criarRota(c,l.getCode(),a);
+                    if(enclist.size() > 0){
+                        for(String enc:enclist){
+                            c.addUserNotificacao(c.getEncUser(enc), a.notificacaoUtilizadorAceitarTransportadora(enc,l.getCode()), 1, l.getCode());
+                        }
+                    }
+                    break;
                 case 0:
                     r = false;
                     break;

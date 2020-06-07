@@ -14,7 +14,7 @@ public class ApresentacaoVoluntarioTransportadora implements Serializable {
     }
 
     public void printMenuTransportadora() {
-        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação"},"MENU TRANSPORTADORA",1);
+        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação","Definir rota de entregas"},"MENU TRANSPORTADORA",1);
     }
 
     public void printEstafetaDisponivel() {

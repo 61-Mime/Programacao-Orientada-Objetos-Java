@@ -27,10 +27,12 @@ public interface IGestTrazAqui {
     boolean isEncomendaAceite(String encCode);
     double precoEncomenda(String encCode,String transpCode);
     List<String> possiveisEstafetas(String enc);
+    List<String> encomendasPossiveis(String transpCode);
+    int getEstafetaNumEnc(String transpCode);
     String escolheEstafeta(List<String>list,String enc);
-    public String getEstafetaType(String estCode);
-    public String getEstafetaName(String estCode);
-    public String encomendaStandBy(String estCode);
-    public String getEncUser(String encCode);
-    public String getEncUserName(String encCode);
+    String getEstafetaType(String estCode);
+    String getEstafetaName(String estCode);
+    String encomendaStandBy(String estCode);
+    String getEncUser(String encCode);
+    String getEncUserName(String encCode);
 }
