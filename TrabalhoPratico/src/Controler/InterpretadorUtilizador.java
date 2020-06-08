@@ -122,8 +122,9 @@ public class InterpretadorUtilizador implements Serializable {
     }
 
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
-        boolean r=true;
+        boolean r=true,aceite;
         Scanner s = new Scanner(System.in);
+        String transp;
         int command;
 
         while(r) {
@@ -135,15 +136,15 @@ public class InterpretadorUtilizador implements Serializable {
                     List<String> encList = c.getUserStandByTransp(l.getCode());
                     System.out.println(encList.toString());
                     for(String enc:encList){
+                        aceite = true;
+                        transp = c.getEncTransp(enc);
                         if(!in.lerSN(a,"(Encomenda " + enc + ")Aceita a transportadora " + c.getEncTransp(enc) + " pelo preço:" + c.precoEncomenda(enc,c.getEncTransp(enc)) + "€?(S/N)")){
-                            //c.removeUserStandBy(c.getEncUser(enc),enc);
-                        //else{
                             c.removeEstafetaEncRota(c.getEncTransp(enc),enc);
-                            c.removerEnc(l.getCode(),enc);
+                            aceite = false;
                             c.sugerirTransp(enc,"");
-                            //notificar transp q aceitou ou recusou
                         }
-                        c.removeUserStandBy(c.getEncUser(enc),enc);
+                        c.addEstafetaNotificacao(transp,a.notificacaoTransportadora(enc,l.getCode(),aceite),0,l.getCode());
+                        c.removeUserStandBy(l.getCode(),enc);
                     }
 
                     aceitarEncomenda(a, c, l);

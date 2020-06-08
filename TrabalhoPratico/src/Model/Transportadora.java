@@ -88,8 +88,16 @@ public class Transportadora extends Estafeta implements Serializable {
         rota = new ArrayList<>(rota);
     }
 
+    public void addRota(String rota){
+        this.rota.add(rota);
+    }
+
     public void remEncRota(String enc){
         rota.remove(enc);
+    }
+
+    public boolean containsRota(String encCode) {
+        return rota.contains(encCode);
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

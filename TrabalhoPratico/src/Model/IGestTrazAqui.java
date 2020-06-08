@@ -34,8 +34,9 @@ public interface IGestTrazAqui {
     String escolheEstafeta(List<String>list,String enc);
     String getEstafetaType(String estCode);
     String getEstafetaName(String estCode);
-    void addEstafetaRota(String transpCode,List<String> rota);
+    void addEstafetaRota(String transpCode,String rota);
     int getEstafetaRotaSize(String transpCode);
+    boolean containsEncRota(String estCode,String encCode);
     List<String> getEstafetaRota(String transpCode);
     String encomendaStandBy(String estCode);
     String getEncUser(String encCode);

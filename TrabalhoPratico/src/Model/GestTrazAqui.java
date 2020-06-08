@@ -131,8 +131,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         estafetas.get(code).addEncomenda(encCode);
     }
 
-    public void addEstafetaRota(String transpCode,List<String> rota){
-        ((Transportadora)estafetas.get(transpCode)).setRota(rota);
+    public void addEstafetaRota(String transpCode,String rota){
+        ((Transportadora)estafetas.get(transpCode)).addRota(rota);
     }
 
     public List<String> getEstafetaRota(String transpCode){
@@ -145,6 +145,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public String getEstafetaType(String estCode){
         return estafetas.get(estCode).getType();
+    }
+
+    public boolean containsEncRota(String estCode,String encCode){
+        return ((Transportadora)estafetas.get(estCode)).containsRota(encCode);
     }
 
     public String getEstafetaName(String estCode){
@@ -171,8 +175,8 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         return estafetas.get(code).getNumNotificacoes();
     }
 
-    public void addEstafetaNotificacao(String code, String not, int type, String estCode) {
-        estafetas.get(code).addNotificacao(not, type, estCode);
+    public void addEstafetaNotificacao(String estCode, String not, int type, String code) {
+        estafetas.get(estCode).addNotificacao(not, type, code);
     }
 
     public void removeEstafetaEncRota(String transpCode,String enc) {
@@ -207,9 +211,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         boolean isMedic = estafetas.get(transpCode).isMedic();
         double raio = estafetas.get(transpCode).getRaio();
 
-        encList = encomendas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isAceiteLoja() && !e.isEntregue() &&
-                                      lojas.get(e.getStoreCode()).getGps().distancia(cr) < raio && users.get(e.getUserCode()).getGps().distancia(cr) < raio))
-                                            .map(Encomenda::getEncCode).collect(Collectors.toList());
+        encList = encomendas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isAceiteLoja() && !e.isEntregue() && !((Transportadora)estafetas.get(transpCode)).containsRota(e.getEncCode())
+                                                            && lojas.get(e.getStoreCode()).getGps().distancia(cr) < raio && users.get(e.getUserCode()).getGps().distancia(cr) < raio))
+                                                            .map(Encomenda::getEncCode).collect(Collectors.toList());
 
         return encList;
     }
@@ -536,9 +540,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
     public double calculaTempo(Coordenadas crE,Coordenadas crL,Coordenadas crU,double tempoFilaEspera,double velocidade) {
         Random rand = new Random();
-        int condicoesAtmosfericas = randomWeather[rand.nextInt(15) - 1];
-        int queueSize = randomQueue[rand.nextInt(15) - 1];
-        int transito = randomTraffic[rand.nextInt(15) - 1];
+        int condicoesAtmosfericas = randomWeather[rand.nextInt(15)];
+        int queueSize = randomQueue[rand.nextInt(15)];
+        int transito = randomTraffic[rand.nextInt(15) ];
         if(tempoFilaEspera == -1)
             tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
 

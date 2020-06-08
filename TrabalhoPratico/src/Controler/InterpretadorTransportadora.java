@@ -16,10 +16,11 @@ public class InterpretadorTransportadora {
         in = new Input();
     }
 
-    private List<String> criarRota(GestTrazAqui c,String transpCode,Apresentacao a){
+    private void criarRota(GestTrazAqui c,String transpCode,Apresentacao a){
         String encCode;
         int max = c.getEstafetaNumEnc(transpCode);
         boolean val = true;
+
         List<String> list = c.encomendasPossiveis(transpCode);
         List<String> rota = new ArrayList<>();
 
@@ -29,17 +30,22 @@ public class InterpretadorTransportadora {
                 val = false;
             }
             else {
-                a.printArray("Encomendas disponíveis:", list);
-                encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), list);
-                list.remove(encCode);
-                rota.add(encCode);
-
                 if (!in.lerSN(a, "Pretende adicionar mais encomendas? (S/N)"))
                     val = false;
+                else {
+                    a.printArray("Encomendas disponíveis:", list);
+                    encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), list);
+                    list.remove(encCode);
+                    rota.add(encCode);
+                    c.addEstafetaRota(transpCode, encCode);
+                    c.sugerirTransp(encCode, transpCode);
+                    c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorAceitarTransportadora(encCode, transpCode), 1, transpCode);
+                    c.addUserStandBy(c.getEncUser(encCode), encCode);
+                }
             }
         }
 
-        return rota;
+        return;
     }
 
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
@@ -90,28 +96,20 @@ public class InterpretadorTransportadora {
                         List<String> enclist = c.getEstafetaRota(l.getCode());
                         boolean val = true;
                         for(String enc:enclist){
-                            if(!c.getUserEncStandBy(enc))
+                            if(c.getUserEncStandBy(enc))
                                 val = false;
                         }
                         if(val){
-                            for(String code:enclist) {
-                                c.entregarEncomenda(code, l.getCode());
-                                a.printEncomendaEntregue(code, c.getEstafetaType(code), c.getEstafetaName(code), c.precoEncomenda(code, l.getCode()), c.getEncTime(code));
-                                c.addUserNotificacao(c.getEncUser(code), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), code), 2, l.getCode());
+                            for(String enccode:enclist) {
+                                c.entregarEncomenda(enccode, l.getCode());
+                                c.removeEstafetaEncRota(l.getCode(),enccode);
+                                a.printEncomendaEntregue(l.getCode(), c.getEstafetaType(l.getCode()), c.getEstafetaName(l.getCode()), c.precoEncomenda(enccode, l.getCode()), c.getEncTime(enccode));
+                                c.addUserNotificacao(c.getEncUser(enccode), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), enccode), 2, l.getCode());
                             }
                             a.printMessage("Encomendas entregues!");
                         }
                     }
-                    List<String> enclist = criarRota(c,l.getCode(),a);
-                    System.out.println(enclist.size());
-                    if(enclist.size() > 0){
-                        c.addEstafetaRota(l.getCode(),enclist);
-                        for(String enc:enclist){
-                            c.sugerirTransp(enc,l.getCode());
-                            c.addUserNotificacao(c.getEncUser(enc), a.notificacaoUtilizadorAceitarTransportadora(enc,l.getCode()), 1, l.getCode());
-                            c.addUserStandBy(c.getEncUser(enc),enc);
-                        }
-                    }
+                    criarRota(c,l.getCode(),a);
                     break;
                 case 0:
                     r = false;
