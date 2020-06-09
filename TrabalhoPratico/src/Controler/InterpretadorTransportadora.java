@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o menu da transportadora
+ */
 package Controler;
 
 import Model.GestTrazAqui;
@@ -7,15 +10,24 @@ import View.Apresentacao;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class InterpretadorTransportadora {
+public class InterpretadorTransportadora implements IInterpretador{
     private final Input in;
 
+    /**
+     * construtor classe InterpretadorTransportadora
+     */
     public InterpretadorTransportadora() {
         in = new Input();
     }
 
+    /**
+     * cria uma rota de entregas
+     *
+     * @param c             GestTrazAqui
+     * @param transpCode    codigo transportadora
+     * @param a             apresentação
+     */
     private void criarRota(GestTrazAqui c,String transpCode,Apresentacao a){
         String encCode;
         int max = c.getEstafetaNumEnc(transpCode);
@@ -48,6 +60,13 @@ public class InterpretadorTransportadora {
         return;
     }
 
+    /**
+     * interpretador do menu da transportadora
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
         boolean r = true;
         int command;

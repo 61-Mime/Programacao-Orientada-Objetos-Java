@@ -1,3 +1,6 @@
+/**
+ * classe que representa um utilizador
+ */
 package Model;
 
 import java.io.Serializable;
@@ -52,25 +55,12 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         return codigoUtilizador;
     }
 
-    public void setCodigoUtilizador(String codigoUtilizador) {
-        this.codigoUtilizador = codigoUtilizador;
-    }
-
     public String getName() {
         return nome;
     }
 
-    public void setName(String nome) {
-        this.nome = nome;
-    }
-
     public Coordenadas getGps() {
         return gps.clone();
-    }
-
-    public void setGps(Coordenadas gps) {
-        this.gps.setLongitude(gps.getLongitude());
-        this.gps.setLatitude(gps.getLatitude());
     }
 
     public double getPrecoMax() {
@@ -98,9 +88,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.nome = nome;
     }
 
-    public void setPrecoMax(double precoMax) {
-        this.precoMax = precoMax;
-    }
 
     public List<String> getStandBy() {
         return standBy;

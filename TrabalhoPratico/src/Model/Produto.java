@@ -1,3 +1,6 @@
+/**
+ * classe que representa um produto
+ */
 package Model;
 
 import java.io.Serializable;
@@ -36,44 +39,44 @@ public class Produto implements Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve codigo de produto
+     * @return codigo produto
+     */
     public String getProdCode() {
         return prodCode;
     }
 
-    public void setProdCode(String prodCode) {
-        this.prodCode = prodCode;
-    }
-
+    /**
+     * devolve nome
+     * @return nome
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * devolve peso
+     * @return peso
+     */
     public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
+    /**
+     * devolve peso
+     * @return peso
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * devolve isMedic
+     * @return isMedic
+     */
     public boolean isMedic() {
         return isMedic;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setMedic(boolean medic) {
-        isMedic = medic;
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

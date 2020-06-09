@@ -1,3 +1,6 @@
+/**
+ * classe que representa uma linhaEncomenda
+ */
 package Model;
 
 import java.io.Serializable;
@@ -32,38 +35,42 @@ public class LinhaEncomenda implements Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve prodCode
+     * @return  codigo produto
+     */
     public String getProductCode() {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
+    /**
+     * devolve descrição do produto
+     * @return descrição
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    /**
+     * devolve quantidade
+     * @return  quantidade
+     */
     public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
-
+    /**
+     * devolve unidades
+     * @return uni
+     */
     public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
+    /**
+     * devolve preço
+     * @return preço
+     */
     public double getPrice() {
         return quantity * unitPrice;
     }

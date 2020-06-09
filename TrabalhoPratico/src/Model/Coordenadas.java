@@ -1,3 +1,6 @@
+/**
+ * Classe que representa uma coordenada
+ */
 package Model;
 
 import java.io.Serializable;
@@ -9,15 +12,29 @@ public class Coordenadas implements Serializable {
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
+    /**
+     * construtor vazio da classe coordenada
+     */
     public Coordenadas() {
         this(0, 0);
     }
 
+    /**
+     * construtor classe coordenada
+     *
+     * @param latitude  latitude
+     * @param longitude longitude
+     */
     public Coordenadas(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    /**
+     * construtor classe coordenada
+     *
+     * @param c coordenada
+     */
     public Coordenadas(Coordenadas c) {
         this.longitude = c.getLongitude();
         this.latitude = c.getLatitude();
@@ -25,18 +42,38 @@ public class Coordenadas implements Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve a latitude
+     *
+     * @return latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * altera a latitude
+     *
+     * @param latitude latitude
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * devolve a longitude
+     *
+     * @return longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * altera a longitude
+     *
+     * @param longitude longitude
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
@@ -65,6 +102,12 @@ public class Coordenadas implements Serializable {
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
+    /**
+     * calcula distancia entre 2 coordenada
+     *
+     * @param c coordenada
+     * @return  double distancia
+     */
     public double distancia(Coordenadas c) {
         return Math.sqrt((this.latitude - c.getLatitude()) * (this.latitude - c.getLatitude()) +
                         (this.longitude - c.getLongitude()) * (this.longitude - c.getLongitude()));

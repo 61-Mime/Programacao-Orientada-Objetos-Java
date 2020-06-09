@@ -1,3 +1,6 @@
+/**
+ * classe que lê um ficheiro de dados e carraga-os para as classes
+ */
 package Files;
 
 import Model.*;
@@ -12,6 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parse implements Serializable, IParse {
+    /**
+     * Método que lê o ficheiro logs.txt e carrega as estruturas
+     *
+     * @param c GestTrazAqui
+     */
     public void parse(GestTrazAqui c){
         List<String> linhas = lerFicheiro("files/logs.txt");
         String [] linhaPartida;
@@ -57,6 +65,12 @@ public class Parse implements Serializable, IParse {
         parseProdutosTxt(c);
     }
 
+    /**
+     * Método que lê um ficheiro
+     *
+     * @param filename nome ficheiro
+     * @return         list de strings lida
+     */
     private List<String> lerFicheiro(String filename){
         List<String> lines = new ArrayList<>();
         try {
@@ -67,6 +81,12 @@ public class Parse implements Serializable, IParse {
         return lines;
     }
 
+    /**
+     * Divide imput e cria um utilizador
+     *
+     * @param input String lida
+     * @return      novo utilizador
+     */
     private Utilizador parseUtilizador(String input){
         String [] campos = input.split(",");
         String nome = campos[1];
@@ -76,6 +96,12 @@ public class Parse implements Serializable, IParse {
         return new Utilizador(codUtilizador,nome,gps,100,new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
     }
 
+    /**
+     * Divide imput e cria uma loja
+     *
+     * @param input String lida
+     * @return      nova loja
+     */
     private Loja parseLoja(String input){
         String [] campos = input.split(",");
         String storeCode = campos[0];
@@ -85,6 +111,12 @@ public class Parse implements Serializable, IParse {
         return new Loja(storeCode,storeName,gps,false,0, new ArrayList<>(), new ArrayList<>());
     }
 
+    /**
+     * Divide imput e cria um voluntário
+     *
+     * @param input String lida
+     * @return      novo voluntario
+     */
     private Estafeta parseVoluntario(String input){
         String [] campos = input.split(",");
         String voluntaryCode = campos[0];
@@ -95,6 +127,12 @@ public class Parse implements Serializable, IParse {
         return new Estafeta(voluntaryCode, name, gps, raio, 50, 0, true, false, 0, 0, "Voluntario",false,new ArrayList<>());
     }
 
+    /**
+     * Divide imput e cria uma transportadora
+     *
+     * @param input String lida
+     * @return      nova transportadora
+     */
     private Estafeta parseTransportadora(String input){
         String [] campos = input.split(",");
         String companyCode = campos[0];
@@ -107,6 +145,12 @@ public class Parse implements Serializable, IParse {
         return new Transportadora(companyCode,companyName,gps,raio,60,0,true,false,0,0,nif,precoPorKm,0.05, 5,false,new ArrayList<>());
     }
 
+    /**
+     * Divide imput e cria uma encomenda
+     *
+     * @param input String lida
+     * @return      nova encomenda
+     */
     private Encomenda parseEncomenda(String input){
         String [] campos = input.split(",");
         String encCode = campos[0];
@@ -120,10 +164,25 @@ public class Parse implements Serializable, IParse {
 
         return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false,0);
     }
+
+    /**
+     * Método que cria linha de encomenda
+     *
+     * @param code          codigo produto
+     * @param description   descrição
+     * @param qt            quantidade
+     * @param price         preço
+     * @return              nova linhaEncomenda
+     */
     private LinhaEncomenda parseLinhaEncomenda(String code,String description,String qt,String price){
         return new LinhaEncomenda(code,description,Double.parseDouble(qt),Double.parseDouble(price));
     }
 
+    /**
+     * Método que lê o ficheiro produtos.txt e adiciona-os às lojas
+     *
+     * @param c GestTrazAqui
+     */
     private void parseProdutosTxt(GestTrazAqui c) {
         List<String> linhas = lerFicheiro("files/produtos.txt");
         String[] linhaPartida;
@@ -145,6 +204,12 @@ public class Parse implements Serializable, IParse {
         }
     }
 
+    /**
+     * Método que cria um produto através de uma string
+     *
+     * @param str   string que representa um produto
+     * @return      novo produto
+     */
     private Produto parseProduto (String str) {
         String[] campos = str.split(",");
         String code = campos[0];
@@ -156,6 +221,12 @@ public class Parse implements Serializable, IParse {
         return new Produto(code, name, weight,price,isMedic);
     }
 
+    /**
+     * Método que cria list de produtos para serem adicionados a uma loja
+     *
+     * @param str   string de produtos
+     * @return      list de produtos
+     */
     private List<String> parseProdutosLoja(String str) {
         String[] campos = str.split(",");
         return new ArrayList<>(Arrays.asList(campos));

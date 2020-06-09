@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o menu do voluntário
+ */
 package Controler;
 
 import Model.GestTrazAqui;
@@ -7,14 +10,24 @@ import View.Apresentacao;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class InterpretadorVoluntario implements Serializable {
+public class InterpretadorVoluntario implements Serializable, IInterpretador{
     private final Input in;
 
+    /**
+     * contrutor classe InterpretadorVoluntario
+     */
     public InterpretadorVoluntario() {
         in = new Input();
     }
 
-    public void interpretador(Apresentacao a, GestTrazAqui c, Login l) {
+    /**
+     * interpretador menu voluntario
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
+    public void interpretador(GestTrazAqui c,Apresentacao a, Login l) {
         boolean r = true;
         int command;
         String encCode;

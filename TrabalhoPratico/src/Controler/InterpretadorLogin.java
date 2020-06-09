@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o menu de login
+ */
 package Controler;
 
 import Model.*;
@@ -10,10 +13,20 @@ import java.util.Scanner;
 public class InterpretadorLogin implements Serializable {
     private final Input in;
 
+    /**
+     * Construtor login
+     */
     public InterpretadorLogin() {
         in = new Input();
     }
 
+    /**
+     *  Método que cria um login
+     *
+     * @param c      GestTrazAqui
+     * @param a      Apresentação
+     * @return       Login com nome e pass
+     */
     private Login login(GestTrazAqui c, Apresentacao a) {
         Scanner s = new Scanner(System.in);
         String user, pass;
@@ -36,6 +49,14 @@ public class InterpretadorLogin implements Serializable {
         return null;
     }
 
+    /**
+     *  Método que cria um utilizador
+     *
+     * @param a     Apresentação
+     * @param code  UserCode
+     * @param nome  Nome
+     * @return      novo Utilizador
+     */
     private Utilizador registarUtilizador(Apresentacao a, String code, String nome){
         Scanner s = new Scanner(System.in);
         double price;
@@ -46,6 +67,15 @@ public class InterpretadorLogin implements Serializable {
         return new Utilizador(code, nome, cr, price, new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
     }
 
+    /**
+     *  Método que cria um estafeta
+     *
+     * @param a     Apresentação
+     * @param code  Estafeta Code
+     * @param nome  Nome
+     * @param type  tipo de estafeta
+     * @return      Novo estafeta
+     */
     private Estafeta registarEstafeta(Apresentacao a, String code, String nome, String type) {
         Scanner s = new Scanner((System.in));
         double raio, velocidade;
@@ -64,6 +94,13 @@ public class InterpretadorLogin implements Serializable {
         return new Estafeta(code, nome, cr, raio, velocidade, 0, true, isMedic, 0, 0, type,false,new ArrayList<>());
     }
 
+    /**
+     *  Método que cria uma transportadora
+     *
+     * @param a Apresentação
+     * @param e Estafeta
+     * @return  Nova Transportadora
+     */
     private Transportadora registarTransportadora(Apresentacao a, Estafeta e) {
         Scanner s = new Scanner(System.in);
         int nif;
@@ -76,6 +113,15 @@ public class InterpretadorLogin implements Serializable {
         return new Transportadora(e.getCode(), e.getName(), e.getGps(), e.getRaio(), e.getVelocidade(), e.getNumKm(), e.isFree(), e.isMedic(), e.getClassificacao(),e.getNumCla(), nif, taxaKm, taxaPeso, 0,false, new ArrayList<>());
     }
 
+    /**
+     *  Método que cria uma loja
+     *
+     * @param a
+     * @param c
+     * @param code
+     * @param nome
+     * @return
+     */
     private Loja registarLoja(Apresentacao a, GestTrazAqui c, String code, String nome) {
         Scanner s = new Scanner(System.in);
         String queue;
@@ -91,6 +137,13 @@ public class InterpretadorLogin implements Serializable {
         return new Loja(code, nome, cr, false, -1, c.randomListaProdutos(), new ArrayList<>());
     }
 
+    /**
+     * Regista uma conta
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @return  true se foi criada com sucesso
+     */
     private boolean registar(GestTrazAqui c, Apresentacao a) {
         Scanner s = new Scanner(System.in);
         Login l = new Login();
@@ -143,6 +196,13 @@ public class InterpretadorLogin implements Serializable {
         return false;
     }
 
+    /**
+     * Interpretador menu login
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @return  Login criado
+     */
     public Login interpretador(GestTrazAqui c, Apresentacao a) {
         boolean r=true;
         int command;

@@ -1,3 +1,6 @@
+/**
+ * classe que representa um estafeta
+ */
 package Model;
 
 import java.io.Serializable;
@@ -76,152 +79,277 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * Devolve código
+     *
+     * @return Código
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     * Devolve tipo de estafeta
+     * @return Tipo de estafeta
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Altera o código
+     * @param code Código
+     */
     public void setCode(String code) {
         this.code = code;
     }
 
+    /**
+     * Devolve nome
+     * @return Nome
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Devolve gps
+     * @return Gps
+     */
     public Coordenadas getGps() {
         return gps.clone();
     }
 
+    /**
+     * Altera o gps
+     * @param gps Gps
+     */
     public void setGps(Coordenadas gps) {
         this.gps.setLatitude(gps.getLatitude());
         this.gps.setLongitude(gps.getLongitude());
     }
 
+    /**
+     * Devolve raio
+     * @return Raio
+     */
     public double getRaio() {
         return raio;
     }
 
+    /**
+     * Altera o raio
+     * @param raio Raio
+     */
     public void setRaio(double raio) {
         this.raio = raio;
     }
 
+    /**
+     * Devolve a velocidade
+     * @return Velocidade
+     */
     public double getVelocidade() {
         return velocidade;
     }
 
+    /**
+     * Altera a velocidade
+     * @param velocidade Velocidade
+     */
     public void setVelocidade(double velocidade) {
         this.velocidade = velocidade;
     }
 
+    /**
+     * Devolve o número de quilómetros
+     * @return Número de quilómetros
+     */
     public double getNumKm() {
         return numKm;
     }
 
+    /**
+     * Altera o número de quilómetros
+     * @param numKm Número de quilómetros
+     */
     public void setNumKm(double numKm) {
         this.numKm = numKm;
     }
 
+    /**
+     * Atualizar o número de quilómetros
+     * @param numKm numero de kilometros
+     */
     public void addNumKm(double numKm) {
-        this.numKm = numKm;
+        this.numKm += numKm;
     }
 
+    /**
+     * Indica se está disponível
+     * @return True se está disponível, false caso contrário
+     */
     public boolean isFree() {
         return isFree;
     }
 
+    /**
+     * Alterar o estado de disponíbilidade
+     * @param free Estado de disponibilidade
+     */
     public void setFree(boolean free) {
         isFree = free;
     }
 
+    /**
+     * Indica se transporta encomendas médicas
+     * @return True se transporta encomendas médicas, false caso contrário
+     */
     public boolean isMedic() {
         return isMedic;
     }
 
+    /**
+     * Altera a informação que indica se o estafeta transporta encomendas médicas
+     * @param medic True ou false se transporta ou não encomendas médicas, respetivamente
+     */
     public void setMedic(boolean medic) {
         isMedic = medic;
     }
 
+    /**
+     * Devolve a classificação
+     * @return Classificação
+     */
     public double getClassificacao() {
         return classificacao;
     }
 
+    /**
+     * Altera a classificação
+     * @param classificacao Classificação
+     */
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
 
+    /**
+     * Devolve o número de classificações
+     * @return Número de classificações
+     */
     public int getNumCla() {
         return numCla;
     }
 
-    public void setNumCla(int numCla) {
-        this.numCla = numCla;
-    }
-
+    /**
+     * Incrementa o número de classificações
+     */
     public void incNumCla() {
         this.numCla ++;
     }
 
+    /**
+     * Retorna a lista dos registos
+     * @return Lista de registos
+     */
     public List<String> getRegisto() {
         return new ArrayList<>(registo);
     }
 
+    /**
+     * Altera a lista de registos
+     * @param enc Lista de registos
+     */
     public void setRegisto(List<String> enc) {
         this.registo = new ArrayList<>(enc);
     }
 
+    /**
+     * Adicionar uma encomenda aos registos e incrementa o número de encomendas
+     * @param enc Código de encomenda
+     */
     public void setEnc(String enc) {
         this.registo.add(enc);
         if(this.getType() == "Transportadora")
             ((Transportadora)this).setNumEncomendas();
     }
 
+    /**
+     * Remove uma encomenda dos registos
+     * @param encCode Código de encomenda
+     */
     public void removeEnc(String encCode){
         registo.remove(encCode);
     }
 
+    /**
+     * Retorna um booleano que indica se o estafeta está ocupado ou não
+     * @return occup
+     */
     public boolean isOccup() {
         return occup;
     }
 
+    /**
+     * Altera a informação que indica se está ocupado
+     * @param occup Booleano que indica se está ocupado
+     */
     public void setOccup(boolean occup) {
         this.occup = occup;
     }
 
+    /**
+     * Altera o tipo de estafeta
+     * @param type Tipo
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Devolve a lista de notificações
+     * @return Lista de notificações
+     */
     public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
 
+    /**
+     * Altera a lista de notificações
+     * @param notificacoes Lista de notificações
+     */
     public void setNotificacoes(List<Notificacao> notificacoes) {
         this.notificacoes = new ArrayList<>();
         this.notificacoes.addAll(notificacoes);
     }
 
+    /**
+     * Devolve o número de notificações
+     * @return Número de notificações
+     */
     public int getNumNotificacoes() {
         return notificacoes.size();
     }
 
+    /**
+     * Adiciona uma notificação
+     * @param not       Conteúdo da notificação
+     * @param type      Tipo de notificação
+     * @param estCode   Código de estafeta
+     */
     public void addNotificacao(String not, int type, String estCode) {
         notificacoes.add(new Notificacao(not, type, estCode));
     }
 
+    /**
+     * Remove um notificação
+     * @param not Conteúdo de notificação
+     */
     public void removeNotificacao(String not) {
         notificacoes.remove(not);
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\
-
 
     @Override
     public String toString() {
@@ -272,19 +400,35 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
+    /**
+     * Atualiza a classificação
+     * @param classificacao Classificação
+     */
     public void atualizaClassificacao(double classificacao) {
         setClassificacao((getClassificacao() * getNumCla() + classificacao) / (getNumCla() + 1));
         incNumCla();
     }
 
+    /**
+     * Adiciona uma encomenda
+     * @param encCode Código de encomenda
+     */
     public void addEncomenda(String encCode) {
         registo.add(encCode);
     }
 
+    /**
+     * Devolve um booleano que indica se os registos contém uma encomenda
+     * @param encCode   Código da encomenda
+     * @return          True se contém a encomenda, false caso contrário
+     */
     public boolean containsEncomenda(String encCode) {
         return registo.contains(encCode);
     }
 
+    /**
+     * Limpa a lista de notificações
+     */
     public void limpaNotificacoes() {
         notificacoes = new ArrayList<>();
     }

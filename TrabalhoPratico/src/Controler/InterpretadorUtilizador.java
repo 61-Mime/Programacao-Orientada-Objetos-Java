@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o menu do utulizador
+ */
 package Controler;
 
 import Model.Encomenda;
@@ -14,16 +17,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class InterpretadorUtilizador implements Serializable {
+public class InterpretadorUtilizador implements Serializable, IInterpretador {
     private final Input in;
 
+    /**
+     * construtor InterpretadorUtilizador
+     */
     public InterpretadorUtilizador() {
         in = new Input();
     }
 
+    /**
+     * metodo que aceita uma encomenda
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
     private void aceitarEncomenda(Apresentacao a, GestTrazAqui c, Login l) {
         String code,encCode;
         List<String> list = c.getEncReady(l.getCode());
+
+        if(list.size() == 0) {
+            a.printErroEntrega();
+            return;
+        }
+
         a.printArray("Encomendas disponíveis:", list);
 
         encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), list);
@@ -45,6 +64,13 @@ public class InterpretadorUtilizador implements Serializable {
             a.printErroEntrega();
     }
 
+    /**
+     * Método que cria uma nova encomenda
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
     private void fazerEncomenda(Apresentacao a, GestTrazAqui c, Login l) {
         a.printArray("Lojas disponíveis:", c.getLojas());
         String loja = in.lerStringLoja(a,"Introduza o código da loja para fazer a encomenda:", c);
@@ -72,6 +98,14 @@ public class InterpretadorUtilizador implements Serializable {
             a.printCompraCancelada();
     }
 
+    /**
+     * Método que aceita um estafeta
+     *
+     * @param c         GestTrazAqui
+     * @param a         Apresentação
+     * @param encCode   Codigo encomenda
+     * @return          codigo estafeta
+     */
     public String aceitaEstafeta(Apresentacao a, GestTrazAqui c,String encCode){
         boolean aceite = false;
         Scanner sc = new Scanner(System.in);
@@ -91,6 +125,15 @@ public class InterpretadorUtilizador implements Serializable {
         return code;
     }
 
+    /**
+     * Método que regista uma nova encomenda
+     *
+     * @param linhaPartida Array com os campos necessários para criar uma encomenda
+     * @param c            GestTrazAqui
+     * @param userCode     Código utilizador
+     * @param storeCode    Código loja
+     * @return             Nova encomenda
+     */
     private Encomenda registaEncomenda(String[] linhaPartida, GestTrazAqui c, String userCode, String storeCode) {
         double peso = 0, preco = 0;
         String[] tmp;
@@ -117,10 +160,26 @@ public class InterpretadorUtilizador implements Serializable {
         return new Encomenda(encCode, userCode, "", storeCode, peso, isMedic, LocalDateTime.now(), false, linhaEncomendas, false,0);
     }
 
+    /**
+     * método que cria uma linha de encomenda
+     *
+     * @param prodCode   codigo produto
+     * @param quantidade quantidade
+     * @param preco      preço
+     * @param c          GestTrazAqui
+     * @return           nova LinhaEncomenda
+     */
     private LinhaEncomenda registaLinhaEncomenda(String prodCode, double quantidade, double preco, GestTrazAqui c) {
         return new LinhaEncomenda(prodCode, c.getProdName(prodCode), quantidade, preco);
     }
 
+    /**
+     * interpretador menu utilizador
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) {
         boolean r=true,aceite;
         Scanner s = new Scanner(System.in);
@@ -134,7 +193,6 @@ public class InterpretadorUtilizador implements Serializable {
             switch(command) {
                 case 1:
                     List<String> encList = c.getUserStandByTransp(l.getCode());
-                    System.out.println(encList.toString());
                     for(String enc:encList){
                         aceite = true;
                         transp = c.getEncTransp(enc);

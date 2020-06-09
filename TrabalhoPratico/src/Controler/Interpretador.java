@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o programa
+ */
 package Controler;
 
 import Files.GuardarCarregarEstado;
@@ -11,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class Interpretador implements Serializable{
+public class Interpretador implements Serializable, IInterpretador{
     private final Input in;
     private final InterpretadorLogin intL;
     private final InterpretadorUtilizador intU;
@@ -19,6 +22,9 @@ public class Interpretador implements Serializable{
     private final InterpretadorTransportadora intT;
     private final InterpretadorLoja intLj;
 
+    /**
+     *  construtor da classe Interpretador
+     */
     public Interpretador() {
         in = new Input();
         intL = new InterpretadorLogin();
@@ -28,6 +34,12 @@ public class Interpretador implements Serializable{
         intLj = new InterpretadorLoja();
     }
 
+    /**
+     * Interpretador das consultas
+     *
+     * @param c GestTransAqui
+     * @param a Apresentação
+     */
     private void interpretadorConsultas(GestTrazAqui c, Apresentacao a) {
         boolean r=true;
         int command;
@@ -53,6 +65,14 @@ public class Interpretador implements Serializable{
         }
     }
 
+    /**
+     * Menu das notificações
+     *
+     * @param c      GestTrazAqui
+     * @param a      Apresentação
+     * @param l      Login(nome,pass)
+     * @param type   Tipo conta(User,Voluntario,...)
+     */
     private void notificacoes(GestTrazAqui c, Apresentacao a, Login l, String type) {
         List<Notificacao> notificacoes;
 
@@ -105,6 +125,14 @@ public class Interpretador implements Serializable{
             c.limpaEstafetaNotificacoes(l.getCode());
     }
 
+    /**
+     *
+     * @param c                        GestTrazAqui
+     * @param a                        Apresentação
+     * @param l                        Login(nome,pass)
+     * @throws ClassNotFoundException  Erro
+     * @throws IOException             Erro
+     */
     public void interpretador(GestTrazAqui c, Apresentacao a, Login l) throws ClassNotFoundException, IOException {
         int command, numN=0;
         boolean r=true;
@@ -167,13 +195,13 @@ public class Interpretador implements Serializable{
                                 intU.interpretador(c, a, l);
                                 break;
                             case "Voluntario":
-                                intE.interpretador(a, c, l);
+                                intE.interpretador(c, a, l);
                                 break;
                             case "Transportadora":
                                 intT.interpretador(c, a, l);
                                 break;
                             case "Loja":
-                                intLj.interpretador(a, c, l);
+                                intLj.interpretador(c, a, l);
                                 break;
                         }
                         break;

@@ -1,3 +1,6 @@
+/**
+ * classe que representa uma transportadora
+ */
 package Model;
 
 import java.io.Serializable;
@@ -44,58 +47,90 @@ public class Transportadora extends Estafeta implements Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve nif
+     * @return nif
+     */
     public int getNif() {
         return nif;
     }
 
-    public void setNif(int nif) {
-        this.nif = nif;
-    }
-
+    /**
+     * devolve taxa Km
+     * @return taxaKm
+     */
     public double getTaxaKm() {
         return taxaKm;
     }
 
-    public void setTaxaKm(double taxaKm) {
-        this.taxaKm = taxaKm;
-    }
-
+    /**
+     * devolve taxa de peso
+     * @return taxa de peso
+     */
     public double getTaxaPeso() {
         return taxaPeso;
     }
 
-    public void setTaxaPeso(double taxaPeso) {
-        this.taxaPeso = taxaPeso;
-    }
-
+    /**
+     * devolve maximo de encomendas
+     * @return maximo de encomendas
+     */
     public int getNumEncomendas() {
         return numEncomendas;
     }
 
+    /**
+     * altera maximo de encomendas
+     */
     public void setNumEncomendas() {
         this.numEncomendas ++;
     }
 
+    /**
+     * devolve rota
+     * @return list de encCode
+     */
     public List<String> getRota(){
         return new ArrayList<>(rota);
     }
 
+    /**
+     * devolve tamanho da rota
+     * @return rotaSize
+     */
     public int getRotaSize(){
         return rota.size();
     }
 
+    /**
+     * altera rota
+     * @param rota list rota
+     */
     public void setRota(List<String> rota){
         rota = new ArrayList<>(rota);
     }
 
+    /**
+     * adiciona encCode à rota
+     * @param rota encCode
+     */
     public void addRota(String rota){
         this.rota.add(rota);
     }
 
+    /**
+     * remora encCode da rota
+     * @param enc encCode
+     */
     public void remEncRota(String enc){
         rota.remove(enc);
     }
 
+    /**
+     * verifica se a rota contém a encCode
+     * @param encCode encCode
+     * @return        true se contém encCode
+     */
     public boolean containsRota(String encCode) {
         return rota.contains(encCode);
     }

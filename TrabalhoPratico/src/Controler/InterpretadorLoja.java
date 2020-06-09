@@ -1,3 +1,6 @@
+/**
+ * Classe que controla o menu da loja
+ */
 package Controler;
 
 import Model.GestTrazAqui;
@@ -8,13 +11,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InterpretadorLoja implements Serializable {
+public class InterpretadorLoja implements Serializable, IInterpretador {
     private final Input in;
 
+    /**
+     * Construtor classe interpretador loja
+     */
     public InterpretadorLoja() {
         in = new Input();
     }
 
+    /**
+     * Metodo que aceita ou não uma encomenda numa loja
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
     private void aceitarEncomendaLoja(GestTrazAqui c, Apresentacao a, Login l) {
         List<String> encomendas = c.encomendasNaoAceitesLoja(l.getCode());
         a.printArray("Compras disponíveis:", encomendas);
@@ -33,7 +46,14 @@ public class InterpretadorLoja implements Serializable {
         }
     }
 
-    public void interpretador(Apresentacao a, GestTrazAqui c, Login l) {
+    /**
+     * Interpretador menu loja
+     *
+     * @param c GestTrazAqui
+     * @param a Apresentação
+     * @param l Login
+     */
+    public void interpretador(GestTrazAqui c, Apresentacao a,Login l) {
         boolean r = true;
         int command;
         String encCode;

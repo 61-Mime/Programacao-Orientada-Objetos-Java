@@ -1,3 +1,6 @@
+/**
+ * classe que representa uma loja
+ */
 package Model;
 
 import java.io.Serializable;
@@ -44,80 +47,100 @@ public class Loja implements Serializable {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve store code
+     * @return store code
+     */
     public String getStoreCode() {
         return storeCode;
     }
 
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
-    }
-
+    /**
+     * devolve nome
+     * @return nome
+     */
     public String getStoreName() {
         return storeName;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
+    /**
+     * devolve gps
+     * @return gps
+     */
      public Coordenadas getGps() {
         return gps.clone();
     }
 
-    public void setGps(Coordenadas gps) {
-        this.gps.setLongitude(gps.getLongitude());
-        this.gps.setLatitude(gps.getLatitude());
-    }
-
+    /**
+     * devolve isHasQueueInfo
+     * @return isHasQueueInfo
+     */
     public boolean isHasQueueInfo() {
         return hasQueueInfo;
     }
 
-    public void setHasQueueInfo(boolean hasQueueInfo) {
-        this.hasQueueInfo = hasQueueInfo;
-    }
-
+    /**
+     * devolve queue time
+     * @return queue time
+     */
     public double getQueueTime() {
         return queueTime;
     }
 
+    /**
+     * altera queue time
+     * @param queueTime queue time
+     */
     public void setQueueTime(double queueTime) {
         this.queueTime = queueTime;
     }
 
+    /**
+     * devolve produtos
+     * @return  list codigos de produtos
+     */
     public List<String> getProds() {
         return new ArrayList<>(prods);
     }
 
-    public void setProds(List<String> prods) {
-        this.prods = new ArrayList<>(prods);
-    }
-
+    /**
+     * devolve codigos de encomendas
+     * @return  set de codigos de encomendas
+     */
     public Set<String> getEncomendas() {
         return new TreeSet<>(encomendas);
     }
 
-    public void setEncomendas(List<String> enc) {
-        this.encomendas = new TreeSet<>(enc);
-    }
-
+    /**
+     * devolve notificaçoes
+     * @return list de notificaçoes
+     */
     public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
 
-    public void setNotificacoes(List<Notificacao> notificacoes) {
-        this.notificacoes = new ArrayList<>();
-        this.notificacoes.addAll(notificacoes);
-    }
-
+    /**
+     * devolve numero de notificaçõpes
+     * @return numero de notificações
+     */
     public int getNumNotificacoes() {
         return notificacoes.size();
     }
 
+    /**
+     * adicionar notificação
+     * @param not     coteúdo da notificação
+     * @param type    type
+     * @param estCode estafeta code
+     */
     public void addNotificacao(String not, int type, String estCode) {
         notificacoes.add(new Notificacao(not, type, estCode));
     }
 
+    /**
+     * adiciona encCode
+     * @param enc encCode
+     */
     public void addEncomenda(String enc) {
         encomendas.add(enc);
     }
@@ -157,19 +180,35 @@ public class Loja implements Serializable {
 
     //---------------------------------------------------------------------------------outros metodos----------------------------------------------------------------------------\\
 
+    /**
+     * adiciona prod
+     * @param prodCode prodCode
+     */
     public void addProd(String prodCode) {
         this.prods.add(prodCode);
     }
 
+    /**
+     * adiciona lista de produtos
+     * @param produtos list de produtos
+     */
     public void addProdList(List<String> produtos) {
         for (String s: produtos)
             addProd(s);
     }
 
+    /**
+     * verifica se o produto existe
+     * @param prodCode prodCode
+     * @return         true se existe
+     */
     public boolean containsProd(String prodCode) {
         return prods.contains(prodCode);
     }
 
+    /**
+     * limpa notificações
+     */
     public void limpaNotificacoes() {
         notificacoes = new ArrayList<>();
     }

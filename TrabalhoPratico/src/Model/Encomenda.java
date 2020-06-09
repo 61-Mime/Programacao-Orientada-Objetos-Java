@@ -1,3 +1,6 @@
+/**
+ * classe que representa uma encomenda
+ */
 package Model;
 
 import java.io.Serializable;
@@ -49,6 +52,11 @@ public class Encomenda implements Serializable {
         setLinha(linha);
     }
 
+    /**
+     * construtor de copia
+     *
+     * @param enc encomenda
+     */
     public Encomenda(Encomenda enc) {
         this.encCode = enc.getEncCode();
         this.userCode = enc.userCode;
@@ -64,103 +72,164 @@ public class Encomenda implements Serializable {
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
 
-
+    /**
+     * devolve codigo encomenda
+     *
+     * @return codigo encomenda
+     */
     public String getEncCode() {
         return encCode;
     }
 
+    /**
+     * altera encCode
+     *
+     * @param encCode encCode
+     */
     public void setEncCode(String encCode) {
         this.encCode = encCode;
     }
 
+    /**
+     * devolve user code
+     *
+     * @return user code
+     */
     public String getUserCode() {
         return userCode;
     }
 
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
-    }
-
+    /**
+     * devolve transp code
+     *
+     * @return transp code
+     */
     public String getTranspCode() {
         return transpCode;
     }
 
+    /**
+     * altera transp code
+     *
+     * @param transpCode
+     */
     public void setTranspCode(String transpCode) {
         this.transpCode = transpCode;
     }
 
+    /**
+     * devolve store code
+     *
+     * @return store code
+     */
     public String getStoreCode() {
         return storeCode;
     }
 
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
-    }
-
+    /**
+     * devolve peso
+     *
+     * @return peso
+     */
     public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public String getProduct() {
-        return storeCode;
-    }
-
-    public void setProduct(String storeCode) {
-        this.storeCode = storeCode;
-    }
-
+    /**
+     *devolve isMedic
+     *
+     * @return isMedic
+     */
     public boolean isMedic() {
         return isMedic;
     }
 
-    public void setMedic(boolean medic) {
-        isMedic = medic;
-    }
-
+    /**
+     * devolve data
+     *
+     * @return data
+     */
     public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
+    /**
+     * devolve aceite
+     *
+     * @return aceite
+     */
     public boolean isAceiteLoja() {
         return aceiteLoja;
     }
 
+    /**
+     * altera aceite
+     *
+     * @param aceiteLoja aceite
+     */
     public void setAceiteLoja(boolean aceiteLoja) {
         this.aceiteLoja = aceiteLoja;
     }
 
+    /**
+     * devolve entregue
+     *
+     * @return entregue
+     */
     public boolean isEntregue() {
         return entregue;
     }
 
+    /**
+     * altera entregue
+     *
+     * @param entregue entregue
+     */
     public void setEntregue(boolean entregue) {
         this.entregue = entregue;
     }
 
+    /**
+     * altera tempo entrega
+     *
+     * @param tempoEntrega tempo de entrega
+     */
     public void setTempoEntrega(double tempoEntrega) {
         this.tempoEntrega = tempoEntrega;
     }
 
+    /**
+     * devolve tempo entrega
+     *
+     * @return entrega
+     */
     public double getTempoEntrega() {
         return tempoEntrega;
     }
 
+    /**
+     * verifica se é voluntario
+     *
+     * @return true se for voluntario
+     */
     public boolean isVoluntario() {
         return transpCode.charAt(0) == 'v';
     }
 
+    /**
+     * verifica se é transportadora
+     *
+     * @return true se for transportadora
+     */
     public boolean isTransportadora() {
         return transpCode.charAt(0) == 't';
     }
 
+    /**
+     * devolve linhas de encomenda
+     *
+     * @return list de LinhaEncomenda
+     */
     public List<LinhaEncomenda> getLinha() {
         List<LinhaEncomenda> line = new ArrayList<>();
 
@@ -170,6 +239,11 @@ public class Encomenda implements Serializable {
         return line;
     }
 
+    /**
+     * altera lista de linhas de encomenda
+     *
+     * @param line lista de linha de encomenda
+     */
     public void setLinha(List<LinhaEncomenda> line) {
         this.linha = new ArrayList<>();
 
@@ -229,10 +303,22 @@ public class Encomenda implements Serializable {
         this.linha.add(l.clone());
     }
 
+    /**
+     * verifica se a encomenda está entre as datas dadas
+     *
+     * @param min data min
+     * @param max data max
+     * @return    true se < max e > min
+     */
     public boolean encData(LocalDateTime min, LocalDateTime max) {
         return data.isBefore(max) && data.isAfter(min);
     }
 
+    /**
+     * devolve o preço
+     *
+     * @return preço
+     */
     public double getPrice() {
         double price = 0d;
 

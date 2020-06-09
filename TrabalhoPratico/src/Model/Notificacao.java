@@ -1,3 +1,6 @@
+/**
+ * classe que representa uma notificação
+ */
 package Model;
 
 public class Notificacao {
@@ -26,27 +29,35 @@ public class Notificacao {
 
     //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
 
+    /**
+     * devolve notificação
+     * @return notificação
+     */
     public String getNot() {
         return not;
     }
 
-    public void setNot(String not) {
-        this.not = not;
-    }
-
+    /**
+     * devolve type
+     * @return  type
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * altera type
+     * @param type type
+     */
     public void setType(int type) {
         this.type = type;
     }
 
+    /**
+     * devolta estasfetaCode
+     * @return estafetaCode
+     */
     public String getEstCode() {
         return estCode;
-    }
-
-    public void setEstCode(String estCode) {
-        this.estCode = estCode;
     }
 }

@@ -1,3 +1,6 @@
+/**
+ *  Classe que recebe e valida o imput recebido
+ */
 package Controler;
 
 import Model.Coordenadas;
@@ -13,6 +16,13 @@ import java.util.Scanner;
 
 public class Input implements Serializable {
 
+    /**
+     *  Método que lê sim ou não
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @return          true ou false dependendo do imput
+     */
     public boolean lerSN(Apresentacao a, String message){
         Scanner s = new Scanner(System.in);
         String line;
@@ -30,28 +40,15 @@ public class Input implements Serializable {
         return line.toUpperCase().equals("S");
     }
 
-    public void lerNum(Apresentacao a, String message,int num){
-        Scanner s = new Scanner(System.in);
-        int n = num-1;
-        int i = 0;
-
-        do{
-            if(i++ != 0)
-                a.play("sound/error.wav");
-
-            a.printMessage(message);
-            try {
-                String line = s.nextLine();
-                n = Integer.parseInt(line);
-            } catch (NumberFormatException nfe) {
-                a.printMessage(nfe.getMessage());
-                n = num-1;
-            }
-        } while (n != num);
-
-        a.play("sound/ok.wav");
-    }
-
+    /**
+     *  Método que lê um double
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @param min       Valor máximo do Double
+     * @param max       Valor mínimo do Double
+     * @return          Double lido
+     */
     public double lerDouble(Apresentacao a, String message,int min,int max){
         Scanner s = new Scanner(System.in);
         double n = -1;
@@ -76,6 +73,13 @@ public class Input implements Serializable {
         return n;
     }
 
+    /**
+     *  Método que lê uma data
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @return          Data lida
+     */
     public LocalDateTime lerData(Apresentacao a, String message){
         Scanner s = new Scanner(System.in);
         boolean val = true;
@@ -100,6 +104,14 @@ public class Input implements Serializable {
         return data;
     }
 
+    /**
+     *  Método que lê um codigo de loja
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @param c         GestTrazAqui c
+     * @return          String que representa um code
+     */
     public String lerStringLoja(Apresentacao a, String message, GestTrazAqui c) {
         Scanner s = new Scanner(System.in);
         String line;
@@ -118,6 +130,14 @@ public class Input implements Serializable {
         return line;
     }
 
+    /**
+     *  Método que lê um código de encomenda
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @param list      Lista de codigos de encomenda
+     * @return          Codigo encomenda
+     */
     public String lerStringSolicitarEnc(Apresentacao a, String message, List<String> list) {
         Scanner s = new Scanner(System.in);
         String line;
@@ -139,6 +159,12 @@ public class Input implements Serializable {
         return line;
     }
 
+    /**
+     *  Método que lê uma coordenada
+     *
+     * @param a Apresentação
+     * @return  Coordenada lida
+     */
     public Coordenadas lerCoordenada(Apresentacao a){
         Scanner s = new Scanner(System.in);
         String[] line;
@@ -166,6 +192,15 @@ public class Input implements Serializable {
         return new Coordenadas(lat,lon);
     }
 
+    /**
+     *  Método que lê um código de encomenda entrego por um estafeta
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @param c         GestTrazAqui
+     * @param code      Codigo estafeta
+     * @return          Codigo encomenda
+     */
     public String lerStringEncomenda(Apresentacao a, String message, GestTrazAqui c, String code) {
         Scanner s = new Scanner(System.in);
         String line;
@@ -184,6 +219,14 @@ public class Input implements Serializable {
         return line;
     }
 
+    /**
+     * Método que valida uma linha de encomenda
+     *
+     * @param line      Array com os valores de uma linha de encomenda
+     * @param storeCode Código loja
+     * @param c         GestTrazAqui
+     * @return          true caso seja valida false caso inválida
+     */
     private boolean linhaEncomendaValida(String[] line, String storeCode, GestTrazAqui c) {
         String[] tmp;
 
@@ -195,6 +238,15 @@ public class Input implements Serializable {
         return true;
     }
 
+    /**
+     *  Método que lê uma linha de encomenda
+     *
+     * @param a         Apresentação
+     * @param message   String que representa a mensagem a apresentar
+     * @param c         GestTrazAqui
+     * @param storeCode Codigo loja
+     * @return          Valores de uma linha de encomenda
+     */
     public String[] lerLinhaEncomenda(Apresentacao a, String message, GestTrazAqui c, String storeCode){
         Scanner s = new Scanner(System.in);
         String line;
