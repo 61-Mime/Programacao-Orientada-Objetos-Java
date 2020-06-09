@@ -51,74 +51,144 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     }
 
      //--------------------------------------------------------------Getters e Setters--------------------------------------------------------------------------\\
+
+    /**
+     * devolve userCod
+     * @return userCod
+     */
     public String getCodigoUtilizador() {
         return codigoUtilizador;
     }
 
+    /**
+     * devolve name
+     * @return name
+     */
     public String getName() {
         return nome;
     }
 
+    /**
+     * devolve gps
+     * @return gps
+     */
     public Coordenadas getGps() {
         return gps.clone();
     }
 
+    /**
+     * devolve preço maximo
+     * @return preço maximo
+     */
     public double getPrecoMax() {
         return precoMax;
     }
 
+    /**
+     * altera liste de entregas
+     * @param enc list encCode
+     */
     public void setEntregas(List<String> enc) {
         this.entregas = new ArrayList<>();
         this.entregas.addAll(enc);
     }
 
+    /**
+     * devolve lista de entregas
+     * @return list de encCode
+     */
     public List<String> getEntregas(){
         return new ArrayList<>(entregas);
     }
 
+    /**
+     * devolve entregas.size
+     * @return size
+     */
     public int getEntregasSize(){
         return entregas.size();
     }
 
+    /**
+     * devolve nome
+     * @return nome
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * altera nome
+     * @param nome nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-
+    /**
+     * devolve codigos de encomendas em standBy
+     * @return list encCode
+     */
     public List<String> getStandBy() {
         return standBy;
     }
 
+    /**
+     * altera list standBy
+     * @param standBy list de encCode
+     */
     public void setStandBy(List<String> standBy) {
         this.standBy = new ArrayList<>();
         this.standBy.addAll(standBy);
     }
 
+    /**
+     * adiciona encCode à lista de standBy
+     * @param encCode encCode
+     */
     public void addStandBy(String encCode) {
         standBy.add(encCode);
     }
 
+    /**
+     * remove encCode do standBy
+     * @param encCode encCode
+     */
     public void removeStandBy(String encCode) {
         standBy.remove(encCode);
     }
 
+    /**
+     * devolve list de notificações
+     * @return list de notificações
+     */
     public List<Notificacao> getNotificacoes() {
         return notificacoes;
     }
 
+    /**
+     * altera list de notificações
+     * @param notificacoes list de notificações
+     */
     public void setNotificacoes(List<Notificacao> notificacoes) {
         this.notificacoes = new ArrayList<>();
         this.notificacoes.addAll(notificacoes);
     }
 
+    /**
+     * devolve numero de notificações
+     * @return numero
+     */
     public int getNumNotificacoes() {
         return notificacoes.size();
     }
 
+    /**
+     * adicionar notificação
+     * @param not       conteúdo da notificação
+     * @param type      type
+     * @param estCode   estafeta code
+     */
     public void addNotificacao(String not, int type, String estCode) {
         notificacoes.add(new Notificacao(not, type, estCode));
     }
@@ -158,18 +228,34 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
 
+    /**
+     * adicionar encomenda entregue
+     * @param enc encCode
+     */
     public void addEncomenda(String enc) {
         this.entregas.add(enc);
     }
 
+    /**
+     * remover encomenda entregue
+     * @param enc encCode
+     */
     public void removeEncomenda(String enc) {
         this.entregas.remove(enc);
     }
 
+    /**
+     * limpa notificações
+     */
     public void limpaNotificacoes() {
         notificacoes = new ArrayList<>();
     }
 
+    /**
+     * verifica se a encomenda está em standBy
+     * @param enc encCode
+     * @return    true se estiver em standBy
+     */
     public boolean isEncStandBy(String enc){
         return standBy.contains(enc);
     }

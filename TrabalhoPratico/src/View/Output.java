@@ -4,11 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Output implements Serializable {
+    /**
+     * Apresenta screen clear
+     */
     public void clear() {
         for(int i = 0; i<5; i++)
             System.out.println("");
     }
 
+    /**
+     * Apresenta print line
+     * @param size tamanho
+     */
     private void printLine(int size) {
         for(int i=0; i<size; i++)
             System.out.print("-");
@@ -16,6 +23,12 @@ public class Output implements Serializable {
         System.out.println("");
     }
 
+    /**
+     * Apresenta Menu
+     * @param menu      menu
+     * @param message   mensagem
+     * @param type      type
+     */
     public void printMenus(String []menu, String message, int type){
 
         int size, length=message.length();
@@ -38,6 +51,11 @@ public class Output implements Serializable {
         printLine(length);
     }
 
+    /**
+     * Apresenta mensagem e arraylist
+     * @param message mensagem
+     * @param arr     list de strings
+     */
     public void printArray(String message, List<String> arr) {
         System.out.println("\n" + message);
 
@@ -47,6 +65,11 @@ public class Output implements Serializable {
         System.out.print("\n");
     }
 
+    /**
+     * Apresenta tabela com mensagem e arraylist
+     * @param message mensagem
+     * @param arr     list de strings
+     */
     public void printTable(String message, List<String> arr) {
         System.out.println("\n" + message);
 
@@ -56,6 +79,10 @@ public class Output implements Serializable {
         System.out.print("\n");
     }
 
+    /**
+     * Apresenta mensagem
+     * @param message mensagem
+     */
     public void printMessage(String message) {
         System.out.println(message);
     }

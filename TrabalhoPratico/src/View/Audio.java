@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 public class Audio implements Serializable{
 
+    /**
+     * Apresenta som
+     * @param filePath caminho
+     */
     public void play(String filePath){
         try {
             File musicPath = new File(filePath);
