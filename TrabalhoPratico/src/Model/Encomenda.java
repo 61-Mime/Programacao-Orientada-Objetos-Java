@@ -55,11 +55,6 @@ public class Encomenda implements Serializable {
         setLinha(linha);
     }
 
-    /**
-     * construtor de copia
-     *
-     * @param enc encomenda
-     */
     public Encomenda(Encomenda enc) {
         this.encCode = enc.getEncCode();
         this.userCode = enc.userCode;

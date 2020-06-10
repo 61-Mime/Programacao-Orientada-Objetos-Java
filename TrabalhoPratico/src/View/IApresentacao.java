@@ -49,7 +49,6 @@ public interface IApresentacao {
     public void printMenuLojaIndisponivel();
     public void notifTable(String not, int type, int page, int max);
     public void printEmptyNot();
-    public void play(String filePath);
     public void printArray(String message, List<String> arr);
     public void printTable(String message, List<String> arr);
     public void printMessage(String message);

@@ -17,7 +17,6 @@ public class Apresentacao implements IApresentacao, Serializable {
     private final ApresentacaoNotificacoes an;
     private final ApresentacaoLoja alj;
     private final Output out;
-    private final Audio audio;
 
     // ------------------------ Construtor ------------------------- \\
 
@@ -29,7 +28,6 @@ public class Apresentacao implements IApresentacao, Serializable {
         an = new ApresentacaoNotificacoes();
         alj = new ApresentacaoLoja();
         out = new Output();
-        audio = new Audio();
     }
 
     // ------------------------ Apresentação Main ------------------------- \\
@@ -485,16 +483,6 @@ public class Apresentacao implements IApresentacao, Serializable {
             return an.notificacaoTransportadoraAceite(encCode, userCode);
         else
             return an.notificacaoTransportadoraRecusada(encCode, userCode);
-    }
-
-    // ------------------------ Audio ------------------------- \\
-
-    /**
-     * Apresenta audio
-     * @param filePath caminho audio
-     */
-    public void play(String filePath) {
-        audio.play(filePath);
     }
 
     // ------------------------ Outros métodos ------------------------- \\

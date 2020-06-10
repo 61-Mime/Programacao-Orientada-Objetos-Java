@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parse implements Serializable, IParse {
+
     /**
      * Método que lê o ficheiro logs.txt e carrega as estruturas
      *
@@ -82,7 +83,7 @@ public class Parse implements Serializable, IParse {
     }
 
     /**
-     * Divide imput e cria um utilizador
+     * Divide input e cria um utilizador
      *
      * @param input String lida
      * @return      novo utilizador
@@ -97,7 +98,7 @@ public class Parse implements Serializable, IParse {
     }
 
     /**
-     * Divide imput e cria uma loja
+     * Divide input e cria uma loja
      *
      * @param input String lida
      * @return      nova loja
@@ -112,7 +113,7 @@ public class Parse implements Serializable, IParse {
     }
 
     /**
-     * Divide imput e cria um voluntário
+     * Divide input e cria um voluntário
      *
      * @param input String lida
      * @return      novo voluntario
@@ -128,7 +129,7 @@ public class Parse implements Serializable, IParse {
     }
 
     /**
-     * Divide imput e cria uma transportadora
+     * Divide input e cria uma transportadora
      *
      * @param input String lida
      * @return      nova transportadora
@@ -146,7 +147,7 @@ public class Parse implements Serializable, IParse {
     }
 
     /**
-     * Divide imput e cria uma encomenda
+     * Divide input e cria uma encomenda
      *
      * @param input String lida
      * @return      nova encomenda

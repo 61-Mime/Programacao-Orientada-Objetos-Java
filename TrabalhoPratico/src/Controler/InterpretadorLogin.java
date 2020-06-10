@@ -13,9 +13,7 @@ import java.util.Scanner;
 public class InterpretadorLogin implements Serializable {
     private final Input in;
 
-    /**
-     * Construtor login
-     */
+
     public InterpretadorLogin() {
         in = new Input();
     }
@@ -35,17 +33,14 @@ public class InterpretadorLogin implements Serializable {
         user = s.nextLine();
 
         if(c.containsUser(user)) {
-            a.play("sound/ok.wav");
             a.printPedirPassword();
             pass = s.nextLine();
 
             if(c.containsPassword(user, pass)) {
-                a.play("sound/ok.wav");
                 return c.getLogin(user);
             }
         }
 
-        a.play("sound/error.wav");
         return null;
     }
 
@@ -116,11 +111,11 @@ public class InterpretadorLogin implements Serializable {
     /**
      *  Método que cria uma loja
      *
-     * @param a
-     * @param c
-     * @param code
-     * @param nome
-     * @return
+     * @param a     Apresentação
+     * @param c     Controlador
+     * @param code  Código da Loja
+     * @param nome  Nome da Loja
+     * @return      Loja
      */
     private Loja registarLoja(Apresentacao a, GestTrazAqui c, String code, String nome) {
         Scanner s = new Scanner(System.in);

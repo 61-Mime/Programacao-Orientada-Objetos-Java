@@ -107,7 +107,7 @@ public class Transportadora extends Estafeta implements Serializable {
      * @param rota list rota
      */
     public void setRota(List<String> rota){
-        rota = new ArrayList<>(rota);
+        this.rota = new ArrayList<>(rota);
     }
 
     /**

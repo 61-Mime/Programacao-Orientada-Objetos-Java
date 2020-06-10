@@ -106,6 +106,7 @@ public class Interpretador implements Serializable, IInterpretador{
                 else if(command==3 && notificacoes.get(page).getType() == 2) {
                     double pontuacao = in.lerDouble(a,"Introduza a classificação (0/10)", 0, 10);
                     c.classificarEstafeta(pontuacao, notificacoes.get(page).getEstCode());
+                    notificacoes.get(page).setType(1);
                 }
 
                 else if(command==0)
@@ -126,6 +127,7 @@ public class Interpretador implements Serializable, IInterpretador{
     }
 
     /**
+     * Controlador geral do programa
      *
      * @param c                        GestTrazAqui
      * @param a                        Apresentação
@@ -142,9 +144,7 @@ public class Interpretador implements Serializable, IInterpretador{
         GuardarCarregarEstado g = new GuardarCarregarEstado();
 
         a.welcome();
-        a.play("sound/on.wav");
         s.nextLine();
-        a.play("sound/ok.wav");
 
         while(r) {
             if(l==null) {

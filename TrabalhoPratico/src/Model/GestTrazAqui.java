@@ -181,10 +181,21 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         users.get(userCode).addEncomenda(encCode);
     }
 
+    /**
+     * Método que retira uma encomenda de StandBy
+     *
+     * @param encCode   Código da encomenda que vai ser alterada
+     */
     public void removeEncStandBy(String encCode) {
         encomendas.get(encCode).setStandBy(false);
     }
 
+    /**
+     * Método que verifica se uma encomenda está em StandBy
+     *
+     * @param encCode   Código da encomenda que vai ser consultada
+     * @return          Verdadeiro se a encomenda estiver em StandBy, falso caso contrário
+     */
     public boolean isEncStandBy(String encCode) {
         return encomendas.get(encCode).isStandBy();
     }

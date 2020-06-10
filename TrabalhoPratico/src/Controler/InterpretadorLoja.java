@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 public class InterpretadorLoja implements Serializable, IInterpretador {
     private final Input in;
 
-    /**
-     * Construtor classe interpretador loja
-     */
+
     public InterpretadorLoja() {
         in = new Input();
     }

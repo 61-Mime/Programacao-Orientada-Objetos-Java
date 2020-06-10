@@ -14,9 +14,7 @@ import java.util.List;
 public class InterpretadorTransportadora implements IInterpretador{
     private final Input in;
 
-    /**
-     * construtor classe InterpretadorTransportadora
-     */
+
     public InterpretadorTransportadora() {
         in = new Input();
     }

@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 public class InterpretadorVoluntario implements Serializable, IInterpretador{
     private final Input in;
 
-    /**
-     * contrutor classe InterpretadorVoluntario
-     */
+
     public InterpretadorVoluntario() {
         in = new Input();
     }

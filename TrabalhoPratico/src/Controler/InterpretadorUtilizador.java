@@ -20,9 +20,7 @@ import java.util.Scanner;
 public class InterpretadorUtilizador implements Serializable, IInterpretador {
     private final Input in;
 
-    /**
-     * construtor InterpretadorUtilizador
-     */
+
     public InterpretadorUtilizador() {
         in = new Input();
     }

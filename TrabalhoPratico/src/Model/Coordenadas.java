@@ -12,9 +12,6 @@ public class Coordenadas implements Serializable {
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
-    /**
-     * construtor vazio da classe coordenada
-     */
     public Coordenadas() {
         this(0, 0);
     }
