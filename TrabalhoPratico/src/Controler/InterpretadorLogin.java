@@ -131,10 +131,11 @@ public class InterpretadorLogin implements Serializable {
 
         if (in.lerSN(a, "A loja tem informação de fila de espera? (S/N)")) {
             double queueTime = in.lerDouble(a,"Qual é o tempo médio de espera em fila?: ",0,1000);
-            return new Loja(code, nome, cr, true, queueTime, c.randomListaProdutos() , new ArrayList<>());
+            int queueSize = (int) in.lerDouble(a, "Quantas pessoas estão na fila?", 0, 20);
+            return new Loja(code, nome, cr, true, queueTime, queueSize, c.randomListaProdutos() , new ArrayList<>());
         }
 
-        return new Loja(code, nome, cr, false, -1, c.randomListaProdutos(), new ArrayList<>());
+        return new Loja(code, nome, cr, false, -1, 0, c.randomListaProdutos(), new ArrayList<>());
     }
 
     /**

@@ -44,7 +44,7 @@ public class ApresentacaoUtilizador implements Serializable {
         for(LinhaEncomenda line : enc.getLinha())
             System.out.println(line);
 
-        System.out.println("Preço: " + enc.getPrice() +"€\n");
+        System.out.println("Preço: " + String.format("%.2f", enc.getPrice()) + " €\n");
     }
 
     /**
@@ -69,7 +69,7 @@ public class ApresentacaoUtilizador implements Serializable {
      */
     public void printEncomendaEntregueVol(String code, String nome, double tempo) {
         System.out.println("A encomenda foi entregue ao utilizador " + code + ": " + nome);
-        System.out.println("Tempo de entrega: " + tempo + " min");
+        System.out.println("Tempo de entrega: " + String.format("%.2f", tempo) + " min");
     }
 
     /**
@@ -83,8 +83,8 @@ public class ApresentacaoUtilizador implements Serializable {
     public void printEncomendaEntregue(String code, String tipo, String nome, double preco, double tempo) {
         System.out.println("A sua encomenda foi entregue pelo(a) " + tipo + " " + code + ": " + nome);
         if(tipo.equals("Transportadora"))
-            System.out.println("Preço: " + preco + " €");
-        System.out.println("Tempo de entrega: " + tempo + " min");
+            System.out.println("Preço: " + String.format("%.2f", preco) + " €");
+        System.out.println("Tempo de entrega: " + String.format("%.2f", tempo) + " min");
     }
 
     /**

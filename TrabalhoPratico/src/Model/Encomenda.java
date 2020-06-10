@@ -20,6 +20,7 @@ public class Encomenda implements Serializable {
     private boolean aceiteLoja;
     private boolean entregue;
     private double tempoEntrega;
+    private boolean standBy;
     private List<LinhaEncomenda> linha;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -35,10 +36,11 @@ public class Encomenda implements Serializable {
         this.aceiteLoja = false;
         this.entregue = false;
         this.tempoEntrega = 0;
+        this.standBy = false;
         this.linha = new ArrayList<>();
     }
 
-    public Encomenda(String encCode, String userCode, String transpCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceiteLoja, List<LinhaEncomenda> linha, boolean entregue, double tempo) {
+    public Encomenda(String encCode, String userCode, String transpCode, String storeCode, double weight, boolean isMedic, LocalDateTime data, boolean aceiteLoja, List<LinhaEncomenda> linha, boolean entregue, double tempo, boolean standBy) {
         this.encCode = encCode;
         this.userCode = userCode;
         this.transpCode = transpCode;
@@ -49,6 +51,7 @@ public class Encomenda implements Serializable {
         this.entregue = entregue;
         this.tempoEntrega = tempo;
         this.data = data;
+        this.standBy = standBy;
         setLinha(linha);
     }
 
@@ -67,6 +70,7 @@ public class Encomenda implements Serializable {
         this.data = enc.getData();
         this.aceiteLoja = isAceiteLoja();
         this.entregue = enc.isEntregue();
+        this.standBy = enc.isStandBy();
         setLinha(enc.getLinha());
     }
 
@@ -250,6 +254,24 @@ public class Encomenda implements Serializable {
         for (LinhaEncomenda l: line)
             this.linha.add(l.clone());
 
+    }
+
+    /**
+     * Verifica se uma encomenda está ou não em StandBy
+     *
+     * @return Booleano com o informação sonre StandBy
+     */
+    public boolean isStandBy() {
+        return standBy;
+    }
+
+    /**
+     * Método que altera o booleano standBy
+     *
+     * @param standBy   novo valor do booleano standBy
+     */
+    public void setStandBy(boolean standBy) {
+        this.standBy = standBy;
     }
 
     //--------------------------------------------------------------toString, equals e clone--------------------------------------------------------------------------\\

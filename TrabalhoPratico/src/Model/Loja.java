@@ -13,6 +13,7 @@ public class Loja implements Serializable {
     private Coordenadas gps;
     private boolean hasQueueInfo;
     private double queueTime;
+    private int queueSize;
     private List<String> prods;
     private Set<String> encomendas;
     private List<Notificacao> notificacoes;
@@ -20,15 +21,16 @@ public class Loja implements Serializable {
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
     public Loja() {
-        this("", "", new Coordenadas(), false, -1, new ArrayList<>(), new ArrayList<>());
+        this("", "", new Coordenadas(), false, -1, 0, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime, List<String> prods, List<Notificacao> notificacoes) {
+    public Loja(String storeCode, String storeName, Coordenadas gps, boolean hasQueueInfo, double queueTime, int queueSize, List<String> prods, List<Notificacao> notificacoes) {
         this.storeCode = storeCode;
         this.storeName = storeName;
         this.gps = gps.clone();
         this.hasQueueInfo = hasQueueInfo;
         this.queueTime = queueTime;
+        this.queueSize = queueSize;
         this.prods = new ArrayList<>(prods);
         this.notificacoes = new ArrayList<>(notificacoes);
         this.encomendas = new TreeSet<>();
@@ -40,6 +42,7 @@ public class Loja implements Serializable {
         this.gps = l.getGps();
         this.hasQueueInfo = l.isHasQueueInfo();
         this.queueTime = l.getQueueTime();
+        this.queueSize = l.getQueueSize();
         this.prods = l.getProds();
         this.notificacoes = l.getNotificacoes();
         encomendas = l.getEncomendas();
@@ -93,6 +96,22 @@ public class Loja implements Serializable {
      */
     public void setQueueTime(double queueTime) {
         this.queueTime = queueTime;
+    }
+
+    /**
+     * devolve o tamanho da fila
+     * @return  Inteiro que representa o tamanho da fila
+     */
+    public int getQueueSize() {
+        return queueSize;
+    }
+
+    /**
+     * altera o tamanho da fila
+     * @param queueSize novo tamanho da fila
+     */
+    public void setQueueSize(int queueSize) {
+        this.queueSize = queueSize;
     }
 
     /**

@@ -115,7 +115,7 @@ public class InterpretadorTransportadora implements IInterpretador{
                         List<String> enclist = c.getEstafetaRota(l.getCode());
                         boolean val = true;
                         for(String enc:enclist){
-                            if(c.getUserEncStandBy(enc))
+                            if(c.getUserEncStandBy(enc) && c.isEncStandBy(enc))
                                 val = false;
                         }
                         if(val){
@@ -124,6 +124,7 @@ public class InterpretadorTransportadora implements IInterpretador{
                                 c.removeEstafetaEncRota(l.getCode(),enccode);
                                 a.printEncomendaEntregue(l.getCode(), c.getEstafetaType(l.getCode()), c.getEstafetaName(l.getCode()), c.precoEncomenda(enccode, l.getCode()), c.getEncTime(enccode));
                                 c.addUserNotificacao(c.getEncUser(enccode), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), enccode), 2, l.getCode());
+                                c.removeUserStandBy(c.getEncUser(enccode), enccode);
                             }
                             a.printMessage("Encomendas entregues!");
                         }

@@ -39,7 +39,7 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
         List<String> list = c.getEncReady(l.getCode());
 
         if(list.size() == 0) {
-            a.printErroEntrega();
+            a.printErroSemEncomenda();
             return;
         }
 
@@ -117,7 +117,7 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
             if(code.equals("") || c.getEstafetaType(code).equals("Voluntario"))
                 aceite = true;
             else {
-                if(in.lerSN(a,"Aceita a transportadora " + c.getEstafetaName(code) + " pelo preço:" + c.precoEncomenda(encCode,code) + "€?(S/N)"))
+                if(in.lerSN(a,"Aceita a transportadora " + c.getEstafetaName(code) + " pelo preço:" + String.format("%.2f", c.precoEncomenda(encCode,code)) + "€?(S/N)"))
                     aceite = true;
                 else
                     list.remove(code);
@@ -158,7 +158,7 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
         String encCode;
         do { encCode = c.generateCode("Encomenda"); } while(c.containsEncomenda(encCode));
 
-        return new Encomenda(encCode, userCode, "", storeCode, peso, isMedic, LocalDateTime.now(), false, linhaEncomendas, false,0);
+        return new Encomenda(encCode, userCode, "", storeCode, peso, isMedic, LocalDateTime.now(), false, linhaEncomendas, false,0, false);
     }
 
     /**
@@ -194,19 +194,24 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
             switch(command) {
                 case 1:
                     List<String> encList = c.getUserStandByTransp(l.getCode());
-                    for(String enc:encList){
+                    for(String encCode:encList){
                         aceite = true;
-                        transp = c.getEncTransp(enc);
-                        if(!in.lerSN(a,"(Encomenda " + enc + ")Aceita a transportadora " + c.getEncTransp(enc) + " pelo preço:" + c.precoEncomenda(enc,c.getEncTransp(enc)) + "€?(S/N)")){
-                            c.removeEstafetaEncRota(c.getEncTransp(enc),enc);
-                            aceite = false;
-                            c.sugerirTransp(enc,"");
-                        }
-                        c.addEstafetaNotificacao(transp,a.notificacaoTransportadora(enc,l.getCode(),aceite),0,l.getCode());
-                        c.removeUserStandBy(l.getCode(),enc);
-                    }
+                        transp = c.getEncTransp(encCode);
+                        if(!in.lerSN(a,"(Encomenda " + encCode + ")Aceita a transportadora " +transp + " pelo preço:" + String.format("%.2f", c.precoEncomenda(encCode,transp)) + "€?(S/N)")){
 
-                    aceitarEncomenda(a, c, l);
+                            c.removeEstafetaEncRota(transp,encCode);
+                            aceite = false;
+                            c.sugerirTransp(encCode,"");
+                            c.removeUserStandBy(l.getCode(),encCode);
+                            c.removeEncStandBy(encCode);
+                        }
+                        else
+                            c.removeEncStandBy(encCode);
+                        c.addEstafetaNotificacao(transp,a.notificacaoTransportadora(encCode,l.getCode(),aceite),0,l.getCode());
+
+                    }
+                    if(in.lerSN(a, "Pretende solicitar uma encomenda? (S/N)"))
+                        aceitarEncomenda(a, c, l);
                     break;
 
                 case 2:

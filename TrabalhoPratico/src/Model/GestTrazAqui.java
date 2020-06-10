@@ -144,7 +144,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     /**
-     * devolve list de codigos de encomenda de um user protas para ser entregues
+     * devolve list de codigos de encomenda de um user prontas para ser entregues
      * @param userCode  userCode
      * @return          list de codigos de encomenda
      */
@@ -168,6 +168,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public void addUserStandBy(String userCode, String encCode) {
         users.get(userCode).addStandBy(encCode);
         users.get(userCode).removeEncomenda(encCode);
+        encomendas.get(encCode).setStandBy(true);
     }
 
     /**
@@ -178,6 +179,14 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public void removeUserStandBy(String userCode, String encCode) {
         users.get(userCode).removeStandBy(encCode);
         users.get(userCode).addEncomenda(encCode);
+    }
+
+    public void removeEncStandBy(String encCode) {
+        encomendas.get(encCode).setStandBy(false);
+    }
+
+    public boolean isEncStandBy(String encCode) {
+        return encomendas.get(encCode).isStandBy();
     }
 
     //---------------------------------------------------------------Métodos Estafeta--------------------------------------------------------------------------\\
@@ -375,7 +384,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         double raio = estafetas.get(transpCode).getRaio();
 
         encList = encomendas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isAceiteLoja() && !e.isEntregue() && !((Transportadora)estafetas.get(transpCode)).containsRota(e.getEncCode())
-                                                            && lojas.get(e.getStoreCode()).getGps().distancia(cr) < raio && users.get(e.getUserCode()).getGps().distancia(cr) < raio))
+                                                            && lojas.get(e.getStoreCode()).getGps().distancia(cr) < raio && users.get(e.getUserCode()).getGps().distancia(cr) < raio) && !e.isStandBy())
                                                             .map(Encomenda::getEncCode).collect(Collectors.toList());
 
         return encList;
@@ -492,6 +501,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      */
     public void removerEnc(String code,String encCode){
         estafetas.get(code).removeEnc(encCode);
+        encomendas.get(encCode).setStandBy(false);
     }
 
     /**
@@ -585,15 +595,6 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      */
     public Coordenadas getStoreCoordFromEnc(String encCode) {
         return getStoreCoord(encomendas.get(encCode).getStoreCode());
-    }
-
-    /**
-     * devolve tempo em fila de espera de uma loja
-     * @param storeCode storeCode
-     * @return          tempo
-     */
-    private double getStoreQueueTime(String storeCode) {
-        return lojas.get(storeCode).getQueueTime();
     }
 
     /**
@@ -743,9 +744,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
         enc.setTranspCode(estafetaCode);
         enc.setEntregue(true);
-        enc.setTempoEntrega(calculaTempo(e.getGps(),l.getGps(),users.get(enc.getUserCode()).getGps(),l.getQueueTime(),e.getVelocidade()));
+        enc.setTempoEntrega(calculaTempo(e.getGps(),l.getGps(),users.get(enc.getUserCode()).getGps(),l.getQueueTime(), l.getQueueSize(),e.getVelocidade()));
         e.setEnc(encCode);
         e.addNumKm(e.getGps().distancia(cr));
+        enc.setStandBy(false);
     }
 
     /**
@@ -839,7 +841,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     /**
-     * remora uma encomenda
+     * remove uma encomenda
      * @param encCode   encCode
      */
     public void removeEncomenda(String encCode) {
@@ -980,16 +982,15 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @param velocidade        velocidade da transportadora
      * @return                  tempo
      */
-    public double calculaTempo(Coordenadas crE,Coordenadas crL,Coordenadas crU,double tempoFilaEspera,double velocidade) {
+    public double calculaTempo(Coordenadas crE,Coordenadas crL,Coordenadas crU,double tempoFilaEspera, int queueSize,double velocidade) {
         Random rand = new Random();
         int condicoesAtmosfericas = randomWeather[rand.nextInt(15)];
-        int queueSize = randomQueue[rand.nextInt(12)];
         int transito = randomTraffic[rand.nextInt(15) ];
         if(tempoFilaEspera == -1)
             tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
 
         double dist = crE.distancia(crL) + crL.distancia(crU);
-        double tempo = (dist/velocidade)*60 + tempoFilaEspera;
+        double tempo = (dist/velocidade)*60 + tempoFilaEspera * queueSize;
 
         if(condicoesAtmosfericas == 2)
             tempo *= 1.2;

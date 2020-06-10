@@ -108,7 +108,7 @@ public class Parse implements Serializable, IParse {
         String storeName = campos[1];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Loja(storeCode,storeName,gps,false,0, new ArrayList<>(), new ArrayList<>());
+        return new Loja(storeCode,storeName,gps,false, (Math.random() * 10), (int) (Math.random() * 20), new ArrayList<>(), new ArrayList<>());
     }
 
     /**
@@ -162,7 +162,7 @@ public class Parse implements Serializable, IParse {
         for(int i = 4;i < size - 1;i+=4)
             linha.add(parseLinhaEncomenda(campos[i],campos[i+1],campos[i+2],campos[i+3]));
 
-        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false,0);
+        return new Encomenda(encCode,userCode,"",storeCode,weight,false, LocalDateTime.now(),false,linha,false,0, false);
     }
 
     /**

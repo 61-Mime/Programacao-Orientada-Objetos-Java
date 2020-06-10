@@ -179,7 +179,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
 
     /**
      * Atualizar o número de quilómetros
-     * @param numKm numero de kilometros
+     * @param numKm número de quilómetros
      */
     public void addNumKm(double numKm) {
         this.numKm += numKm;
@@ -194,7 +194,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     }
 
     /**
-     * Alterar o estado de disponíbilidade
+     * Alterar o estado de disponibilidade
      * @param free Estado de disponibilidade
      */
     public void setFree(boolean free) {

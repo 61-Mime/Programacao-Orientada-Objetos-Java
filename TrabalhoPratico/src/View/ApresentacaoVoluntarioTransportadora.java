@@ -42,7 +42,7 @@ public class ApresentacaoVoluntarioTransportadora implements Serializable {
      * @param preco preço
      */
     public void printEstafetaPreco(double preco) {
-        System.out.println("Preço: " + preco + " €");
+        System.out.println("Preço: " + String.format("%.2f", preco) + " €");
     }
 
     /**
@@ -50,7 +50,7 @@ public class ApresentacaoVoluntarioTransportadora implements Serializable {
      * @param faturacao faturaçao
      */
     public void printEstafetaFaturacao(double faturacao) {
-        System.out.println("Faturação: " + faturacao + " €");
+        System.out.println("Faturação: " + String.format("%.2f", faturacao) + " €");
     }
 
     /**
@@ -58,7 +58,7 @@ public class ApresentacaoVoluntarioTransportadora implements Serializable {
      * @param classificacao classificação
      */
     public void printEstafetaClassicacao(double classificacao) {
-        System.out.println("Classificação: " + classificacao);
+        System.out.println("Classificação: " + String.format("%.2f", classificacao));
     }
 
     /**
