@@ -60,6 +60,7 @@ public class InterpretadorVoluntario implements Serializable, IInterpretador{
                         else {
                             c.removerEnc(l.getCode(), encCode);
                             a.printEncRecusada();
+                            c.sugerirTransp(encCode,"");
 
                             c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorVoluntarioRecusado(l.getCode()), 1, "");
                         }

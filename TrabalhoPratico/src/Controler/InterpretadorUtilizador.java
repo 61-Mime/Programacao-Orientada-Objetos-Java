@@ -52,6 +52,7 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
             c.addEncomendaEstafeta(code,encCode);
             c.addUserStandBy(l.getCode(), encCode);
             c.setEstafetaOccup(code,true);
+            c.sugerirTransp(encCode,code);
             c.addEstafetaNotificacao(code, a.notificacaoVoluntarioNovaEntrega(encCode, l.getCode()), 1, "");
             a.printEncomendaStandBy(code);
         }
