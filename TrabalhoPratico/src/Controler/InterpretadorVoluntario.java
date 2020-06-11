@@ -70,12 +70,16 @@ public class InterpretadorVoluntario implements Serializable, IInterpretador{
                     break;
 
                 case 3:
-                    LocalDateTime min = in.lerData(a,"Intruza a 1º data de tipo (02-12-2020)");
-                    LocalDateTime max = in.lerData(a,"Intruza a 2º data de tipo (02-12-2020)");
-                    a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
+                    c.changeMedic(l.getCode());
                     break;
 
                 case 4:
+                    LocalDateTime min = in.lerData(a,a.pedirPrimeiraData());
+                    LocalDateTime max = in.lerData(a,a.pedirSegundaData());
+                    a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
+                    break;
+
+                case 5:
                     a.printEstafetaClassicacao(c.getEstafetaClassificacao(l.getCode()));
                     break;
 
