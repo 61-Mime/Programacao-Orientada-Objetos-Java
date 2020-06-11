@@ -8,6 +8,7 @@ import Model.Login;
 import View.Apresentacao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,15 +70,20 @@ public class InterpretadorLoja implements Serializable, IInterpretador {
 
                 switch (command) {
                     case 1:
-                        double time = in.lerDouble(a, "Introduza o tempo de espera na fila", 0, 30);
+                        double time = in.lerDouble(a, "Introduza o tempo de espera na fila", 0, 10);
                         c.setStoreQueueTime(l.getCode(), time);
                         break;
 
                     case 2:
+                        int queueSize = (int) in.lerDouble(a, "Introduza o número de pessoas na fila de espera", 0, 10);
+                        c.setStoreQueueSize(l.getCode(), queueSize);
+                        break;
+
+                    case 3:
                         aceitarEncomendaLoja(c, a, l);
                         break;
-                    case 3:
-                        a.printArray("Encomendas Loja:\n",c.getEncLoja(l.getCode()).stream().collect(Collectors.toList()));
+                    case 4:
+                        a.printArray("Encomendas Loja:\n", new ArrayList<>(c.getEncLoja(l.getCode())));
                         break;
 
                     case 0:

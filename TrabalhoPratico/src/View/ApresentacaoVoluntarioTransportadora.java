@@ -13,14 +13,14 @@ public class ApresentacaoVoluntarioTransportadora implements Serializable {
      * Apresenta menu voluntário
      */
     public void printMenuVoluntario() {
-        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar Encomenda","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
+        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar Encomenda", "Aceitar/Recusar Encomendas Médicas","Aceder às encomendas", "Classificação"},"MENU VOLUNTÁRIO",1);
     }
 
     /**
      * Apresenta menu transportadora
      */
     public void printMenuTransportadora() {
-        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Preço de transporte de uma encomenda", "Aceder às encomendas", "Total faturado", "Classificação","Definir rota de entregas"},"MENU TRANSPORTADORA",1);
+        out.printMenus(new String[]{"Sinalizar como disponivel/indisponivel para entregar encomendas", "Aceitar/Recusar Encomendas Médicas", "Aceder às encomendas", "Total faturado", "Classificação","Definir rota de entregas"},"MENU TRANSPORTADORA",1);
     }
 
     /**

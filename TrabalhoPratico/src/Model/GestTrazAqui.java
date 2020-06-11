@@ -547,6 +547,25 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         estafetas.get(code).setOccup(occup);
     }
 
+    /**
+     * Método que verifica se um estafeta é do tipo médico
+     *
+     * @param estafetaCode  Código do estafeta
+     * @return              Verdadeiro se for medic, falso caso contrário
+     */
+    public boolean isEstafetaMedic (String estafetaCode) {
+        return estafetas.get(estafetaCode).isMedic();
+    }
+
+    /**
+     * Método que altera a disponibilidade para entregar encomendas médicas
+     *
+     * @param estafetaCode      Código do estafeta
+     */
+    public void changeMedic(String estafetaCode) {
+        estafetas.get(estafetaCode).setMedic(!isEstafetaMedic(estafetaCode));
+    }
+
     //-----------------------------------------------------------------Métodos Lojas--------------------------------------------------------------------------\\
 
     /**
@@ -680,6 +699,15 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      */
     public void setStoreQueueTime(String storeCode, double time) {
         lojas.get(storeCode).setQueueTime(time);
+    }
+
+    /**
+     * altera o número de pessoas em fila de espera
+     * @param storeCode store code
+     * @param time      tempo
+     */
+    public void setStoreQueueSize(String storeCode, int time) {
+        lojas.get(storeCode).setQueueSize(time);
     }
 
     /**
@@ -858,7 +886,16 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     /**
-     * devolve tempo de entrega da encomenda
+     * devolve o nome da loja da encomenda
+     * @param encCode   encCode
+     * @return          Loja
+     */
+    public String getEncStoreName(String encCode){
+        return lojas.get(encomendas.get(encCode).getStoreCode()).getStoreName();
+    }
+
+    /**
+     * devolve o preço de entrega da encomenda
      * @param encCode   encCode
      * @return          tempo
      */
@@ -912,6 +949,15 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         }
 
         return prods;
+    }
+
+    /**
+     * Método que devolve a informação da encomenda
+     * @param encomendas    Lista de códigos das encomendas
+     * @return              Lista com a informação das encomendas
+     */
+    public List<String> getEncInfo(List<String> encomendas) {
+       return encomendas.stream().map(e -> e + " -> " + getEncStoreName(e) + " " + String.format("%.2f", getEncPrice(e)) + "€").collect(Collectors.toList());
     }
 
     //----------------------------------------------------------------Métodos Produto--------------------------------------------------------------------------\\
@@ -1030,12 +1076,17 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         Random rand = new Random();
         int condicoesAtmosfericas = randomWeather[rand.nextInt(15)];
         int transito = randomTraffic[rand.nextInt(15) ];
-        if(tempoFilaEspera == -1)
-            tempoFilaEspera = rand.nextDouble() * 10 * queueSize;
+        int numPessoasFila = randomQueue[rand.nextInt(12)];
+        double tempo;
+        if(tempoFilaEspera == -1) {
+            tempo = rand.nextDouble() * 10 * numPessoasFila;
+        }
 
+        else {
+            tempo = tempoFilaEspera * queueSize;
+        }
         double dist = crE.distancia(crL) + crL.distancia(crU);
-        double tempo = (dist/velocidade)*60 + tempoFilaEspera * queueSize;
-
+        tempo += (dist / velocidade) * 60;
         if(condicoesAtmosfericas == 2)
             tempo *= 1.2;
         else if(condicoesAtmosfericas == 3)

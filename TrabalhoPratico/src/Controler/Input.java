@@ -3,14 +3,13 @@
  */
 package Controler;
 
-import Files.Parse;
 import Model.Coordenadas;
 import Model.GestTrazAqui;
 import View.Apresentacao;
 
 import java.io.Serializable;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -81,7 +80,7 @@ public class Input implements Serializable {
                 date = s.nextLine().split("-",3);
                 data = LocalDateTime.of(Integer.parseInt(date[2]),Integer.parseInt(date[1]),Integer.parseInt(date[0]),0,0);
                 val = false;
-            } catch (DateTimeParseException dtpe ) {
+            } catch (DateTimeException dte ) {
                 a.printMessage("Data inválida");
             }catch (NumberFormatException ignored){
             }

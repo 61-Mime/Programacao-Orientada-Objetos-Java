@@ -42,7 +42,7 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
             return;
         }
 
-        a.printArray("Encomendas disponíveis:", list);
+        a.printArray("Encomendas disponíveis:", c.getEncInfo(list));
 
         encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), list);
         code = aceitaEstafeta(a,c,encCode);
@@ -219,8 +219,8 @@ public class InterpretadorUtilizador implements Serializable, IInterpretador {
 
                 case 3:
                     int res = (int) in.lerDouble(a,"Escolha um tipo (1-Voluntários|2-Transportadoras|3-Ambos)",1,3);
-                    LocalDateTime min = in.lerData(a,"Intruza a 1º data de tipo (02-12-2020)");
-                    LocalDateTime max = in.lerData(a,"Intruza a 2º data de tipo (02-12-2020)");
+                    LocalDateTime min = in.lerData(a,a.pedirPrimeiraData());
+                    LocalDateTime max = in.lerData(a,a.pedirSegundaData());
                     a.printEncomendas("Lista de Encomendas do Utilizador", c.getUserEncbyData(l.getCode(),res,min,max));
                     break;
 

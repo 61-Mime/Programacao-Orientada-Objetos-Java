@@ -513,4 +513,11 @@ public class Apresentacao implements IApresentacao, Serializable {
         out.printMessage(message);
     }
 
+    public String pedirPrimeiraData() {
+        return "Introduza a 1º data de tipo(02-12-2018)";
+    }
+
+    public String pedirSegundaData() {
+        return "Introduza a 2º data de tipo(02-12-2018)";
+    }
 }

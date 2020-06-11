@@ -13,7 +13,7 @@ public class ApresentacaoLoja implements Serializable {
      * Apresenta menu loja
      */
     public void printMenuLoja() {
-        out.printMenus(new String[]{"Atualizar Tempo de Fila de Espera", "Aceitar compra","Histórico de encomendas"},"MENU LOJA",1);
+        out.printMenus(new String[]{"Atualizar Tempo de Fila de Espera", "Atualizar tamanho da Fila de Espera", "Aceitar compra","Histórico de encomendas"},"MENU LOJA",1);
     }
 
     /**

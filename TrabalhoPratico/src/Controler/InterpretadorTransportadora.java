@@ -88,19 +88,18 @@ public class InterpretadorTransportadora implements IInterpretador{
                     break;
 
                 case 2:
-                    String encCode = in.lerStringEncomenda(a, "Introduza o código de encomenda: ", c, l.getCode());
-                    a.printEstafetaPreco(c.precoEncomenda(encCode, l.getCode()));
+                    c.changeMedic(l.getCode());
                     break;
 
                 case 3:
-                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02)");
-                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02)");
+                    min = in.lerData(a,a.pedirPrimeiraData());
+                    max = in.lerData(a,a.pedirSegundaData());
                     a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
                     break;
 
                 case 4:
-                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02)");
-                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02)");
+                    min = in.lerData(a,a.pedirPrimeiraData());
+                    max = in.lerData(a,a.pedirSegundaData());
                     a.printEstafetaFaturacao(c.calcularFaturacao(l.getCode(), min, max));
                     break;
 
