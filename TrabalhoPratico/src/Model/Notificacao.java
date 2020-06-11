@@ -3,7 +3,9 @@
  */
 package Model;
 
-public class Notificacao {
+import java.io.Serializable;
+
+public class Notificacao implements Serializable {
     private String not;
     private int type; // 1 - Default, 2 - Entrega
     private String estCode;

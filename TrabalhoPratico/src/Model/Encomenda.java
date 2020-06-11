@@ -132,7 +132,7 @@ public class Encomenda implements Serializable {
     /**
      * altera transp code
      *
-     * @param transpCode
+     * @param transpCode Codigo de transporte
      */
     public void setTranspCode(String transpCode) {
         this.transpCode = transpCode;
@@ -347,7 +347,7 @@ public class Encomenda implements Serializable {
      *
      * @param min data min
      * @param max data max
-     * @return    true se < max e > min
+     * @return    true se menor que max e maior que min
      */
     public boolean encData(LocalDateTime min, LocalDateTime max) {
         return data.isBefore(max) && data.isAfter(min);

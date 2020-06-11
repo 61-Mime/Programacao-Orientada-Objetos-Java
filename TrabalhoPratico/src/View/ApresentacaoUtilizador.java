@@ -125,6 +125,8 @@ public class ApresentacaoUtilizador implements Serializable {
 
     /**
      * Apresenta mensagem pedir encomenda
+     *
+     * @return String com a mensagem
      */
     public String pedirEncomenda() {
         return "Escolha uma encomenda: ";

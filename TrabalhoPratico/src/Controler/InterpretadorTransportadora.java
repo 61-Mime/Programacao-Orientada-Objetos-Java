@@ -7,12 +7,13 @@ import Model.GestTrazAqui;
 import Model.Login;
 import View.Apresentacao;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class InterpretadorTransportadora implements IInterpretador{
+public class InterpretadorTransportadora implements Serializable, IInterpretador{
     private final Input in;
 
 

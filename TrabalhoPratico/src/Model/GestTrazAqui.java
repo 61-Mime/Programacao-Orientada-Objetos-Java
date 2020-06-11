@@ -62,7 +62,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     /**
      * devolve uma notificação
      * @param code userCode
-     * @return
+     * @return  Lista de notificacoes
      */
     public List<Notificacao> getUserNotificacoes(String code) {
         return users.get(code).getNotificacoes();
@@ -71,7 +71,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     /**
      * devolve numero de notificações de um utilizador
      * @param code userCode
-     * @return
+     * @return Numero de notificações
      */
     public int getUserNumNotificacoes(String code) {
         return users.get(code).getNumNotificacoes();
@@ -477,7 +477,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return list de codigos de estafeta
      */
     public List<String> getTopTrans() {
-        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> String.format("%3s %2s %45s %2s %5f.2",c.getCode(), "|", c.getName(), "|", c.getNumKm())).collect(Collectors.toList());
+        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> String.format("%3s %2s %40s %2s %5.2f",c.getCode(), "|", c.getName(), "|", c.getNumKm())).collect(Collectors.toList());
     }
 
     /**
@@ -1069,6 +1069,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @param crL               coordenada loja
      * @param crU               coordenada utilizador
      * @param tempoFilaEspera   tempo em fila de espera da loja
+     * @param queueSize         tamanho da fila de espera
      * @param velocidade        velocidade da transportadora
      * @return                  tempo
      */
