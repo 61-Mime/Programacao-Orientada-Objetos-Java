@@ -37,6 +37,9 @@ public class Output implements Serializable {
             if(linha.length() + 4 > length)
                 length = linha.length() + 4;
 
+        if(length < 20)
+            length = 20;
+
         printLine(length);
         System.out.println(message);
         printLine(length);

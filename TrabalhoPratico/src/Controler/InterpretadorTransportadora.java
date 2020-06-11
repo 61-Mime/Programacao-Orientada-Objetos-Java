@@ -33,7 +33,7 @@ public class InterpretadorTransportadora implements IInterpretador{
         boolean val = true;
 
         List<String> list = c.encomendasPossiveis(transpCode);
-        List<String> rota = new ArrayList<>();
+        Set<String> rota = c.getEstafetaRota(transpCode);//new ArrayList<>();
 
         while (val && rota.size() < max) {
             if(list.size() == 0) {
@@ -55,6 +55,8 @@ public class InterpretadorTransportadora implements IInterpretador{
                 }
             }
         }
+        if(rota.size() == max)
+            a.printMessage("Máximo de encomendas atingido!");
 
         return;
     }
