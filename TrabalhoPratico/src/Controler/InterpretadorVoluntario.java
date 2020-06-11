@@ -47,26 +47,27 @@ public class InterpretadorVoluntario implements Serializable, IInterpretador{
                     break;
 
                 case 2:
-                    encCode = c.encomendaStandBy(l.getCode());
-                    if(!encCode.equals("")) {
-                        c.removeUserStandBy(c.getEncUser(encCode), encCode);
-                        if (in.lerSN(a,"Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode) + "(S/N)")) {
-                            c.entregarEncomenda(encCode, l.getCode());
-                            a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorEntregaVoluntario(l.getCode(), encCode), 2, l.getCode());
-                        }
-                        else {
-                            c.removerEnc(l.getCode(), encCode);
-                            a.printEncRecusada();
-                            c.sugerirTransp(encCode,"");
+                    if(!c.isEstafetaFree(l.getCode()))
+                        a.printEstafetaIndisponivel();
+                    else {
+                        encCode = c.encomendaStandBy(l.getCode());
+                        if (!encCode.equals("")) {
+                            c.removeUserStandBy(c.getEncUser(encCode), encCode);
+                            if (in.lerSN(a, "Pretender aceitar a entrega da encomenda " + encCode + " ao utilizador " + c.getEncUser(encCode) + "(S/N)")) {
+                                c.entregarEncomenda(encCode, l.getCode());
+                                a.printEncomendaEntregueVol(c.getEncUser(encCode), c.getEncUserName(encCode), c.getEncTime(encCode));
+                                c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorEntregaVoluntario(l.getCode(), encCode), 2, l.getCode());
+                            } else {
+                                c.removerEnc(l.getCode(), encCode);
+                                a.printEncRecusada();
+                                c.sugerirTransp(encCode, "");
 
-                            c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorVoluntarioRecusado(l.getCode()), 1, "");
-                        }
-                        c.setEstafetaOccup(l.getCode(),false);
+                                c.addUserNotificacao(c.getEncUser(encCode), a.notificacaoUtilizadorVoluntarioRecusado(l.getCode()), 1, "");
+                            }
+                            c.setEstafetaOccup(l.getCode(), false);
+                        } else
+                            a.printSemEncomendas();
                     }
-                    else
-                        a.printSemEncomendas();
-
                     break;
 
                 case 3:

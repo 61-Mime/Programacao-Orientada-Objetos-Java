@@ -110,26 +110,29 @@ public class InterpretadorTransportadora implements IInterpretador{
                     break;
 
                 case 6:
-                    System.out.println(c.getEstafetaRota(l.getCode()).toString());
-                    if(c.getEstafetaRotaSize(l.getCode()) > 0) {
-                        Set<String> enclist = c.getEstafetaRota(l.getCode());
-                        boolean val = true;
-                        for(String enc:enclist){
-                            if(c.getUserEncStandBy(enc) && c.isEncStandBy(enc))
-                                val = false;
-                        }
-                        if(val){
-                            for(String enccode:enclist) {
-                                c.entregarEncomenda(enccode, l.getCode());
-                                c.removeEstafetaEncRota(l.getCode(),enccode);
-                                a.printEncomendaEntregue(l.getCode(), c.getEstafetaType(l.getCode()), c.getEstafetaName(l.getCode()), c.precoEncomenda(enccode, l.getCode()), c.getEncTime(enccode));
-                                c.addUserNotificacao(c.getEncUser(enccode), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), enccode), 2, l.getCode());
-                                c.removeUserStandBy(c.getEncUser(enccode), enccode);
+                    if(!c.isEstafetaFree(l.getCode()))
+                        a.printEstafetaIndisponivel();
+                    else {
+                        if (c.getEstafetaRotaSize(l.getCode()) > 0) {
+                            Set<String> enclist = c.getEstafetaRota(l.getCode());
+                            boolean val = true;
+                            for (String enc : enclist) {
+                                if (c.getUserEncStandBy(enc) && c.isEncStandBy(enc))
+                                    val = false;
                             }
-                            a.printMessage("Encomendas entregues!");
+                            if (val) {
+                                for (String enccode : enclist) {
+                                    c.entregarEncomenda(enccode, l.getCode());
+                                    c.removeEstafetaEncRota(l.getCode(), enccode);
+                                    a.printEncomendaEntregue(l.getCode(), c.getEstafetaType(l.getCode()), c.getEstafetaName(l.getCode()), c.precoEncomenda(enccode, l.getCode()), c.getEncTime(enccode));
+                                    c.addUserNotificacao(c.getEncUser(enccode), a.notificacaoUtilizadorEntregaTransportadora(l.getCode(), enccode), 2, l.getCode());
+                                    c.removeUserStandBy(c.getEncUser(enccode), enccode);
+                                }
+                                a.printMessage("Encomendas entregues!");
+                            }
                         }
+                        criarRota(c, l.getCode(), a);
                     }
-                    criarRota(c,l.getCode(),a);
                     break;
                 case 0:
                     r = false;
