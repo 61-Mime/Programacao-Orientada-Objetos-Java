@@ -12,10 +12,17 @@ public class ApresentacaoNotificacoes implements Serializable {
      * @param max   página max
      */
     public void notifTable(String not, int type, int page, int max) {
+        String not2 = "";
+        if(not.length() > 55) {
+            not2 = not.substring(55);
+            not = not.substring(0, 55) + "\n";
+        }
+
         System.out.println("-------------------------------------------------------");
         System.out.println("                  Notificação ("+(page+1)+"/"+max+")");
         System.out.println("-------------------------------------------------------");
-        System.out.println(not);
+        System.out.print(not);
+        System.out.println(not2);
         System.out.println("-------------------------------------------------------");
         if(type == 2)
             System.out.println("[1] Próxima | [2] Anterior | [3] Classificar | [0] Sair");
