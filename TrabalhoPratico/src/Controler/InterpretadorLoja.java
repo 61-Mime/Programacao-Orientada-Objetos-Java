@@ -64,9 +64,9 @@ public class InterpretadorLoja implements Serializable, IInterpretador {
         String encCode;
 
         while (r) {
-            if(!c.hasQueueInfoLoja(l.getCode())) {
+            if(c.hasQueueInfoLoja(l.getCode())) {
                 a.printMenuLoja();
-                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 3);
+                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 4);
 
                 switch (command) {
                     case 1:
@@ -96,11 +96,15 @@ public class InterpretadorLoja implements Serializable, IInterpretador {
             }
             else {
                 a.printMenuLojaIndisponivel();
-                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 1);
+                command = (int) in.lerDouble(a,"Escolha a sua opção:", 0, 2);
 
                 switch (command) {
                     case 1:
                         aceitarEncomendaLoja(c, a, l);
+                        break;
+
+                    case 2:
+                        a.printArray("Encomendas Loja:\n", new ArrayList<>(c.getEncLoja(l.getCode())));
                         break;
 
                     case 0:

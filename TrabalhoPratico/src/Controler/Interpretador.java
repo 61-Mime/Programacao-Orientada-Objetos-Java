@@ -183,7 +183,7 @@ public class Interpretador implements Serializable, IInterpretador{
                     numN = c.getEstafetaNumNotificacoes(l.getCode());
 
                 a.printMainMenuLogOut(l.getTipoConta(),numN);
-                command = (int) in.lerDouble(a, "Escolha a sua opção:", 0, 6);
+                command = (int) in.lerDouble(a, "Escolha a sua opção:", 0, 4);
                 switch (command) {
                     case 1:
                         l = null;
@@ -209,14 +209,6 @@ public class Interpretador implements Serializable, IInterpretador{
                         interpretadorConsultas(c, a);
                         break;
                     case 4:
-                        g.guardaDados("files/GestTrazAqui.dat", c);
-                        a.printFicheiroGuardado("files/GestTrazAqui.dat");
-                        break;
-                    case 5:
-                        c = g.carregaDados("files/GestTrazAqui.dat");
-                        a.printFicheiroCarregado("GestTrazAqui.dat");
-                        break;
-                    case 6:
                         notificacoes(c, a, l, type);
                         break;
                     case 0:

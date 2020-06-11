@@ -20,7 +20,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private boolean occup;
     private double classificacao;
     private int numCla;
-    private Set<String> registo;
+    private Set<String> encomendas;
     private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -38,7 +38,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.occup = false;
         this.classificacao = 0d;
         this.numCla = 0;
-        this.registo = new TreeSet<>();
+        this.encomendas = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
@@ -55,7 +55,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.isFree = isFree;
         this.occup = occup;
         this.isMedic = isMedic;
-        this.registo = new TreeSet<>();
+        this.encomendas = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
@@ -71,7 +71,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.isMedic = v.isMedic();
         this.classificacao = v.getClassificacao();
         this.numCla = v.getNumCla();
-        setRegisto(v.getRegisto());
+        setEncomendas(v.getEncomendas());
         setNotificacoes(v.getNotificacoes());
     }
 
@@ -250,16 +250,16 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * Retorna a lista dos registos
      * @return Lista de registos
      */
-    public List<String> getRegisto() {
-        return new ArrayList<>(registo);
+    public List<String> getEncomendas() {
+        return new ArrayList<>(encomendas);
     }
 
     /**
      * Altera a lista de registos
      * @param enc Lista de registos
      */
-    public void setRegisto(List<String> enc) {
-        this.registo = new TreeSet<>(enc);
+    public void setEncomendas(List<String> enc) {
+        this.encomendas = new TreeSet<>(enc);
     }
 
     /**
@@ -267,7 +267,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * @param enc Código de encomenda
      */
     public void setEnc(String enc) {
-        this.registo.add(enc);
+        this.encomendas.add(enc);
         if(this.getType().equals("Transportadora"))
             ((Transportadora)this).setNumEncomendas();
     }
@@ -277,7 +277,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * @param encCode Código de encomenda
      */
     public void removeEnc(String encCode){
-        registo.remove(encCode);
+        encomendas.remove(encCode);
     }
 
     /**
@@ -360,7 +360,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         sb.append(", isFree=").append(isFree);
         sb.append(", isMedic=").append(isMedic);
         sb.append(", classificacao=").append(classificacao);
-        sb.append(", \nregisterV=").append(registo);
+        sb.append(", \nregisterV=").append(encomendas);
         sb.append('}').append("\n");
         return sb.toString();
     }
@@ -380,7 +380,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
                 Objects.equals(code, that.code) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(gps, that.gps) &&
-                Objects.equals(registo, that.registo);
+                Objects.equals(encomendas, that.encomendas);
     }
 
     public Estafeta clone() {
@@ -412,7 +412,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * @param encCode Código de encomenda
      */
     public void addEncomenda(String encCode) {
-        registo.add(encCode);
+        encomendas.add(encCode);
     }
 
     /**
@@ -421,7 +421,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * @return          True se contém a encomenda, false caso contrário
      */
     public boolean containsEncomenda(String encCode) {
-        return registo.contains(encCode);
+        return encomendas.contains(encCode);
     }
 
     /**

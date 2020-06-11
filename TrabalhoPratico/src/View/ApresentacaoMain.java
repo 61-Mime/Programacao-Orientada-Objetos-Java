@@ -39,7 +39,7 @@ public class ApresentacaoMain implements Serializable {
      * @param numN numero notificações
      */
     public void printMainMenuLogOut(String type, int numN) {
-        out.printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Gravar para um Ficheiro", "Carregar de um ficheiro", "Notificações (" + numN + ")"}),"MENU PRINCIPAL",0);
+        out.printMenus((new String[]{"Logout","Menu " + type, "Consultas", "Notificações (" + numN + ")"}),"MENU PRINCIPAL",0);
     }
 
     /**

@@ -20,7 +20,7 @@ public class ApresentacaoLoja implements Serializable {
      * Apresenta mensagem loja indisponivel
      */
     public void printMenuLojaIndisponivel() {
-        out.printMenus(new String[]{"Aceitar compra"},"MENU LOJA",1);
+        out.printMenus(new String[]{"Aceitar compra", "Histórico de encomendas"},"MENU LOJA",1);
     }
 
     /**

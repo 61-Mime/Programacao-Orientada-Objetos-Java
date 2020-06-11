@@ -5,13 +5,12 @@ package Model;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Utilizador implements Comparable<Utilizador>, Serializable {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;
-    private Set<String> entregas;
+    private Set<String> encomendas;
     private Set<String> standBy;
     private List<Notificacao> notificacoes;
 
@@ -21,16 +20,16 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.codigoUtilizador = "";
         this.nome = "";
         this.gps = new Coordenadas();
-        this.entregas = new TreeSet<>();
+        this.encomendas = new TreeSet<>();
         this.standBy = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, Set<String> entregas, Set<String> standBy, List<Notificacao> notificacoes) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, Set<String> encomendas, Set<String> standBy, List<Notificacao> notificacoes) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
         this.gps = gps.clone();
-        setEntregas(entregas);
+        setEncomendas(encomendas);
         setStandBy(standBy);
         setNotificacoes(notificacoes);
     }
@@ -39,7 +38,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.codigoUtilizador = user.getCodigoUtilizador();
         this.nome = user.getName();
         this.gps = user.getGps();
-        setEntregas(user.getEntregas());
+        setEncomendas(user.getEncomendas());
         setStandBy(user.getStandBy());
         setNotificacoes(user.getNotificacoes());
     }
@@ -74,17 +73,17 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * altera liste de entregas
      * @param enc set encCode
      */
-    public void setEntregas(Set<String> enc) {
-        this.entregas = new TreeSet<>();
-        this.entregas.addAll(enc);
+    public void setEncomendas(Set<String> enc) {
+        this.encomendas = new TreeSet<>();
+        this.encomendas.addAll(enc);
     }
 
     /**
      * devolve lista de entregas
      * @return set de encCode
      */
-    public Set<String> getEntregas(){
-        return new TreeSet<>(entregas);
+    public Set<String> getEncomendas(){
+        return new TreeSet<>(encomendas);
     }
 
     /**
@@ -92,7 +91,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * @return size
      */
     public int getEntregasSize(){
-        return entregas.size();
+        return encomendas.size();
     }
 
     /**
@@ -188,7 +187,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         sb.append("codigoUtilizador='").append(codigoUtilizador).append('\'');
         sb.append(", nome='").append(nome).append('\'');
         sb.append(", gps='").append(gps).append('\'');
-        sb.append(", entregas=").append(entregas);
+        sb.append(", entregas=").append(encomendas);
         sb.append('}').append("\n");
         return sb.toString();
     }
@@ -201,7 +200,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         return Objects.equals(codigoUtilizador, that.codigoUtilizador) &&
                 Objects.equals(nome, that.nome) &&
                 Objects.equals(gps, that.gps) &&
-                Objects.equals(entregas, that.entregas);
+                Objects.equals(encomendas, that.encomendas);
     }
 
     public Utilizador clone() {
@@ -209,7 +208,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     }
 
     public int compareTo(Utilizador u) {
-        return u.getEntregas().size() - this.entregas.size();
+        return u.getEncomendas().size() - this.encomendas.size();
     }
 
     //--------------------------------------------------------------Outros métodos--------------------------------------------------------------------------\\
@@ -219,7 +218,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * @param enc encCode
      */
     public void addEncomenda(String enc) {
-        this.entregas.add(enc);
+        this.encomendas.add(enc);
     }
 
     /**
@@ -227,7 +226,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * @param enc encCode
      */
     public void removeEncomenda(String enc) {
-        this.entregas.remove(enc);
+        this.encomendas.remove(enc);
     }
 
     /**

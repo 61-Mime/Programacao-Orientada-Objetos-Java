@@ -130,7 +130,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public List<Encomenda> getUserEncbyData(String code,int type, LocalDateTime min,LocalDateTime max) {
         List<Encomenda> list = new ArrayList<>();
 
-        for (String c : users.get(code).getEntregas()) {
+        for (String c : users.get(code).getEncomendas()) {
             list.add(encomendas.get(c).clone());
         }
         if(type == 1)
@@ -152,7 +152,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         List<String> list = new ArrayList<>();
         String status;
 
-        for (String encCode : users.get(userCode).getEntregas()) {
+        for (String encCode : users.get(userCode).getEncomendas()) {
             if(encomendas.get(encCode).isEntregue())
                 status = "entregue";
             else if(encomendas.get(encCode).isStandBy())
@@ -173,7 +173,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return          list de codigos de encomenda
      */
     public List<String> getEncReady(String userCode){
-        return users.get(userCode).getEntregas().stream().filter(c -> encomendas.get(c).isAceiteLoja() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
+        return users.get(userCode).getEncomendas().stream().filter(c -> encomendas.get(c).isAceiteLoja() && !encomendas.get(c).isEntregue()).collect(Collectors.toList());
     }
 
     /**
@@ -490,7 +490,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     public List<Encomenda> getEncomendasEstafeta(String code, LocalDateTime min, LocalDateTime max) {
         List<Encomenda> list = new ArrayList<>();
 
-        for (String c : estafetas.get(code).getRegisto()) {
+        for (String c : estafetas.get(code).getEncomendas()) {
             list.add(encomendas.get(c).clone());
         }
 
@@ -525,7 +525,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return          encCode
      */
     public String encomendaStandBy(String estCode){
-        return estafetas.get(estCode).getRegisto().stream().filter(enc -> !encomendas.get(enc).isEntregue()).findFirst().orElse("");
+        return estafetas.get(estCode).getEncomendas().stream().filter(enc -> !encomendas.get(enc).isEntregue()).findFirst().orElse("");
     }
 
     /**
