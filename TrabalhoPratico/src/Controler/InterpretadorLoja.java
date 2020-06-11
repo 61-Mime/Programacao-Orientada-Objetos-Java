@@ -28,6 +28,12 @@ public class InterpretadorLoja implements Serializable, IInterpretador {
      */
     private void aceitarEncomendaLoja(GestTrazAqui c, Apresentacao a, Login l) {
         List<String> encomendas = c.encomendasNaoAceitesLoja(l.getCode());
+
+        if(encomendas.size() == 0) {
+            a.printErroSemEncomenda();
+            return;
+        }
+
         a.printArray("Compras disponíveis:", encomendas);
 
         String encCode = in.lerStringSolicitarEnc(a, a.pedirEncomenda(), encomendas);

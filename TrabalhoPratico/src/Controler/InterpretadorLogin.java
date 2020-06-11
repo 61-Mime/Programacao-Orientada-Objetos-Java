@@ -59,7 +59,7 @@ public class InterpretadorLogin implements Serializable {
         Coordenadas cr = in.lerCoordenada(a);
         price = in.lerDouble(a,"Introduza o Preco Máximo: ",0,1000000);
 
-        return new Utilizador(code, nome, cr, price, new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
+        return new Utilizador(code, nome, cr, new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
     }
 
     /**

@@ -95,7 +95,7 @@ public class Parse implements Serializable, IParse {
         String codUtilizador = campos[0];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Utilizador(codUtilizador,nome,gps,100,new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
+        return new Utilizador(codUtilizador,nome,gps,new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
     }
 
     /**

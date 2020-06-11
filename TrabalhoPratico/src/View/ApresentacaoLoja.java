@@ -28,7 +28,7 @@ public class ApresentacaoLoja implements Serializable {
      * @param encCode encCode
      */
     public void printCompraAceite(String encCode) {
-        System.out.println("A compra " + encCode + "foi aceite.");
+        System.out.println("A compra " + encCode + " foi aceite.");
     }
 
     /**

@@ -74,7 +74,7 @@ public class Output implements Serializable {
         System.out.println("\n" + message);
 
         for(int i=0; i<arr.size(); i++)
-            System.out.println((i+1) + ") " + arr.get(i));
+            System.out.println(String.format("%2d %1s",(i+1), ") ") + arr.get(i));
 
         System.out.print("\n");
     }

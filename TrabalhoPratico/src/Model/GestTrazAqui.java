@@ -103,7 +103,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return          list de codigos de encomendas
      */
     public Set<String> getUserStandByTransp(String userCode){
-        Set<String> list = users.get(userCode).getStandBy();
+        Set<String> list = users.get(userCode).getStandBy().stream().collect(Collectors.toSet());
         if(list.size() == 0)
             return list;
         return list.stream().filter(enc -> estafetas.get(encomendas.get(enc).getTranspCode()).getType().equals("Transportadora"))
@@ -144,6 +144,30 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
     }
 
     /**
+     * Devolve status das encomendas de um utilizador
+     * @param userCode userCode
+     * @return         lista strings que representa encCode e status
+     */
+    public List<String> getUserEncStatus(String userCode){
+        List<String> list = new ArrayList<>();
+        String status;
+
+        for (String encCode : users.get(userCode).getEntregas()) {
+            if(encomendas.get(encCode).isEntregue())
+                status = "entregue";
+            else if(encomendas.get(encCode).isStandBy())
+                status = "Stand-By";
+            else if(!encomendas.get(encCode).isAceiteLoja())
+                status = "não aceite na loja";
+            else
+                status = "por entregar";
+
+            list.add(String.format("%6s %2s %15s", encCode, ":",status));
+        }
+        return list;
+    }
+
+    /**
      * devolve list de codigos de encomenda de um user prontas para ser entregues
      * @param userCode  userCode
      * @return          list de codigos de encomenda
@@ -157,7 +181,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return  lista de codigos de utilizador
      */
     public List<String> getTopUsers() {
-        return users.values().stream().sorted().limit(10).map(c -> c.getCodigoUtilizador() + ": " + c.getName() + " " + c.getEntregasSize()).collect(Collectors.toList());
+        return users.values().stream().sorted().limit(10).map(c -> String.format("%3s %2s %45s %2s %3d",c.getCodigoUtilizador(), "|", c.getName(), "|", c.getEntregasSize())).collect(Collectors.toList());
     }
 
     /**
@@ -374,10 +398,9 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
         Coordenadas cr = lojas.get(encomendas.get(enc).getStoreCode()).getGps();
         Coordenadas cr2 = users.get(encomendas.get(enc).getUserCode()).getGps();
         boolean isMedic = encomendas.get(enc).isMedic();
-        double maxprice = users.get(encomendas.get(enc).getUserCode()).getPrecoMax();
 
         estafetaList = estafetas.values().stream().filter(e -> ((!isMedic || e.isMedic()) && e.isFree() && !e.isOccup() && (e.getGps().distancia(cr) < e.getRaio())
-                                                                && (e.getGps().distancia(cr2) < e.getRaio()) && (precoEncomenda(enc,e.getCode()) <= maxprice)))
+                                                                && (e.getGps().distancia(cr2) < e.getRaio())))
                                                                     .map(Estafeta::getCode).collect(Collectors.toList());
 
         return estafetaList;
@@ -454,7 +477,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @return list de codigos de estafeta
      */
     public List<String> getTopTrans() {
-        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> c.getCode() + ": " + c.getName() + " " + c.getNumKm()).collect(Collectors.toList());
+        return this.estafetas.values().stream().filter(c -> c.getType().equals("Transportadora")).sorted().limit(10).map(c -> String.format("%3s %2s %45s %2s %5f.2",c.getCode(), "|", c.getName(), "|", c.getNumKm())).collect(Collectors.toList());
     }
 
     /**
@@ -755,9 +778,10 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
 
         enc.setTranspCode(estafetaCode);
         enc.setEntregue(true);
+        enc.setPreco(precoEncomenda(encCode,estafetaCode));
         enc.setTempoEntrega(calculaTempo(e.getGps(),l.getGps(),users.get(enc.getUserCode()).getGps(),l.getQueueTime(), l.getQueueSize(),e.getVelocidade()));
         e.setEnc(encCode);
-        e.addNumKm(e.getGps().distancia(cr));
+        e.addNumKm(e.getGps().distancia(cr) + l.getGps().distancia(users.get(enc.getUserCode()).getGps()));
         enc.setStandBy(false);
     }
 
@@ -831,6 +855,15 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      */
     public double getEncTime(String encCode){
         return encomendas.get(encCode).getTempoEntrega();
+    }
+
+    /**
+     * devolve tempo de entrega da encomenda
+     * @param encCode   encCode
+     * @return          tempo
+     */
+    public double getEncPrice(String encCode){
+        return encomendas.get(encCode).getPreco();
     }
 
     /**

@@ -11,7 +11,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     private String codigoUtilizador;
     private String nome;
     private Coordenadas gps;
-    private double precoMax;
     private Set<String> entregas;
     private Set<String> standBy;
     private List<Notificacao> notificacoes;
@@ -22,16 +21,14 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.codigoUtilizador = "";
         this.nome = "";
         this.gps = new Coordenadas();
-        this.precoMax = 0;
         this.entregas = new TreeSet<>();
         this.standBy = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, Set<String> entregas, Set<String> standBy, List<Notificacao> notificacoes) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, Set<String> entregas, Set<String> standBy, List<Notificacao> notificacoes) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
-        this.precoMax = precoMax;
         this.gps = gps.clone();
         setEntregas(entregas);
         setStandBy(standBy);
@@ -41,7 +38,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     public Utilizador(Utilizador user) {
         this.codigoUtilizador = user.getCodigoUtilizador();
         this.nome = user.getName();
-        this.precoMax = user.getPrecoMax();
         this.gps = user.getGps();
         setEntregas(user.getEntregas());
         setStandBy(user.getStandBy());
@@ -72,14 +68,6 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      */
     public Coordenadas getGps() {
         return gps.clone();
-    }
-
-    /**
-     * devolve preço maximo
-     * @return preço maximo
-     */
-    public double getPrecoMax() {
-        return precoMax;
     }
 
     /**

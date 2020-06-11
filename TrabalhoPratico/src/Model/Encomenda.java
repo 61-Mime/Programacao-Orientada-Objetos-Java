@@ -20,6 +20,7 @@ public class Encomenda implements Serializable {
     private LocalDateTime data;
     private boolean aceiteLoja;
     private boolean entregue;
+    private double preco;
     private double tempoEntrega;
     private boolean standBy;
     private List<LinhaEncomenda> linha;
@@ -34,6 +35,7 @@ public class Encomenda implements Serializable {
         this.storeCode = "";
         this.isMedic = false;
         this.data = LocalDateTime.now();
+        this.preco = 0;
         this.aceiteLoja = false;
         this.entregue = false;
         this.tempoEntrega = 0;
@@ -54,6 +56,7 @@ public class Encomenda implements Serializable {
         this.data = data;
         this.standBy = standBy;
         setLinha(linha);
+        this.preco = calculaPrice();
     }
 
     public Encomenda(Encomenda enc) {
@@ -68,6 +71,7 @@ public class Encomenda implements Serializable {
         this.entregue = enc.isEntregue();
         this.standBy = enc.isStandBy();
         setLinha(enc.getLinha());
+        this.preco = calculaPrice();
     }
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
@@ -79,6 +83,22 @@ public class Encomenda implements Serializable {
      */
     public String getEncCode() {
         return encCode;
+    }
+
+    /**
+     * Altera preço de encomenda
+     * @param preco preço
+     */
+    public void setPreco(double preco) {
+        this.preco += preco;
+    }
+
+    /**
+     * Devolve preço
+     * @return preço
+     */
+    public double getPreco() {
+        return this.preco;
     }
 
     /**
@@ -284,8 +304,8 @@ public class Encomenda implements Serializable {
         sb.append(" | isMedic: ").append(isMedic);
         sb.append("\nData: ").append(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         sb.append(" | aceite: ").append(aceiteLoja);
-        sb.append("\nPreço encomenda: ").append(getPrice());
-        sb.append("€\nTempo de entrega: ").append(String.format("%.2f", getPrice())).append('\n');
+        sb.append("\nPreço encomenda: ").append(String.format("%.2f", preco));
+        sb.append("€\nTempo de entrega: ").append(String.format("%.2f", tempoEntrega)).append('\n');
         return sb.toString();
     }
 
@@ -333,11 +353,11 @@ public class Encomenda implements Serializable {
     }
 
     /**
-     * devolve o preço
+     * devolve o preço da encomenda
      *
      * @return preço
      */
-    public double getPrice() {
+    public double calculaPrice() {
         double price = 0d;
 
         for(LinhaEncomenda l: linha)

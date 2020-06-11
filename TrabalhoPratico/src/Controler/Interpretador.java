@@ -100,7 +100,7 @@ public class Interpretador implements Serializable, IInterpretador{
                 if(command == 1 && page<(size-1))
                     page ++;
 
-                else if(command==2 && page>=0)
+                else if(command==2 && page>0)
                     page --;
 
                 else if(command==3 && notificacoes.get(page).getType() == 2) {

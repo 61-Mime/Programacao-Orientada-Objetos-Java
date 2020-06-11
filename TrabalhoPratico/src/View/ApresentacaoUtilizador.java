@@ -17,7 +17,7 @@ public class ApresentacaoUtilizador implements Serializable {
      * Apresenta menu utilizador
      */
     public void printMenuUtilizador() {
-        out.printMenus((new String[]{"Solicitar entrega de uma encomenda", "Aceder às encomendas","Fazer encomenda"}),"MENU UTILIZADOR",1);
+        out.printMenus((new String[]{"Solicitar entrega de uma encomenda","Fazer encomenda","Aceder às encomendas entregues","Estado das encomendas"}),"MENU UTILIZADOR",1);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ApresentacaoUtilizador implements Serializable {
         for(LinhaEncomenda line : enc.getLinha())
             System.out.println(line);
 
-        System.out.println("Preço: " + String.format("%.2f", enc.getPrice()) + " €\n");
+        System.out.println("Preço: " + String.format("%.2f", enc.getPreco()) + " €\n");
     }
 
     /**
