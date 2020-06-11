@@ -33,7 +33,7 @@ public class InterpretadorTransportadora implements IInterpretador{
         boolean val = true;
 
         List<String> list = c.encomendasPossiveis(transpCode);
-        Set<String> rota = c.getEstafetaRota(transpCode);//new ArrayList<>();
+        Set<String> rota = c.getEstafetaRota(transpCode);
 
         while (val && rota.size() < max) {
             if(list.size() == 0) {

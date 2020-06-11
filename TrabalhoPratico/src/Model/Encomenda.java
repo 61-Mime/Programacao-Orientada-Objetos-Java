@@ -71,7 +71,8 @@ public class Encomenda implements Serializable {
         this.entregue = enc.isEntregue();
         this.standBy = enc.isStandBy();
         setLinha(enc.getLinha());
-        this.preco = calculaPrice();
+        this.preco = enc.getPreco();
+        this.tempoEntrega = enc.getTempoEntrega();
     }
 
      //--------------------------------------------------------------Getters/Setters--------------------------------------------------------------------------\\
@@ -305,7 +306,7 @@ public class Encomenda implements Serializable {
         sb.append("\nData: ").append(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         sb.append(" | aceite: ").append(aceiteLoja);
         sb.append("\nPreço encomenda: ").append(String.format("%.2f", preco));
-        sb.append("€\nTempo de entrega: ").append(String.format("%.2f", tempoEntrega)).append('\n');
+        sb.append("€\nTempo de entrega: ").append(String.format("%.2f", tempoEntrega)).append(" min\n");
         return sb.toString();
     }
 
