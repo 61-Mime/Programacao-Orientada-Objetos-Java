@@ -5,10 +5,10 @@ package Controler;
 
 import Model.*;
 import View.Apresentacao;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class InterpretadorLogin implements Serializable {
     private final Input in;
@@ -59,7 +59,7 @@ public class InterpretadorLogin implements Serializable {
         Coordenadas cr = in.lerCoordenada(a);
         price = in.lerDouble(a,"Introduza o Preco Máximo: ",0,1000000);
 
-        return new Utilizador(code, nome, cr, price, new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+        return new Utilizador(code, nome, cr, price, new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
     }
 
     /**

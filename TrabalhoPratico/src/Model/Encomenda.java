@@ -5,6 +5,7 @@ package Model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -274,17 +275,17 @@ public class Encomenda implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Encomenda{");
-        sb.append("encCode='").append(encCode).append('\'');
-        sb.append(", userCode='").append(userCode).append('\'');
-        sb.append(", transpCode='").append(transpCode).append('\'');
-        sb.append(", storeCode='").append(storeCode).append('\'');
-        sb.append(", weight=").append(weight);
-        sb.append(", isMedic=").append(isMedic);
-        sb.append(", data=").append(data);
-        sb.append(", aceite=").append(aceiteLoja);
-        sb.append(", linha=").append(linha);
-        sb.append('}').append("\n");
+        final StringBuilder sb = new StringBuilder("(Encomenda ");
+        sb.append(encCode);
+        sb.append(")\nuserCode: ").append(userCode);
+        sb.append(" | transpCode: ").append(transpCode);
+        sb.append(" | storeCode: ").append(storeCode);
+        sb.append("\nweight: ").append(weight);
+        sb.append(" | isMedic: ").append(isMedic);
+        sb.append("\nData: ").append(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        sb.append(" | aceite: ").append(aceiteLoja);
+        sb.append("\nPreço encomenda: ").append(getPrice());
+        sb.append("€\nTempo de entrega: ").append(String.format("%.2f", getPrice())).append('\n');
         return sb.toString();
     }
 

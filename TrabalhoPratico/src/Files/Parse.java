@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TreeSet;
 
 public class Parse implements Serializable, IParse {
 
@@ -94,7 +95,7 @@ public class Parse implements Serializable, IParse {
         String codUtilizador = campos[0];
         Coordenadas gps = new Coordenadas(Double.parseDouble(campos[2]),Double.parseDouble(campos[3]));
 
-        return new Utilizador(codUtilizador,nome,gps,100,new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+        return new Utilizador(codUtilizador,nome,gps,100,new TreeSet<>(),new TreeSet<>(),new ArrayList<>());
     }
 
     /**

@@ -102,12 +102,12 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @param userCode  userCode
      * @return          list de codigos de encomendas
      */
-    public List<String> getUserStandByTransp(String userCode){
-        List<String> list = users.get(userCode).getStandBy();
+    public Set<String> getUserStandByTransp(String userCode){
+        Set<String> list = users.get(userCode).getStandBy();
         if(list.size() == 0)
             return list;
         return list.stream().filter(enc -> estafetas.get(encomendas.get(enc).getTranspCode()).getType().equals("Transportadora"))
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
     }
 
     /**
@@ -259,7 +259,7 @@ public class GestTrazAqui implements IGestTrazAqui, Serializable {
      * @param transpCode transpCode
      * @return           list de codigos de encomendas
      */
-    public List<String> getEstafetaRota(String transpCode){
+    public Set<String> getEstafetaRota(String transpCode){
         return ((Transportadora)estafetas.get(transpCode)).getRota();
     }
 

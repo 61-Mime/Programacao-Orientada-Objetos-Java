@@ -6,6 +6,8 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Transportadora extends Estafeta implements Serializable {
 
@@ -13,7 +15,7 @@ public class Transportadora extends Estafeta implements Serializable {
     private double taxaKm;
     private double taxaPeso;
     private int numEncomendas;
-    private List<String> rota;
+    private Set<String> rota;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
 
@@ -33,7 +35,7 @@ public class Transportadora extends Estafeta implements Serializable {
         this.taxaKm = taxaKm;
         this.taxaPeso = taxaPeso;
         this.numEncomendas = numEncomendas;
-        this.rota = new ArrayList<>();
+        this.rota = new TreeSet<>();
     }
 
     public Transportadora(Transportadora t) {
@@ -90,8 +92,8 @@ public class Transportadora extends Estafeta implements Serializable {
      * devolve rota
      * @return list de encCode
      */
-    public List<String> getRota(){
-        return new ArrayList<>(rota);
+    public Set<String> getRota(){
+        return new TreeSet<>(rota);
     }
 
     /**
@@ -106,8 +108,8 @@ public class Transportadora extends Estafeta implements Serializable {
      * altera rota
      * @param rota list rota
      */
-    public void setRota(List<String> rota){
-        this.rota = new ArrayList<>(rota);
+    public void setRota(Set<String> rota){
+        this.rota = new TreeSet<>(rota);
     }
 
     /**

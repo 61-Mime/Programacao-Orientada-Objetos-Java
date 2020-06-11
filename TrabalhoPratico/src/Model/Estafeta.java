@@ -4,9 +4,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Estafeta implements Comparable<Estafeta>, Serializable {
 
@@ -22,7 +20,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
     private boolean occup;
     private double classificacao;
     private int numCla;
-    private List<String> registo;
+    private Set<String> registo;
     private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -40,7 +38,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.occup = false;
         this.classificacao = 0d;
         this.numCla = 0;
-        this.registo = new ArrayList<>();
+        this.registo = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
@@ -57,7 +55,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
         this.isFree = isFree;
         this.occup = occup;
         this.isMedic = isMedic;
-        this.registo = new ArrayList<>();
+        this.registo = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
@@ -261,7 +259,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      * @param enc Lista de registos
      */
     public void setRegisto(List<String> enc) {
-        this.registo = new ArrayList<>(enc);
+        this.registo = new TreeSet<>(enc);
     }
 
     /**
@@ -270,7 +268,7 @@ public class Estafeta implements Comparable<Estafeta>, Serializable {
      */
     public void setEnc(String enc) {
         this.registo.add(enc);
-        if(this.getType() == "Transportadora")
+        if(this.getType().equals("Transportadora"))
             ((Transportadora)this).setNumEncomendas();
     }
 

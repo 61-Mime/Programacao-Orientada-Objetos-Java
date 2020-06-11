@@ -10,6 +10,7 @@ import View.Apresentacao;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class InterpretadorTransportadora implements IInterpretador{
     private final Input in;
@@ -92,14 +93,14 @@ public class InterpretadorTransportadora implements IInterpretador{
                     break;
 
                 case 3:
-                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02T10:15)");
-                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02T10:15)");
+                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02)");
+                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02)");
                     a.printEncomendas("Lista de Entregas da Transportadora", c.getEncomendasEstafeta(l.getCode(),min,max));
                     break;
 
                 case 4:
-                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02T10:15)");
-                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02T10:15)");
+                    min = in.lerData(a,"Intruza a 1º data de tipo(2018-12-02)");
+                    max = in.lerData(a,"Intruza a 2º data de tipo(2018-12-02)");
                     a.printEstafetaFaturacao(c.calcularFaturacao(l.getCode(), min, max));
                     break;
 
@@ -110,7 +111,7 @@ public class InterpretadorTransportadora implements IInterpretador{
                 case 6:
                     System.out.println(c.getEstafetaRota(l.getCode()).toString());
                     if(c.getEstafetaRotaSize(l.getCode()) > 0) {
-                        List<String> enclist = c.getEstafetaRota(l.getCode());
+                        Set<String> enclist = c.getEstafetaRota(l.getCode());
                         boolean val = true;
                         for(String enc:enclist){
                             if(c.getUserEncStandBy(enc) && c.isEncStandBy(enc))

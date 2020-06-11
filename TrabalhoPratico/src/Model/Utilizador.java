@@ -4,9 +4,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utilizador implements Comparable<Utilizador>, Serializable {
@@ -14,8 +12,8 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
     private String nome;
     private Coordenadas gps;
     private double precoMax;
-    private List<String> entregas;
-    private List<String> standBy;
+    private Set<String> entregas;
+    private Set<String> standBy;
     private List<Notificacao> notificacoes;
 
     //--------------------------------------------------------------Construtores--------------------------------------------------------------------------\\
@@ -25,12 +23,12 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
         this.nome = "";
         this.gps = new Coordenadas();
         this.precoMax = 0;
-        this.entregas = new ArrayList<>();
-        this.standBy = new ArrayList<>();
+        this.entregas = new TreeSet<>();
+        this.standBy = new TreeSet<>();
         this.notificacoes = new ArrayList<>();
     }
 
-    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, List<String> entregas, List<String> standBy, List<Notificacao> notificacoes) {
+    public Utilizador(String codigoUtilizador, String nome, Coordenadas gps, double precoMax, Set<String> entregas, Set<String> standBy, List<Notificacao> notificacoes) {
         this.codigoUtilizador = codigoUtilizador;
         this.nome = nome;
         this.precoMax = precoMax;
@@ -86,19 +84,19 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
 
     /**
      * altera liste de entregas
-     * @param enc list encCode
+     * @param enc set encCode
      */
-    public void setEntregas(List<String> enc) {
-        this.entregas = new ArrayList<>();
+    public void setEntregas(Set<String> enc) {
+        this.entregas = new TreeSet<>();
         this.entregas.addAll(enc);
     }
 
     /**
      * devolve lista de entregas
-     * @return list de encCode
+     * @return set de encCode
      */
-    public List<String> getEntregas(){
-        return new ArrayList<>(entregas);
+    public Set<String> getEntregas(){
+        return new TreeSet<>(entregas);
     }
 
     /**
@@ -129,7 +127,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * devolve codigos de encomendas em standBy
      * @return list encCode
      */
-    public List<String> getStandBy() {
+    public Set<String> getStandBy() {
         return standBy;
     }
 
@@ -137,8 +135,8 @@ public class Utilizador implements Comparable<Utilizador>, Serializable {
      * altera list standBy
      * @param standBy list de encCode
      */
-    public void setStandBy(List<String> standBy) {
-        this.standBy = new ArrayList<>();
+    public void setStandBy(Set<String> standBy) {
+        this.standBy = new TreeSet<>();
         this.standBy.addAll(standBy);
     }
 

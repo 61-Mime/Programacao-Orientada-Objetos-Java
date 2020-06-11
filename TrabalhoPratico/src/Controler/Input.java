@@ -3,6 +3,7 @@
  */
 package Controler;
 
+import Files.Parse;
 import Model.Coordenadas;
 import Model.GestTrazAqui;
 import View.Apresentacao;
@@ -72,14 +73,17 @@ public class Input implements Serializable {
         Scanner s = new Scanner(System.in);
         boolean val = true;
         LocalDateTime data = null;
+        String[] date;
 
         do{
             a.printMessage(message);
             try {
-                data = data.parse(s.nextLine());
+                date = s.nextLine().split("-",3);
+                data = LocalDateTime.of(Integer.parseInt(date[2]),Integer.parseInt(date[1]),Integer.parseInt(date[0]),0,0);
                 val = false;
-            } catch (DateTimeParseException dtpe) {
+            } catch (DateTimeParseException dtpe ) {
                 a.printMessage("Data inválida");
+            }catch (NumberFormatException ignored){
             }
         } while (val);
 
