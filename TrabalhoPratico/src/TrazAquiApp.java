@@ -9,14 +9,14 @@ import java.io.Serializable;
 public class TrazAquiApp implements Serializable {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        GestTrazAqui controlador = new GestTrazAqui();
+        GestTrazAqui c = new GestTrazAqui();
         Interpretador i = new Interpretador();
         Apresentacao a = new Apresentacao();
         Parse parse = new Parse();
         Login l = null;
 
-        parse.parse(controlador);
+        parse.parse(c);
 
-        i.interpretador(controlador, a, l);
+        i.interpretador(c, a, l);
     }
 }
